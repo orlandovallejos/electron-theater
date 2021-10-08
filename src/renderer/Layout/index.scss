@@ -1,0 +1,15 @@
+.main {
+  background: red;
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  background: green;
+  width: 250px;
+}
+
+.content {
+  background: blue;
+  flex: 1;
+}

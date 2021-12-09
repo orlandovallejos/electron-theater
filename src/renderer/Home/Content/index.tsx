@@ -5,20 +5,17 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-// Components
-import Hero from './Hero';
-import Content from './Content';
+
 // Styles
 import styles from './index.scss';
 
-const Home = () => (
+const Content = () => (
   <div className={styles.wrapper}>
-    <Hero />
-    <Content />
+    <div>asd</div>
   </div>
 );
 
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
-export default Home;
+export default Content;

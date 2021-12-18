@@ -14,8 +14,13 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import dotenv from 'dotenv';
+// import Store from 'electron-store';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+// Read variable from .env file:
+dotenv.config();
 
 export default class AppUpdater {
   constructor() {
@@ -27,10 +32,11 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+ipcMain.on('get-env-vars', (event) => {
+  event.returnValue = {
+    API_URL: process.env.API_URL,
+    APP_TOKEN: process.env.APP_TOKEN,
+  };
 });
 
 if (process.env.NODE_ENV === 'production') {

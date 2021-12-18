@@ -11,4 +11,9 @@ declare global {
   }
 }
 
+export type Movie = {
+  id: string;
+  title: string;
+};
+
 export {};

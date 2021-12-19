@@ -9,6 +9,8 @@ import React from 'react';
 import { Movie } from '../../../types';
 // Api
 import moviesApi from '../../../api/Movies';
+// Helpers
+import imageHelper from '../../../helpers/image';
 // Styles
 import styles from './index.scss';
 
@@ -28,6 +30,10 @@ const Content = () => {
       {movies.map((movie) => {
         return (
           <div key={movie.id}>
+            <img
+              src={imageHelper.getPosterImage(movie.poster_path)}
+              alt={movie.title}
+            />
             <span>{movie.title}</span>
           </div>
         );

@@ -8,7 +8,7 @@ import React from 'react';
 // Types
 import { Movie } from '../../../types';
 // Api
-import moviesApi from '../../api/Movies';
+import moviesApi from '../../../api/Movies';
 // Styles
 import styles from './index.scss';
 

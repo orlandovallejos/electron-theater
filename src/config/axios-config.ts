@@ -45,7 +45,7 @@ const setup = () => {
   );
 
   axios.interceptors.response.use(
-    (response) => response,
+    (response) => response.data,
     (error) => {
       const errorResponse = _get(error, 'response');
 

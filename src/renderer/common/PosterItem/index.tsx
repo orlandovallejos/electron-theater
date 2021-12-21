@@ -5,30 +5,26 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-// Components
-import PosterItem from 'renderer/common/PosterItem';
-// Types
-import { Movie } from 'renderer/../types';
 // Styles
 import styles from './index.scss';
+// Helpers
+import imageHelper from '../../../helpers/image';
 
 type Props = {
-  movies: Movie[];
+  url: string;
+  title: string;
 };
 
-const Section = (props: Props) => {
-  const { movies } = props;
+const PosterItem = (props: Props) => {
+  const { url, title } = props;
   return (
     <div className={styles.wrapper}>
-      {movies.map((movie) => {
-        return (
-          <PosterItem
-            key={movie.id}
-            url={movie.poster_path}
-            title={movie.title}
-          />
-        );
-      })}
+      <div className={styles.imgWrapper}>
+        <img src={imageHelper.getPosterImage(url)} alt={title} />
+      </div>
+      <div className={styles.titleWrapper}>
+        <span className={styles.title}>{title}</span>
+      </div>
     </div>
   );
 };
@@ -36,4 +32,4 @@ const Section = (props: Props) => {
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
-export default Section;
+export default PosterItem;

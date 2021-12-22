@@ -16,6 +16,16 @@ export type Movie = {
   title: string;
   backdrop_path: string;
   poster_path: string;
+  vote_average: number;
+  release_date: string;
+};
+export type Serie = {
+  id: string;
+  name: string;
+  backdrop_path: string;
+  poster_path: string;
+  vote_average: number;
+  first_air_date: string;
 };
 
 export {};

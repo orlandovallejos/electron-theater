@@ -2,32 +2,13 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import styled from 'styled-components';
+import { transparentize } from 'polished';
 
 const Wrapper = styled.div`
   width: 230px;
   height: auto;
   overflow: hidden;
   padding: 16px 8px;
-
-  .img-wrapper {
-    display: flex;
-
-    img {
-      width: 200px;
-      border-radius: 7px;
-      margin: auto;
-      box-shadow: 0 5px 15px 5px rgb(0 0 0 / 10%);
-      transition: box-shadow 0.5s, transform 0.5s;
-      border: 1px solid transparent;
-
-      &:hover {
-        box-shadow: 0 5px 45px 5px rgb(0 0 0 / 5%);
-        transform: translate(0, -5px);
-        transition: box-shadow 0.5s, transform 0.5s;
-        border-color: #e9e9e9;
-      }
-    }
-  }
 
   .title-wrapper {
     margin: 12px 20px 0 20px;
@@ -60,7 +41,49 @@ const Wrapper = styled.div`
 `;
 Wrapper.displayName = 'Wrapper';
 
+interface TitleProps {
+  readonly vibrant: string;
+  readonly darkVibrant: string;
+}
+const ImageWrapper = styled.div<TitleProps>`
+  display: flex;
+
+  .item {
+    width: 204px;
+    height: 304px;
+    border-radius: 7px;
+    margin: auto;
+    transition: box-shadow 0.5s, transform 0.5s;
+
+    img {
+      width: 200px;
+      border-radius: 7px;
+      height: 300px;
+      margin: 2px;
+      /* display: none; */
+    }
+
+    &:hover {
+      box-shadow: ${(props) => `
+        14px 12px 10px -9px ${transparentize(0.5, props.darkVibrant)},
+        -8px 12px 10px -10px ${transparentize(0.5, props.darkVibrant)},
+        16px -8px 10px -10px ${transparentize(0.5, props.darkVibrant)},
+        -12px -12px 10px -10px ${transparentize(0.5, props.vibrant)},
+        -12px 8px 10px -10px ${transparentize(0.5, props.vibrant)},
+        0px -12px 10px -10px ${transparentize(0.5, props.vibrant)};
+      `};
+      transform: translate(0, -5px);
+      transition: box-shadow 0.5s, transform 0.5s;
+      background: ${(props) => `
+        linear-gradient(to right, ${props.vibrant}, ${props.darkVibrant});
+      `};
+    }
+  }
+`;
+ImageWrapper.displayName = 'ImageWrapper';
+
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
+export { ImageWrapper };
 export default Wrapper;

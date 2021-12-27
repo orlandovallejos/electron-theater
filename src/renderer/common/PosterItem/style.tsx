@@ -60,16 +60,15 @@ const ImageWrapper = styled.div<TitleProps>`
       border-radius: 7px;
       height: 300px;
       margin: 2px;
-      /* display: none; */
     }
 
     &:hover {
       box-shadow: ${(props) => `
-        14px 12px 10px -9px ${transparentize(0.5, props.darkVibrant)},
+        16px 12px 10px -9px ${transparentize(0.5, props.darkVibrant)},
         -8px 12px 10px -10px ${transparentize(0.5, props.darkVibrant)},
         16px -8px 10px -10px ${transparentize(0.5, props.darkVibrant)},
-        -12px -12px 10px -10px ${transparentize(0.5, props.vibrant)},
-        -12px 8px 10px -10px ${transparentize(0.5, props.vibrant)},
+        -16px -12px 10px -10px ${transparentize(0.5, props.vibrant)},
+        -16px 8px 10px -10px ${transparentize(0.5, props.vibrant)},
         0px -12px 10px -10px ${transparentize(0.5, props.vibrant)};
       `};
       transform: translate(0, -5px);

@@ -5,14 +5,14 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import SectionMovie from './Section/SectionMovie';
-import SectionSerie from './Section/SectionSerie';
+import SectionMovie from 'renderer/Home/Content/Section/SectionMovie';
+import SectionSerie from 'renderer/Home/Content/Section/SectionSerie';
 // Types
-import { Movie, Serie } from '../../../types';
+import { Movie, Serie } from 'types';
 // Api
-import moviesApi from '../../../api/Movies';
+import moviesApi from 'api/Movies';
 // Styles
-import styles from './index.scss';
+import ContentWrapper from 'renderer/Home/Content/style';
 
 const Content = () => {
   const [movies, setMovies] = React.useState<Movie[]>([]);
@@ -35,10 +35,12 @@ const Content = () => {
   }, []);
 
   return (
-    <div className={styles.wrapper}>
+    <ContentWrapper>
+      <h1>Trending movies</h1>
       <SectionMovie movies={movies} />
+      <h1>Trending TV Shows</h1>
       <SectionSerie series={series} />
-    </div>
+    </ContentWrapper>
   );
 };
 

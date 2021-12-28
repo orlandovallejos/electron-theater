@@ -8,9 +8,9 @@ import React from 'react';
 // Components
 import PosterItem from 'renderer/common/PosterItem';
 // Types
-import { Movie } from 'renderer/../types';
+import { Movie } from 'types';
 // Styles
-import styles from './index.scss';
+import SectionWrapper from 'renderer/Home/Content/Section/style';
 
 type Props = {
   movies: Movie[];
@@ -19,7 +19,7 @@ type Props = {
 const SectionMovie = (props: Props) => {
   const { movies } = props;
   return (
-    <div className={styles.wrapper}>
+    <SectionWrapper>
       {movies.map((item) => {
         return (
           <PosterItem
@@ -31,7 +31,7 @@ const SectionMovie = (props: Props) => {
           />
         );
       })}
-    </div>
+    </SectionWrapper>
   );
 };
 

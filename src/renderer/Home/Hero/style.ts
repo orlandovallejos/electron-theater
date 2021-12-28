@@ -1,4 +1,9 @@
-.wrapper {
+/*------------------------------------------------*/
+/* LIBRARIES
+/*------------------------------------------------*/
+import styled from 'styled-components';
+
+const HeroWrapper = styled.div`
   background: pink;
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
@@ -7,10 +12,10 @@
   position: relative;
 
   &::after {
-    content: "";
+    content: '';
     height: 60vh;
     width: 100%;
-    background: linear-gradient(0deg, #101010 0%, rgba(255,255,255,0) 35%);
+    background: linear-gradient(0deg, #101010 0%, rgba(255, 255, 255, 0) 35%);
     display: table;
   }
 
@@ -29,9 +34,15 @@
       margin: 0 0 20px 0;
     }
 
-    .btnWrapper {
+    .btn-wrapper {
       display: flex;
       justify-content: space-between;
     }
   }
-}
+`;
+HeroWrapper.displayName = 'HeroWrapper';
+
+/*------------------------------------------------*/
+/* EXPORTS
+/*------------------------------------------------*/
+export default HeroWrapper;

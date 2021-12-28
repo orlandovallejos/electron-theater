@@ -4,7 +4,7 @@
 import styled from 'styled-components';
 import { transparentize } from 'polished';
 
-const Wrapper = styled.div`
+const PosterItemWrapper = styled.div`
   width: 230px;
   height: auto;
   overflow: hidden;
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
     }
   }
 `;
-Wrapper.displayName = 'Wrapper';
+PosterItemWrapper.displayName = 'PosterItemWrapper';
 
 interface TitleProps {
   readonly vibrant: string;
@@ -85,4 +85,4 @@ ImageWrapper.displayName = 'ImageWrapper';
 /* EXPORTS
 /*------------------------------------------------*/
 export { ImageWrapper };
-export default Wrapper;
+export default PosterItemWrapper;

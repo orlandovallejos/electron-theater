@@ -8,9 +8,9 @@ import React from 'react';
 // Components
 import PosterItem from 'renderer/common/PosterItem';
 // Types
-import { Serie } from 'renderer/../types';
+import { Serie } from 'types';
 // Styles
-import styles from './index.scss';
+import SectionWrapper from 'renderer/Home/Content/Section/style';
 
 type Props = {
   series: Serie[];
@@ -19,7 +19,7 @@ type Props = {
 const SectionSerie = (props: Props) => {
   const { series } = props;
   return (
-    <div className={styles.wrapper}>
+    <SectionWrapper>
       {series.map((item) => {
         return (
           <PosterItem
@@ -31,7 +31,7 @@ const SectionSerie = (props: Props) => {
           />
         );
       })}
-    </div>
+    </SectionWrapper>
   );
 };
 

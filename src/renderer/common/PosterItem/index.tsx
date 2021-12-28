@@ -7,7 +7,9 @@ import Vibrant from 'node-vibrant';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Styles
-import Wrapper, { ImageWrapper } from 'renderer/common/PosterItem/style';
+import PosterItemWrapper, {
+  ImageWrapper,
+} from 'renderer/common/PosterItem/style';
 // Helpers
 import imageHelper from 'helpers/image';
 
@@ -47,7 +49,7 @@ const PosterItem = (props: Props) => {
   }, [url]);
 
   return (
-    <Wrapper>
+    <PosterItemWrapper>
       <ImageWrapper vibrant={borderVibrant} darkVibrant={borderDarkVibrant}>
         <div className="item">
           <img src={imageHelper.getPosterImage(url)} alt={title} />
@@ -66,7 +68,7 @@ const PosterItem = (props: Props) => {
           <span className="text">{releaseDate.substring(0, 4)}</span>
         </div>
       </div>
-    </Wrapper>
+    </PosterItemWrapper>
   );
 };
 

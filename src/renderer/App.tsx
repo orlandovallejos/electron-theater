@@ -2,6 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -13,6 +14,8 @@ import './App.global.css';
 import moviesApi from '../api/Movies';
 // Helpers
 import imageHelper from '../helpers/image';
+// Theme
+import defaultTheme from './themes/default';
 
 const App = () => {
   const [isDone, setDone] = React.useState<boolean>(false);
@@ -31,7 +34,11 @@ const App = () => {
   if (!isDone) {
     return null;
   }
-  return <Layout />;
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Layout />
+    </ThemeProvider>
+  );
 };
 
 export default App;

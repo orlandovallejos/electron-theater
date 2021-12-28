@@ -5,17 +5,18 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
+import SectionMovie from 'renderer/Home/Content/Section/SectionMovie';
+import SectionSerie from 'renderer/Home/Content/Section/SectionSerie';
 // Types
-import { Movie } from '../../../types';
+import { Movie, Serie } from 'types';
 // Api
-import moviesApi from '../../../api/Movies';
-// Helpers
-import imageHelper from '../../../helpers/image';
+import moviesApi from 'api/Movies';
 // Styles
-import styles from './index.scss';
+import ContentWrapper from 'renderer/Home/Content/style';
 
 const Content = () => {
   const [movies, setMovies] = React.useState<Movie[]>([]);
+  const [series, setSeries] = React.useState<Serie[]>([]);
 
   React.useEffect(() => {
     async function getMovies() {
@@ -25,20 +26,21 @@ const Content = () => {
     getMovies();
   }, []);
 
+  React.useEffect(() => {
+    async function getSeries() {
+      const data = await moviesApi.getTopSeries();
+      setSeries(data.results);
+    }
+    getSeries();
+  }, []);
+
   return (
-    <div className={styles.wrapper}>
-      {movies.map((movie) => {
-        return (
-          <div key={movie.id}>
-            <img
-              src={imageHelper.getPosterImage(movie.poster_path)}
-              alt={movie.title}
-            />
-            <span>{movie.title}</span>
-          </div>
-        );
-      })}
-    </div>
+    <ContentWrapper>
+      <h1>Trending movies</h1>
+      <SectionMovie movies={movies} />
+      <h1>Trending TV Shows</h1>
+      <SectionSerie series={series} />
+    </ContentWrapper>
   );
 };
 

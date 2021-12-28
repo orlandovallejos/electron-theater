@@ -8,11 +8,9 @@ import React from 'react';
 // Components
 import Hero from './Hero';
 import Content from './Content';
-// Styles
-import styles from './index.scss';
 
 const Home = () => (
-  <div className={styles.wrapper}>
+  <div>
     <Hero />
     <Content />
   </div>

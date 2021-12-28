@@ -5,7 +5,11 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import styles from './index.scss';
+import {
+  ButtonPrimary,
+  WrapperSecondary,
+  ButtonSecondary,
+} from 'renderer/common/Button/style';
 
 type Props = {
   type: 'primary' | 'secondary';
@@ -14,27 +18,22 @@ type Props = {
 
 const Button = (props: Props) => {
   const { type, children } = props;
-  let wrapper;
-  let className = '';
+  let component;
 
   switch (type) {
     case 'secondary':
-      className = styles.secondary;
-      wrapper = <div className={styles.secondaryWrapper} />;
+      component = (
+        <WrapperSecondary>
+          <ButtonSecondary>{children}</ButtonSecondary>
+        </WrapperSecondary>
+      );
       break;
     default:
-      className = styles.primary;
-      wrapper = <></>;
+      component = <ButtonPrimary>{children}</ButtonPrimary>;
       break;
   }
 
-  return React.cloneElement(
-    wrapper,
-    {},
-    <button type="button" className={className}>
-      {children}
-    </button>
-  );
+  return component;
 };
 
 /*------------------------------------------------*/

@@ -6,22 +6,22 @@ import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-// Styles
-import styles from './index.scss';
 // Components
 import Home from '../Home';
+// Styles
+import LayoutWrapper, { ContentWrapper } from 'renderer/Layout/style';
 
 const Layout = () => (
-  <div className={styles.main}>
+  <LayoutWrapper>
     {/* <div className={styles.sidebar}>sidebar</div> */}
-    <div className={styles.content}>
+    <ContentWrapper>
       <Router>
         <Switch>
           <Route path="/" component={Home} />
         </Switch>
       </Router>
-    </div>
-  </div>
+    </ContentWrapper>
+  </LayoutWrapper>
 );
 
 /*------------------------------------------------*/

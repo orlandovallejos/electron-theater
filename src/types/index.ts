@@ -9,6 +9,13 @@ declare global {
       };
     };
   }
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    interface IntrinsicElements {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      'ion-icon': any;
+    }
+  }
 }
 
 export type Movie = {
@@ -16,6 +23,16 @@ export type Movie = {
   title: string;
   backdrop_path: string;
   poster_path: string;
+  vote_average: number;
+  release_date: string;
+};
+export type Serie = {
+  id: string;
+  name: string;
+  backdrop_path: string;
+  poster_path: string;
+  vote_average: number;
+  first_air_date: string;
 };
 
 export {};

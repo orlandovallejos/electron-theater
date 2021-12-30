@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> should render a primary button 1`] = `
+"<ButtonPrimary>
+  Click me!
+</ButtonPrimary>"
+`;

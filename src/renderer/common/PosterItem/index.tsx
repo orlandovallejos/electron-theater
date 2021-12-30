@@ -7,11 +7,9 @@ import Vibrant from 'node-vibrant';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Styles
-import PosterItemWrapper, {
-  ImageWrapper,
-} from 'renderer/common/PosterItem/style';
+import PosterItemWrapper, { ImageWrapper } from './style';
 // Helpers
-import imageHelper from 'helpers/image';
+import imageHelper from '../../../helpers/image';
 
 type Props = {
   url: string;

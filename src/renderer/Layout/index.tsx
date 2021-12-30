@@ -9,7 +9,7 @@ import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 // Components
 import Home from '../Home';
 // Styles
-import LayoutWrapper, { ContentWrapper } from 'renderer/Layout/style';
+import LayoutWrapper, { ContentWrapper } from './style';
 
 const Layout = () => (
   <LayoutWrapper>

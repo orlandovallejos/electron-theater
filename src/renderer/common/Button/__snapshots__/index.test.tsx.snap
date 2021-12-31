@@ -5,3 +5,11 @@ exports[`<Button /> should render a primary button 1`] = `
   Click me!
 </ButtonPrimary>"
 `;
+
+exports[`<Button /> should render a secondary button 1`] = `
+"<styled.div>
+  <ButtonSecondary>
+    Click me!
+  </ButtonSecondary>
+</styled.div>"
+`;

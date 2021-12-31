@@ -14,4 +14,10 @@ describe('<Button />', () => {
 
     expect(wrapper.debug()).toMatchSnapshot();
   });
+
+  it('should render a secondary button', () => {
+    const wrapper = shallow(<Button type="secondary">Click me!</Button>);
+
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
 });

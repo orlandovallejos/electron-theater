@@ -148,7 +148,9 @@
       "release/app/dist"
     ],
     "setupFiles": [
-      "./.erb/scripts/check-build-exists.ts",
+      "./.erb/scripts/check-build-exists.ts"
+    ],
+    "setupFilesAfterEnv": [
       "./src/setupTests.js"
     ],
     "collectCoverage": true,
@@ -156,15 +158,16 @@
       "**/src/api/**/*.{ts,tsx}",
       "**/src/helpers/**/*.{ts,tsx}",
       "**/src/renderer/**/*.{ts,tsx}",
+      "!**/src/renderer/**/*style.{ts,tsx}",
       "!**/node_modules/**",
       "!**/release/**"
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 11,
-        "branches": 6,
-        "functions": 3,
-        "lines": 10
+        "statements": 28,
+        "branches": 66,
+        "functions": 20,
+        "lines": 28
       }
     },
     "coverageReporters": [
@@ -214,6 +217,7 @@
     "husky": "7.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.4",
+    "jest-react-hooks-shallow": "^1.5.1",
     "lint-staged": "^11.2.0",
     "mini-css-extract-plugin": "^2.3.0",
     "opencollective-postinstall": "^2.0.3",

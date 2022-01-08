@@ -11,6 +11,8 @@ import PosterItemWrapper, { ImageWrapper } from './style';
 // Helpers
 import imageHelper from '../../../helpers/image';
 
+const DEFAULT_COLOR = '#fff';
+
 type Props = {
   url: string;
   title: string;
@@ -19,31 +21,24 @@ type Props = {
 };
 const PosterItem = (props: Props) => {
   const { url, title, voteAverage, releaseDate } = props;
-  const [borderVibrant, setBorderVibrant] = React.useState<string>('#ffffff');
+  const [borderVibrant, setBorderVibrant] =
+    React.useState<string>(DEFAULT_COLOR);
   const [borderDarkVibrant, setBorderDarkVibrant] =
-    React.useState<string>('#ffffff');
+    React.useState<string>(DEFAULT_COLOR);
+
+  const setBorderColors = async (imageURL: string) => {
+    const palette = await Vibrant.from(
+      imageHelper.getPosterImage(imageURL)
+    ).getPalette();
+
+    const colorVibrant = palette.Vibrant?.getHex();
+    setBorderVibrant(colorVibrant || DEFAULT_COLOR);
+    const colorDarkVibrant = palette.DarkVibrant?.getHex();
+    setBorderDarkVibrant(colorDarkVibrant || DEFAULT_COLOR);
+  };
 
   React.useEffect(() => {
-    type NewMethodType = {
-      DarkVibrant?: {
-        getHex: () => string;
-      };
-      Vibrant?: {
-        getHex: () => string;
-      };
-    };
-
-    Vibrant.from(imageHelper.getPosterImage(url))
-      .getPalette()
-      .then((palette: NewMethodType) => {
-        const colorVibrant = palette.Vibrant?.getHex();
-        setBorderVibrant(colorVibrant || '#fff');
-        const colorDarkVibrant = palette.DarkVibrant?.getHex();
-        setBorderDarkVibrant(colorDarkVibrant || '#fff');
-
-        return palette;
-      })
-      .catch(() => {});
+    setBorderColors(url);
   }, [url]);
 
   return (

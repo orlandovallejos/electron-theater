@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PosterItem /> should render a poster 1`] = `
+"<PosterItemWrapper>
+  <ImageWrapper vibrant=\\"#fff\\" darkVibrant=\\"#fff\\">
+    <div className=\\"item\\">
+      <img src=\\"w780www.site.com/img.jpg\\" alt=\\"My movie\\" />
+    </div>
+  </ImageWrapper>
+  <div className=\\"title-wrapper\\">
+    <span className=\\"title\\">
+      My movie
+    </span>
+  </div>
+  <div className=\\"title-extra-wrapper\\">
+    <div className=\\"extra-item\\">
+      <ion-icon name=\\"star\\" />
+      <span className=\\"text\\">
+        7.8
+      </span>
+    </div>
+    <div className=\\"extra-item\\">
+      <ion-icon name=\\"calendar-clear\\" />
+      <span className=\\"text\\">
+        2018
+      </span>
+    </div>
+  </div>
+</PosterItemWrapper>"
+`;

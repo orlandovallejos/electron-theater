@@ -2,6 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
+import { act } from 'react-test-renderer';
 import shallow from 'enzyme/shallow';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
@@ -28,7 +29,7 @@ describe('<PosterItem />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render a poster', () => {
+  it('should render a poster', async () => {
     const wrapper = shallow(
       <PosterItem
         url="www.site.com/img.jpg"
@@ -37,6 +38,9 @@ describe('<PosterItem />', () => {
         releaseDate="2018-05-15"
       />
     );
+
+    // This refresh the component and renders the last state:
+    await act(async () => {});
 
     expect(wrapper.debug()).toMatchSnapshot();
   });

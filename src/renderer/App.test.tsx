@@ -17,7 +17,7 @@ describe('<App />', () => {
     jest.resetAllMocks();
   });
 
-  it('should render the component', async () => {
+  it('should render correctly', async () => {
     moviesApi.getConfiguration = jest.fn().mockResolvedValue({
       images: {
         base_url: 'www.test.com/',

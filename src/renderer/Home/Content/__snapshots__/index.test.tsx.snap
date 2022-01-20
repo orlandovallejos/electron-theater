@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Content /> should render correctly 1`] = `
+"<ContentWrapper>
+  <h1>
+    Trending movies
+  </h1>
+  <Section items={{...}} />
+  <h1>
+    Trending TV Shows
+  </h1>
+  <Section items={{...}} />
+</ContentWrapper>"
+`;

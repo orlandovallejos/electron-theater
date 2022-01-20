@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Layout /> should render correctly 1`] = `
+"<LayoutWrapper>
+  <ContentWrapper>
+    <MemoryRouter>
+      <Switch>
+        <Route path=\\"/\\" component={[Function: Home]} />
+      </Switch>
+    </MemoryRouter>
+  </ContentWrapper>
+</LayoutWrapper>"
+`;

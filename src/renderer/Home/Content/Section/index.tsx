@@ -16,7 +16,7 @@ type Props = {
   items: MovieItem[];
 };
 
-const SectionSerie = (props: Props) => {
+const Section = (props: Props) => {
   const { items } = props;
   return (
     <SectionWrapper>
@@ -38,4 +38,4 @@ const SectionSerie = (props: Props) => {
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
-export default SectionSerie;
+export default Section;

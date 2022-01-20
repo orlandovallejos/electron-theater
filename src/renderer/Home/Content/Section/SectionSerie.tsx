@@ -6,11 +6,11 @@ import React from 'react';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
-import PosterItem from 'renderer/common/PosterItem';
+import PosterItem from '../../../common/PosterItem';
 // Types
-import { Serie } from 'types';
+import { Serie } from '../../../../types';
 // Styles
-import SectionWrapper from 'renderer/Home/Content/Section/style';
+import SectionWrapper from './style';
 
 type Props = {
   series: Serie[];

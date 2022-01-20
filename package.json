@@ -13,7 +13,7 @@
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "test": "jest"
+    "test": "jest --verbose=false --watchAll=false --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -149,6 +149,30 @@
     ],
     "setupFiles": [
       "./.erb/scripts/check-build-exists.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/setupTests.js"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/src/api/**/*.{ts,tsx}",
+      "**/src/helpers/**/*.{ts,tsx}",
+      "**/src/renderer/**/*.{ts,tsx}",
+      "!**/src/renderer/**/*style.{ts,tsx}",
+      "!**/node_modules/**",
+      "!**/release/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 75,
+        "branches": 73,
+        "functions": 36,
+        "lines": 75
+      }
+    },
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
     ]
   },
   "devDependencies": {
@@ -193,6 +217,7 @@
     "husky": "7.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.4",
+    "jest-react-hooks-shallow": "^1.5.1",
     "lint-staged": "^11.2.0",
     "mini-css-extract-plugin": "^2.3.0",
     "opencollective-postinstall": "^2.0.3",

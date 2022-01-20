@@ -5,14 +5,14 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import SectionMovie from 'renderer/Home/Content/Section/SectionMovie';
-import SectionSerie from 'renderer/Home/Content/Section/SectionSerie';
+import SectionMovie from './Section/SectionMovie';
+import SectionSerie from './Section/SectionSerie';
 // Types
-import { Movie, Serie } from 'types';
+import { Movie, Serie } from '../../../types';
 // Api
-import moviesApi from 'api/Movies';
+import moviesApi from '../../../api/Movies';
 // Styles
-import ContentWrapper from 'renderer/Home/Content/style';
+import ContentWrapper from './style';
 
 const Content = () => {
   const [movies, setMovies] = React.useState<Movie[]>([]);

@@ -6,9 +6,9 @@ import React from 'react';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
-import Button from 'renderer/common/Button';
+import Button from '../../common/Button';
 // Styles
-import HeroWrapper from 'renderer/Home/Hero/style';
+import HeroWrapper from './style';
 
 const bgImage =
   'url(https://www.themoviedb.org/t/p/original/aI5S2WMoTFVgBznYi2DP3WRojCl.jpg)';

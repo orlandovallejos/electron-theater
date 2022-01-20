@@ -5,11 +5,7 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import {
-  ButtonPrimary,
-  WrapperSecondary,
-  ButtonSecondary,
-} from 'renderer/common/Button/style';
+import { ButtonPrimary, WrapperSecondary, ButtonSecondary } from './style';
 
 type Props = {
   type: 'primary' | 'secondary';

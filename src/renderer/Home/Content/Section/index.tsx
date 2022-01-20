@@ -8,26 +8,26 @@ import React from 'react';
 // Components
 import PosterItem from '../../../common/PosterItem';
 // Types
-import { Movie } from '../../../../types';
+import { MovieItem } from '../../../../types';
 // Styles
 import SectionWrapper from './style';
 
 type Props = {
-  movies: Movie[];
+  items: MovieItem[];
 };
 
-const SectionMovie = (props: Props) => {
-  const { movies } = props;
+const SectionSerie = (props: Props) => {
+  const { items } = props;
   return (
     <SectionWrapper>
-      {movies.map((item) => {
+      {items.map((item) => {
         return (
           <PosterItem
             key={item.id}
-            url={item.poster_path}
+            url={item.posterPath}
             title={item.title}
-            voteAverage={item.vote_average}
-            releaseDate={item.release_date}
+            voteAverage={item.voteAverage}
+            releaseDate={item.releaseDate}
           />
         );
       })}
@@ -38,4 +38,4 @@ const SectionMovie = (props: Props) => {
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
-export default SectionMovie;
+export default SectionSerie;

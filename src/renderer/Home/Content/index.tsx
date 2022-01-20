@@ -5,41 +5,25 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import SectionMovie from './Section/SectionMovie';
-import SectionSerie from './Section/SectionSerie';
+import Section from './Section';
 // Types
-import { Movie, Serie } from '../../../types';
-// Api
-import moviesApi from '../../../api/Movies';
+import { MovieItem } from '../../../types';
 // Styles
 import ContentWrapper from './style';
 
-const Content = () => {
-  const [movies, setMovies] = React.useState<Movie[]>([]);
-  const [series, setSeries] = React.useState<Serie[]>([]);
-
-  React.useEffect(() => {
-    async function getMovies() {
-      const data = await moviesApi.getTopMovies();
-      setMovies(data.results);
-    }
-    getMovies();
-  }, []);
-
-  React.useEffect(() => {
-    async function getSeries() {
-      const data = await moviesApi.getTopSeries();
-      setSeries(data.results);
-    }
-    getSeries();
-  }, []);
+type Props = {
+  movies: MovieItem[];
+  series: MovieItem[];
+};
+const Content = (props: Props) => {
+  const { movies, series } = props;
 
   return (
     <ContentWrapper>
       <h1>Trending movies</h1>
-      <SectionMovie movies={movies} />
+      <Section items={movies} />
       <h1>Trending TV Shows</h1>
-      <SectionSerie series={series} />
+      <Section items={series} />
     </ContentWrapper>
   );
 };

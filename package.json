@@ -153,6 +153,7 @@
     "setupFilesAfterEnv": [
       "./src/setupTests.js"
     ],
+    "timers": "modern",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/src/api/**/*.{ts,tsx}",
@@ -166,7 +167,7 @@
       "global": {
         "statements": 75,
         "branches": 73,
-        "functions": 36,
+        "functions": 70,
         "lines": 75
       }
     },

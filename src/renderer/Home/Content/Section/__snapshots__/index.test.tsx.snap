@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Section /> should render correctly 1`] = `
+"<SectionWrapper>
+  <PosterItem url=\\"poster path\\" title=\\"My movie\\" voteAverage={7} releaseDate=\\"2021-04-19\\" />
+</SectionWrapper>"
+`;

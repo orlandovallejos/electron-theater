@@ -14,8 +14,9 @@ type SetBaseURLParam = {
   // backdropSizes: string[];
   // posterSizes: string[];
 };
-const setBaseURL = (params: SetBaseURLParam) => {
+const setBaseURL = (params: SetBaseURLParam): string => {
   baseURL = params.url;
+  return baseURL;
   // backdropSizes = params.backdropSizes;
   // posterSizes = params.posterSizes;
 };

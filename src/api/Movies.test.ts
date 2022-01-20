@@ -41,9 +41,10 @@ describe('<App />', () => {
     };
     axios.get = jest.fn().mockResolvedValueOnce(mockedResponse);
 
-    const config = await moviesApi.getTopMovies();
-    expect(config.results.length).toBe(1);
-    expect(config.results[0].id).toBe('movie01');
+    const data = await moviesApi.getTopMovies();
+    expect(data.results.length).toBe(1);
+    expect(data.results[0].id).toBe('movie01');
+    expect(axios.get).toHaveBeenCalledTimes(1);
   });
 
   it('should get the top series', async () => {

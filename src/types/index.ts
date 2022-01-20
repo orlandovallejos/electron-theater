@@ -18,6 +18,20 @@ declare global {
   }
 }
 
+/**
+ * Type use across the app
+ */
+export type MovieItem = {
+  id: string;
+  title: string;
+  backdropPath: string;
+  posterPath: string;
+  voteAverage: number;
+  releaseDate: string;
+};
+/**
+ * Response type
+ */
 export type Movie = {
   id: string;
   title: string;
@@ -26,6 +40,9 @@ export type Movie = {
   vote_average: number;
   release_date: string;
 };
+/**
+ * Response type
+ */
 export type Serie = {
   id: string;
   name: string;

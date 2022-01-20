@@ -1,5 +1,12 @@
+/*------------------------------------------------*/
+/* LIBRARIES
+/*------------------------------------------------*/
 import axios from 'axios';
-import { Movie, Serie } from '../types';
+/*------------------------------------------------*/
+/* INTERNAL DEPENDENCIES
+/*------------------------------------------------*/
+import { MovieItem } from '../types';
+import apiHelper from './helper';
 
 type GetConfigurationResponse = {
   images: {
@@ -11,20 +18,56 @@ const getConfiguration = (): Promise<GetConfigurationResponse> => {
 };
 
 type GetTopMoviesResponse = {
-  results: Movie[];
+  results: MovieItem[];
 };
 const getTopMovies = (): Promise<GetTopMoviesResponse> => {
   return axios.get(
-    'discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1'
+    'discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1',
+    {
+      transformResponse: [
+        (data) => {
+          const dataJSON = JSON.parse(data);
+          const items: MovieItem[] = [];
+          const { results } = dataJSON;
+
+          for (let index = 0; index < results.length; index += 1) {
+            const element = results[index];
+            items.push(apiHelper.transformMovie(element));
+          }
+          return {
+            ...dataJSON,
+            results: items,
+          };
+        },
+      ],
+    }
   );
 };
 
 type GetTopSeriesResponse = {
-  results: Serie[];
+  results: MovieItem[];
 };
 const getTopSeries = (): Promise<GetTopSeriesResponse> => {
   return axios.get(
-    'discover/tv?language=en-US&sort_by=popularity.desc&include_adult=false&page=1'
+    'discover/tv?language=en-US&sort_by=popularity.desc&include_adult=false&page=1',
+    {
+      transformResponse: [
+        (data) => {
+          const dataJSON = JSON.parse(data);
+          const items: MovieItem[] = [];
+          const { results } = dataJSON;
+
+          for (let index = 0; index < results.length; index += 1) {
+            const element = results[index];
+            items.push(apiHelper.transformSerie(element));
+          }
+          return {
+            ...dataJSON,
+            results: items,
+          };
+        },
+      ],
+    }
   );
 };
 

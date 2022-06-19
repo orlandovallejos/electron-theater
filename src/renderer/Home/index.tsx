@@ -12,30 +12,33 @@ import Content from './Content';
 import { MovieItem } from '../../types';
 // Api
 import moviesApi from '../../api/Movies';
+// Helpers
+import mathHelper from '../../helpers/math';
 
 const Home = () => {
   const [movies, setMovies] = React.useState<MovieItem[]>([]);
   const [series, setSeries] = React.useState<MovieItem[]>([]);
+  const [heroItem, setHeroItem] = React.useState<MovieItem | null>(null);
 
   React.useEffect(() => {
-    async function getMovies() {
-      const data = await moviesApi.getTopMovies();
-      setMovies(data.results);
-    }
-    getMovies();
-  }, []);
+    async function getMoviesAndSeries() {
+      const dataMovies = await moviesApi.getTopMovies();
+      setMovies(dataMovies.results);
 
-  React.useEffect(() => {
-    async function getSeries() {
-      const data = await moviesApi.getTopSeries();
-      setSeries(data.results);
+      const dataSeries = await moviesApi.getTopSeries();
+      setSeries(dataSeries.results);
+
+      const allItems = dataMovies.results.concat(dataSeries.results);
+      const randomItem =
+        allItems[mathHelper.randomIntFromInterval(0, allItems.length - 1)];
+      setHeroItem(randomItem);
     }
-    getSeries();
+    getMoviesAndSeries();
   }, []);
 
   return (
     <div>
-      <Hero />
+      {heroItem && <Hero movie={heroItem} />}
       <Content movies={movies} series={series} />
     </div>
   );

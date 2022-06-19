@@ -4,7 +4,7 @@
 import styled from 'styled-components';
 
 const HeroWrapper = styled.div`
-  background: pink;
+  background: #000;
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover;
@@ -13,7 +13,7 @@ const HeroWrapper = styled.div`
 
   &::after {
     content: '';
-    height: 60vh;
+    height: 75vh;
     width: 100%;
     background: linear-gradient(0deg, #101010 0%, rgba(255, 255, 255, 0) 35%);
     display: table;
@@ -36,7 +36,11 @@ const HeroWrapper = styled.div`
 
     .btn-wrapper {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
+
+      .btn-trailer {
+        margin: 0 10px 0 0;
+      }
     }
   }
 `;

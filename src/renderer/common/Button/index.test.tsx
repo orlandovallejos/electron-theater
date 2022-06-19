@@ -10,13 +10,13 @@ import Button from './index';
 
 describe('<Button />', () => {
   it('should render a primary button', () => {
-    const wrapper = shallow(<Button type="primary">Click me!</Button>);
+    const wrapper = shallow(<Button types="primary">Click me!</Button>);
 
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
   it('should render a secondary button', () => {
-    const wrapper = shallow(<Button type="secondary">Click me!</Button>);
+    const wrapper = shallow(<Button types="secondary">Click me!</Button>);
 
     expect(wrapper.debug()).toMatchSnapshot();
   });

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /*------------------------------------------------*/
 /* LIBRARIES
 /*------------------------------------------------*/
@@ -7,25 +8,26 @@ import React from 'react';
 /*------------------------------------------------*/
 import { ButtonPrimary, WrapperSecondary, ButtonSecondary } from './style';
 
-type Props = {
-  type: 'primary' | 'secondary';
-  children: React.ReactNode;
-};
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  types: 'primary' | 'secondary';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: any;
+}
 
 const Button = (props: Props) => {
-  const { type, children } = props;
-  let component;
+  const { types, children, ...rest } = props;
+  let component: React.ReactElement;
 
-  switch (type) {
+  switch (types) {
     case 'secondary':
       component = (
         <WrapperSecondary>
-          <ButtonSecondary>{children}</ButtonSecondary>
+          <ButtonSecondary {...rest}>{children}</ButtonSecondary>
         </WrapperSecondary>
       );
       break;
     default:
-      component = <ButtonPrimary>{children}</ButtonPrimary>;
+      component = <ButtonPrimary {...rest}>{children}</ButtonPrimary>;
       break;
   }
 

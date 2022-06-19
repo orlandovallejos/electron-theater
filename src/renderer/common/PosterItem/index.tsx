@@ -38,14 +38,16 @@ const PosterItem = (props: Props) => {
   };
 
   React.useEffect(() => {
-    setBorderColors(url);
+    if (url) {
+      setBorderColors(url);
+    }
   }, [url]);
 
   return (
     <PosterItemWrapper>
       <ImageWrapper vibrant={borderVibrant} darkVibrant={borderDarkVibrant}>
         <div className="item">
-          <img src={imageHelper.getPosterImage(url)} alt={title} />
+          {url && <img src={imageHelper.getPosterImage(url)} alt={title} />}
         </div>
       </ImageWrapper>
       <div className="title-wrapper">

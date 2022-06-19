@@ -4,13 +4,13 @@ exports[`<Hero /> should render correctly 1`] = `
 "<HeroWrapper style={{...}}>
   <div className=\\"info\\">
     <span className=\\"title\\">
-      Luca
+      My movie
     </span>
     <div className=\\"btn-wrapper\\">
-      <Button type=\\"primary\\">
+      <Button types=\\"primary\\" className=\\"btn-trailer\\">
         Trailer
       </Button>
-      <Button type=\\"secondary\\">
+      <Button types=\\"secondary\\">
         Watchlist
       </Button>
     </div>

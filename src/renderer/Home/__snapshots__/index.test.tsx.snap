@@ -2,7 +2,6 @@
 
 exports[`<Home /> should render correctly 1`] = `
 "<div>
-  <Hero />
-  <Content movies={[undefined]} series={[undefined]} />
+  <Content movies={{...}} series={{...}} />
 </div>"
 `;

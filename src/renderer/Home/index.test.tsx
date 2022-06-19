@@ -19,10 +19,10 @@ describe('<Home />', () => {
 
   it('should render correctly', async () => {
     moviesApi.getTopMovies = jest.fn().mockResolvedValue({
-      result: [],
+      results: [],
     });
     moviesApi.getTopSeries = jest.fn().mockResolvedValue({
-      result: [],
+      results: [],
     });
 
     const wrapper = shallow(<Home />);

@@ -5,7 +5,7 @@ import axios from 'axios';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { MovieItem } from '../types';
+import { MovieItem, MovieViewItem } from '../types';
 import apiHelper from './helper';
 
 type GetConfigurationResponse = {
@@ -71,8 +71,24 @@ const getTopSeries = (): Promise<GetTopSeriesResponse> => {
   );
 };
 
+const getMovie = (movieId: string): Promise<MovieViewItem> => {
+  return axios.get(
+    `movie/${movieId}?append_to_response=credits,keywords,similar`,
+    {
+      transformResponse: [
+        (data) => {
+          const dataJSON = JSON.parse(data);
+          // console.log(dataJSON);
+          return dataJSON;
+        },
+      ],
+    }
+  );
+};
+
 export default {
   getConfiguration,
   getTopMovies,
   getTopSeries,
+  getMovie,
 };

@@ -54,5 +54,15 @@ export type Serie = {
   vote_average: number;
   first_air_date: string;
 };
-
+/**
+ * Response type
+ */
+export type MovieViewItem = {
+  id: string;
+  title: string;
+  backdrop_path: string;
+  poster_path: string;
+  vote_average: number;
+  release_date: string;
+};
 export {};

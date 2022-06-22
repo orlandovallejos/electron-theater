@@ -24,6 +24,7 @@ const Section = (props: Props) => {
         return (
           <PosterItem
             key={item.id}
+            id={item.id}
             url={item.posterPath}
             title={item.title}
             voteAverage={item.voteAverage}

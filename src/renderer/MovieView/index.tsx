@@ -6,6 +6,7 @@ import React from 'react';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
+import Header from './header';
 // Types
 import { MovieViewItem } from '../../types';
 // Api
@@ -37,6 +38,7 @@ const MovieView = (props: Props) => {
 
   return (
     <div>
+      {movie && <Header movie={movie} />}
       Hello there!
       {movie && movie.title}
     </div>

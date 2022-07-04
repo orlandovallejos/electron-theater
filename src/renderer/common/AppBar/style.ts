@@ -23,6 +23,14 @@ const AppBarWrapper = styled.div<AppBarWrapperProps>`
     backdrop-filter: blur(5px) contrast(0.8);
   `}
 
+  button {
+    background: none;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+  }
+
   .icon {
     height: 12px;
     width: 12px;

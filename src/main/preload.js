@@ -5,6 +5,15 @@ contextBridge.exposeInMainWorld('electron', {
     getEnvVars() {
       return ipcRenderer.sendSync('get-env-vars', 'ping');
     },
+    closeApp() {
+      return ipcRenderer.send('close-app');
+    },
+    maximizeApp() {
+      return ipcRenderer.send('maximize-app');
+    },
+    minimizeApp() {
+      return ipcRenderer.send('minimize-app');
+    },
     on(channel, func) {
       const validChannels = ['get-env-vars-reply'];
       if (validChannels.includes(channel)) {

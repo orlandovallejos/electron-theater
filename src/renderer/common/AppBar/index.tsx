@@ -6,6 +6,8 @@ import _debounce from 'lodash/debounce';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
+// Helpers
+import electronHelper from 'helpers/electron';
 // Styles
 import AppBarWrapper from './style';
 
@@ -35,9 +37,15 @@ const Layout = () => {
 
   return (
     <AppBarWrapper showBackground={showBackground}>
-      <span className="icon close" />
-      <span className="icon minimize" />
-      <span className="icon maximize" />
+      <button type="button" onClick={electronHelper.closeApp}>
+        <span className="icon close" />
+      </button>
+      <button type="button" onClick={electronHelper.minimizeApp}>
+        <span className="icon minimize" />
+      </button>
+      <button type="button" onClick={electronHelper.maximizeApp}>
+        <span className="icon maximize" />
+      </button>
     </AppBarWrapper>
   );
 };

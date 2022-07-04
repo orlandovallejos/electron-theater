@@ -37,15 +37,17 @@ const Layout = () => {
 
   return (
     <AppBarWrapper showBackground={showBackground}>
-      <button type="button" onClick={electronHelper.closeApp}>
-        <span className="icon close" />
-      </button>
-      <button type="button" onClick={electronHelper.minimizeApp}>
-        <span className="icon minimize" />
-      </button>
-      <button type="button" onClick={electronHelper.maximizeApp}>
-        <span className="icon maximize" />
-      </button>
+      <div className="button-wrapper">
+        <button type="button" onClick={electronHelper.closeApp}>
+          <span className="icon close" />
+        </button>
+        <button type="button" onClick={electronHelper.minimizeApp}>
+          <span className="icon minimize" />
+        </button>
+        <button type="button" onClick={electronHelper.maximizeApp}>
+          <span className="icon maximize" />
+        </button>
+      </div>
     </AppBarWrapper>
   );
 };

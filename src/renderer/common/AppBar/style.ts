@@ -2,6 +2,9 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import styled from 'styled-components';
+import closeImage from '../../../../assets/icons/window/close.png';
+import minImage from '../../../../assets/icons/window/min.png';
+import maxImage from '../../../../assets/icons/window/max.png';
 
 interface AppBarWrapperProps {
   readonly showBackground: boolean;
@@ -14,7 +17,7 @@ const AppBarWrapper = styled.div<AppBarWrapperProps>`
   right: 0;
   height: 16px;
   z-index: 1;
-  padding: 12px 16px;
+  padding: 8px 0px;
   -webkit-app-region: drag;
 
   ${(props) =>
@@ -22,6 +25,23 @@ const AppBarWrapper = styled.div<AppBarWrapperProps>`
     `
     backdrop-filter: blur(5px) contrast(0.8);
   `}
+
+  .button-wrapper {
+    display: inline;
+    padding: 10px;
+
+    &:hover {
+      .close {
+        background: url(${closeImage});
+      }
+      .minimize {
+        background: url(${minImage});
+      }
+      .maximize {
+        background: url(${maxImage});
+      }
+    }
+  }
 
   button {
     background: none;

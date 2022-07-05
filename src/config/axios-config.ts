@@ -3,9 +3,13 @@
 /*------------------------------------------------*/
 import axios from 'axios';
 import _get from 'lodash/get';
+/*------------------------------------------------*/
+/* INTERNAL DEPENDENCIES
+/*------------------------------------------------*/
+import electronHelper from 'helpers/electron';
 
 // Get environment variables:
-const envVars = window.electron.ipcRenderer.getEnvVars();
+const envVars = electronHelper.getEnvVars();
 const apiURL = envVars.API_URL;
 const myToken = envVars.APP_TOKEN;
 

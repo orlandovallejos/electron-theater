@@ -6,6 +6,9 @@ declare global {
           API_URL: string;
           APP_TOKEN: string;
         };
+        closeApp(): undefined;
+        maximizeApp(): undefined;
+        minimizeApp(): undefined;
       };
     };
   }

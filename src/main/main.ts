@@ -39,6 +39,21 @@ ipcMain.on('get-env-vars', (event) => {
   };
 });
 
+ipcMain.on('close-app', () => {
+  app.quit();
+});
+ipcMain.on('maximize-app', () => {
+  if (mainWindow) {
+    const isFullScreen = mainWindow.isFullScreen();
+    mainWindow.setFullScreen(!isFullScreen);
+  }
+});
+ipcMain.on('minimize-app', () => {
+  if (mainWindow) {
+    mainWindow.minimize();
+  }
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -82,6 +97,7 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       webSecurity: false,

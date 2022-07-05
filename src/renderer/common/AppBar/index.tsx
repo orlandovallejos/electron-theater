@@ -36,7 +36,10 @@ const Layout = () => {
   });
 
   return (
-    <AppBarWrapper showBackground={showBackground}>
+    <AppBarWrapper
+      showBackground={showBackground}
+      onDoubleClick={electronHelper.maximizeApp}
+    >
       <div className="button-wrapper">
         <button type="button" onClick={electronHelper.closeApp}>
           <span className="icon close" />
@@ -44,7 +47,7 @@ const Layout = () => {
         <button type="button" onClick={electronHelper.minimizeApp}>
           <span className="icon minimize" />
         </button>
-        <button type="button" onClick={electronHelper.maximizeApp}>
+        <button type="button" onClick={electronHelper.fullScreenApp}>
           <span className="icon maximize" />
         </button>
       </div>

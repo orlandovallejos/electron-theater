@@ -7,6 +7,7 @@ declare global {
           APP_TOKEN: string;
         };
         closeApp(): undefined;
+        fullScreenApp(): undefined;
         maximizeApp(): undefined;
         minimizeApp(): undefined;
       };

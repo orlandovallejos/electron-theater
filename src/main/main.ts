@@ -54,11 +54,16 @@ ipcMain.on(appEventsConstants.MINIMIZE_APP, () => {
     mainWindow.minimize();
   }
 });
+let windowSize = [0, 0];
+let windowPosition = [0, 0];
 ipcMain.on(appEventsConstants.MAXIMIZE_APP, () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
-      mainWindow.restore();
+      mainWindow.setPosition(windowPosition[0], windowPosition[1]);
+      mainWindow.setSize(windowSize[0], windowSize[1]);
     } else {
+      windowSize = mainWindow.getSize();
+      windowPosition = mainWindow.getPosition();
       mainWindow.maximize();
     }
   }

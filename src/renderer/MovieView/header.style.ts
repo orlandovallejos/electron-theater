@@ -9,7 +9,7 @@ const HeaderWrapper = styled.div`
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover;
-  height: 450px;
+  height: 500px;
   position: relative;
 
   .poster {
@@ -20,7 +20,7 @@ const HeaderWrapper = styled.div`
 HeaderWrapper.displayName = 'HeaderWrapper';
 
 const Shadow = styled.div`
-  padding: 30px;
+  padding: 80px 30px 30px 30px;
   background: ${(props: { color: string }) => transparentize(0.1, props.color)};
   height: 390px;
   display: flex;

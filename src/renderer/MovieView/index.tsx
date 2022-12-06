@@ -7,6 +7,7 @@ import React from 'react';
 /*------------------------------------------------*/
 // Components
 import Header from './header';
+import GoBackButton from '../common/GoBackButton';
 // Types
 import { MovieViewItem } from '../../types';
 // Api
@@ -20,6 +21,7 @@ type Props = {
   };
 };
 const MovieView = (props: Props) => {
+  // useState:
   const [movie, setMovie] = React.useState<MovieViewItem>();
 
   const {
@@ -29,15 +31,16 @@ const MovieView = (props: Props) => {
   } = props;
 
   React.useEffect(() => {
-    async function getMoviesAndSeries() {
+    async function getMovie() {
       const movieResponse = await moviesApi.getMovie(movieId);
       setMovie(movieResponse);
     }
-    getMoviesAndSeries();
+    getMovie();
   }, [movieId]);
 
   return (
     <div>
+      <GoBackButton />
       {movie && <Header movie={movie} />}
       Hello there!
       {movie && movie.title}

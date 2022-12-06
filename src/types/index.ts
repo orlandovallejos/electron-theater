@@ -65,5 +65,7 @@ export type MovieViewItem = {
   poster_path: string;
   vote_average: number;
   release_date: string;
+  tagline: string;
+  overview: string;
 };
 export {};

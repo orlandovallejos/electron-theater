@@ -10,6 +10,7 @@ import Vibrant from 'node-vibrant';
 import { MovieViewItem } from '../../types';
 // Helpers
 import imageHelper from '../../helpers/image';
+import dateHelper from '../../helpers/date';
 // Style
 import HeaderWrapper, { Shadow } from './header.style';
 
@@ -48,8 +49,15 @@ const Header = (props: Props) => {
           alt={movie.title}
           className="poster"
         />
-        <div>
-          <h1>{movie.title}</h1>
+        <div className="description-wrapper">
+          <h1 className="title">{movie.title}</h1>
+          <h4 className="tagline">{movie.tagline}</h4>
+          <h4 className="tagline">
+            {dateHelper.getFormattedDate(movie.release_date)}
+          </h4>
+
+          <h2 className="subtitle">Overview</h2>
+          <p className="overview">{movie.overview}</p>
         </div>
       </Shadow>
     </HeaderWrapper>

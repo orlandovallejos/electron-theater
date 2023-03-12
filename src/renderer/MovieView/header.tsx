@@ -52,9 +52,9 @@ const Header = (props: Props) => {
         <div className="description-wrapper">
           <h1 className="title">{movie.title}</h1>
           <h4 className="tagline">{movie.tagline}</h4>
-          <h4 className="tagline">
+          <h5 className="release-date">
             {dateHelper.getFormattedDate(movie.release_date)}
-          </h4>
+          </h5>
 
           <h2 className="subtitle">Overview</h2>
           <p className="overview">{movie.overview}</p>

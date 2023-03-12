@@ -12,6 +12,7 @@ import GoBackButton from '../common/GoBackButton';
 import { MovieViewItem } from '../../types';
 // Api
 import moviesApi from '../../api/Movies';
+import Content from './content';
 
 type Props = {
   match: {
@@ -33,6 +34,7 @@ const MovieView = (props: Props) => {
   React.useEffect(() => {
     async function getMovie() {
       const movieResponse = await moviesApi.getMovie(movieId);
+      console.log(movieResponse);
       setMovie(movieResponse);
     }
     getMovie();
@@ -42,8 +44,7 @@ const MovieView = (props: Props) => {
     <div>
       <GoBackButton />
       {movie && <Header movie={movie} />}
-      Hello there!
-      {movie && movie.title}
+      {movie && <Content movie={movie} />}
     </div>
   );
 };

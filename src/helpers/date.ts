@@ -6,6 +6,15 @@ const getFormattedDate = (date: string): string => {
   }/${dateObject.getDate()}/${dateObject.getFullYear()}`;
 };
 
+const getLanguageFromLocale = (locale) => {
+  const languageNames = new Intl.DisplayNames(['en'], {
+    type: 'language',
+  });
+
+  return languageNames.of(locale);
+};
+
 export default {
   getFormattedDate,
+  getLanguageFromLocale,
 };

@@ -27,6 +27,9 @@ const HeaderWrapper = styled.div`
     .tagline {
       margin: 0;
     }
+    .release-date {
+      margin: 26px 0 0 0;
+    }
     .subtitle {
       margin: 0;
     }

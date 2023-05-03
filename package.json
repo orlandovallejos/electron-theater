@@ -243,6 +243,9 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/joy": "^5.0.0-alpha.77",
     "axios": "^0.23.0",
     "dotenv": "^10.0.0",
     "electron-debug": "^3.2.0",

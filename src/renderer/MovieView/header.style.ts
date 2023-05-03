@@ -27,6 +27,40 @@ const HeaderWrapper = styled.div`
     .tagline {
       margin: 0;
     }
+    .icons-section {
+      margin: 26px 0 0 0;
+
+      .vote-wrapper {
+        background: ${transparentize(0.2, '#101010')};
+        display: inline-flex;
+        padding: 4px;
+        border-radius: 50%;
+
+        .MuiCircularProgress-colorDanger,
+        .MuiCircularProgress-colorWarning,
+        .MuiCircularProgress-colorSuccess {
+          color: #ffffff;
+          .MuiCircularProgress-track {
+            stroke: #99999940;
+          }
+        }
+        .MuiCircularProgress-colorDanger {
+          .MuiCircularProgress-progress {
+            stroke: #a30110;
+          }
+        }
+        .MuiCircularProgress-colorWarning {
+          .MuiCircularProgress-progress {
+            stroke: #bec103;
+          }
+        }
+        .MuiCircularProgress-colorSuccess {
+          .MuiCircularProgress-progress {
+            stroke: #099b21;
+          }
+        }
+      }
+    }
     .release-date {
       margin: 26px 0 0 0;
     }

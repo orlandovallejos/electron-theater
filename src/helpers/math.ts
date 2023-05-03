@@ -18,10 +18,16 @@ const convertBigNumberToReadable = (labelValue: string | number) => {
   return bigNumber;
 };
 
+const getNumerWithNDecimals = (num: string | number, decimals = 2) => {
+  const pow = 10 ** decimals;
+  return Math.round(Number(num) * pow) / pow;
+};
+
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
 export default {
   randomIntFromInterval,
   convertBigNumberToReadable,
+  getNumerWithNDecimals,
 };

@@ -24,6 +24,7 @@ type Props = {
 const MovieView = (props: Props) => {
   // useState:
   const [movie, setMovie] = React.useState<MovieViewItem>();
+  const [movieTrailerKey, setMovieTrailerKey] = React.useState<string>('');
 
   const {
     match: {
@@ -34,8 +35,11 @@ const MovieView = (props: Props) => {
   React.useEffect(() => {
     async function getMovie() {
       const movieResponse = await moviesApi.getMovie(movieId);
-      console.log(movieResponse);
+      const movieTrailerKeyResponse = await moviesApi.getMovieTrailer(movieId);
+
+      console.log(movieResponse, movieTrailerKey);
       setMovie(movieResponse);
+      setMovieTrailerKey(movieTrailerKeyResponse);
     }
     getMovie();
   }, [movieId]);
@@ -43,7 +47,7 @@ const MovieView = (props: Props) => {
   return (
     <div>
       <GoBackButton />
-      {movie && <Header movie={movie} />}
+      {movie && <Header movie={movie} trailerKey={movieTrailerKey} />}
       {movie && <Content movie={movie} />}
     </div>
   );

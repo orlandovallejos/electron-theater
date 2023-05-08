@@ -4,9 +4,12 @@
 import React from 'react';
 import Vibrant from 'node-vibrant';
 import CircularProgress from '@mui/joy/CircularProgress';
+import Modal from '@mui/joy/Modal';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
+// Components
+import Button from 'renderer/common/Button';
 // Types
 import { MovieViewItem } from '../../types';
 // Helpers
@@ -19,14 +22,16 @@ import HeaderWrapper, { Shadow } from './header.style';
 const DEFAULT_COLOR = '#fff';
 type Props = {
   movie: MovieViewItem;
+  trailerKey: string;
 };
 type AllowedCircularColors = 'success' | 'warning' | 'danger';
 
 const Header = (props: Props) => {
   /* PROPS -------------------------*/
-  const { movie } = props;
+  const { movie, trailerKey } = props;
   /* STATE -------------------------*/
   const [bgColor, setBgColor] = React.useState<string>(DEFAULT_COLOR);
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
   /* METHODS -------------------------*/
   const calculateBgColor = async (imageURL: string) => {
@@ -69,7 +74,11 @@ const Header = (props: Props) => {
         <div className="description-wrapper">
           <h1 className="title">{movie.title}</h1>
           <h4 className="tagline">{movie.tagline}</h4>
-
+          <div className="extra-info">
+            <h5 className="release-date">
+              {dateHelper.getFormattedDate(movie.release_date)}
+            </h5>
+          </div>
           <div className="icons-section">
             <div className="vote-wrapper">
               <CircularProgress
@@ -83,10 +92,30 @@ const Header = (props: Props) => {
                 {mathHelper.getNumerWithNDecimals(movie.vote_average, 1)}
               </CircularProgress>
             </div>
+            <Button types="outlined" onClick={() => setModalOpen(true)}>
+              <ion-icon name="play-circle-outline" />
+              <span>Play trailer</span>
+            </Button>
+            <Modal
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <iframe
+                width="75%"
+                height="55%"
+                src={`https://www.youtube-nocookie.com/embed/${trailerKey}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay=true; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </Modal>
           </div>
-          <h5 className="release-date">
-            {dateHelper.getFormattedDate(movie.release_date)}
-          </h5>
           <h2 className="subtitle">Overview</h2>
           <p className="overview">{movie.overview}</p>
         </div>

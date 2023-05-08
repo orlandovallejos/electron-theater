@@ -20,6 +20,26 @@ const ButtonPrimary = styled.button`
 `;
 ButtonPrimary.displayName = 'ButtonPrimary';
 
+const ButtonOutlined = styled.button`
+  ${() => getButtonProps()};
+  background: transparent;
+  border: 1px solid #101010;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  color: #101010;
+
+  ion-icon {
+    font-size: 22px;
+  }
+  span {
+    margin: 4px 0 0 0;
+  }
+`;
+ButtonOutlined.displayName = 'ButtonOutlined';
+
 const WrapperSecondary = styled.div`
   backdrop-filter: blur(5px) contrast(0.8);
   border-radius: 5px;
@@ -33,5 +53,5 @@ ButtonSecondary.displayName = 'ButtonSecondary';
 /*------------------------------------------------*/
 /* EXPORTS
 /*------------------------------------------------*/
-export { ButtonPrimary, WrapperSecondary, ButtonSecondary };
+export { ButtonPrimary, ButtonOutlined, WrapperSecondary, ButtonSecondary };
 export default null;

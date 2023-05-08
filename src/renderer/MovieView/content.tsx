@@ -40,13 +40,13 @@ const Content = (props: Props) => {
           <div className="item">
             <span className="title">Budget</span>
             <span>
-              {mathHelper.convertBigNumberToReadable(_get(movie, 'budget'))}
+              {mathHelper.convertBigNumberToReadable(_get(movie, 'budget', 0))}
             </span>
           </div>
           <div className="item">
             <span className="title">Revenue</span>
             <span>
-              {mathHelper.convertBigNumberToReadable(_get(movie, 'revenue'))}
+              {mathHelper.convertBigNumberToReadable(_get(movie, 'revenue', 0))}
             </span>
           </div>
         </div>

@@ -22,6 +22,7 @@ const Layout = () => (
         <Router>
           <Switch>
             <Route path="/movie/:movieId" component={MovieView} />
+            <Route path="/serie/:serieId" component={MovieView} />
             <Route path="/" component={Home} />
           </Switch>
         </Router>

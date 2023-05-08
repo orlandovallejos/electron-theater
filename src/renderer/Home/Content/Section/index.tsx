@@ -14,10 +14,11 @@ import SectionWrapper from './style';
 
 type Props = {
   items: MovieItem[];
+  baseUrl?: string;
 };
 
 const Section = (props: Props) => {
-  const { items } = props;
+  const { items, baseUrl } = props;
   return (
     <SectionWrapper>
       {items.map((item) => {
@@ -29,6 +30,7 @@ const Section = (props: Props) => {
             title={item.title}
             voteAverage={item.voteAverage}
             releaseDate={item.releaseDate}
+            baseUrl={baseUrl}
           />
         );
       })}

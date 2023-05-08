@@ -22,7 +22,7 @@ import HeaderWrapper, { Shadow } from './header.style';
 const DEFAULT_COLOR = '#fff';
 type Props = {
   movie: MovieViewItem;
-  trailerKey: string;
+  trailerKey?: string;
 };
 type AllowedCircularColors = 'success' | 'warning' | 'danger';
 
@@ -122,6 +122,10 @@ const Header = (props: Props) => {
       </Shadow>
     </HeaderWrapper>
   );
+};
+
+Header.defaultProps = {
+  trailerKey: '',
 };
 
 /*------------------------------------------------*/

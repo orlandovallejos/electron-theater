@@ -67,5 +67,8 @@ export type MovieViewItem = {
   release_date: string;
   tagline: string;
   overview: string;
+  original_language: string;
+  budget: string;
+  revenue: string;
 };
 export {};

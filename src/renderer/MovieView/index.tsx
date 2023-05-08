@@ -18,6 +18,7 @@ type Props = {
   match: {
     params: {
       movieId: string;
+      serieId: string;
     };
   };
 };
@@ -28,19 +29,28 @@ const MovieView = (props: Props) => {
 
   const {
     match: {
-      params: { movieId },
+      params: { movieId, serieId },
     },
   } = props;
 
   React.useEffect(() => {
     async function getMovie() {
-      const movieResponse = await moviesApi.getMovie(movieId);
-      const movieTrailerKeyResponse = await moviesApi.getMovieTrailer(movieId);
+      let movieResponse: MovieViewItem;
+      let movieTrailerKeyResponse: string;
 
-      console.log(movieResponse, movieTrailerKey);
-      setMovie(movieResponse);
-      setMovieTrailerKey(movieTrailerKeyResponse);
+      if (movieId) {
+        movieResponse = await moviesApi.getMovie(movieId);
+        movieTrailerKeyResponse = await moviesApi.getMovieTrailer(movieId);
+
+        setMovie(movieResponse);
+        setMovieTrailerKey(movieTrailerKeyResponse);
+      }
+      if (serieId) {
+        movieResponse = await moviesApi.getSerie(serieId);
+        setMovie(movieResponse);
+      }
     }
+
     getMovie();
   }, [movieId]);
 

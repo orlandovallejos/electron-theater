@@ -20,9 +20,10 @@ type Props = {
   title: string;
   voteAverage: number;
   releaseDate: string;
+  baseUrl?: string;
 };
 const PosterItem = (props: Props) => {
-  const { id, url, title, voteAverage, releaseDate } = props;
+  const { id, url, title, voteAverage, releaseDate, baseUrl } = props;
   const [borderVibrant, setBorderVibrant] =
     React.useState<string>(DEFAULT_COLOR);
   const [borderDarkVibrant, setBorderDarkVibrant] =
@@ -47,7 +48,7 @@ const PosterItem = (props: Props) => {
 
   return (
     <PosterItemWrapper>
-      <Link to={`movie/${id}`}>
+      <Link to={`${baseUrl}/${id}`}>
         <ImageWrapper vibrant={borderVibrant} darkVibrant={borderDarkVibrant}>
           <div className="item">
             {url && <img src={imageHelper.getPosterImage(url)} alt={title} />}

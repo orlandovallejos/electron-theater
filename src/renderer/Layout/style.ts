@@ -2,6 +2,10 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import styled from 'styled-components';
+/*------------------------------------------------*/
+/* INTERNAL DEPENDENCIES
+/*------------------------------------------------*/
+import theme from 'renderer/themes/default';
 
 const LayoutWrapper = styled.div`
   background: red;
@@ -17,7 +21,7 @@ LayoutWrapper.displayName = 'LayoutWrapper';
 // SidebarWrapper.displayName = 'SidebarWrapper';
 
 const ContentWrapper = styled.div`
-  background: #080808;
+  background: ${theme.background.primary};
   flex: 1;
 `;
 ContentWrapper.displayName = 'ContentWrapper';

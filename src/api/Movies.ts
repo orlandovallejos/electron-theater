@@ -2,6 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import axios from 'axios';
+import _get from 'lodash/get';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -49,7 +50,7 @@ type GetTopSeriesResponse = {
 };
 const getTopSeries = (): Promise<GetTopSeriesResponse> => {
   return axios.get(
-    'discover/tv?language=en-US&sort_by=popularity.desc&include_adult=false&page=1',
+    'discover/tv?language=en-US&watch_region=US&sort_by=popularity.desc&include_adult=false&page=1',
     {
       transformResponse: [
         (data) => {
@@ -78,7 +79,6 @@ const getMovie = (movieId: string): Promise<MovieViewItem> => {
       transformResponse: [
         (data) => {
           const dataJSON = JSON.parse(data);
-          // console.log(dataJSON);
           return dataJSON;
         },
       ],
@@ -86,9 +86,25 @@ const getMovie = (movieId: string): Promise<MovieViewItem> => {
   );
 };
 
+const getMovieTrailer = (movieId: string): Promise<string> => {
+  return axios.get(`movie/${movieId}/videos`, {
+    transformResponse: [
+      (data) => {
+        const dataJSON = JSON.parse(data);
+        const trailer = dataJSON.results.find(
+          (item) =>
+            _get(item, 'site') === 'YouTube' && _get(item, 'type') === 'Trailer'
+        );
+        return _get(trailer, 'key', '');
+      },
+    ],
+  });
+};
+
 export default {
   getConfiguration,
   getTopMovies,
   getTopSeries,
   getMovie,
+  getMovieTrailer,
 };

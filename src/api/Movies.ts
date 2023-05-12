@@ -127,6 +127,21 @@ const getSerie = (serieId: string): Promise<MovieViewItem> => {
   );
 };
 
+const getSerieTrailer = (serieId: string): Promise<string> => {
+  return axios.get(`tv/${serieId}/videos`, {
+    transformResponse: [
+      (data) => {
+        const dataJSON = JSON.parse(data);
+        const trailer = dataJSON.results.find(
+          (item) =>
+            _get(item, 'site') === 'YouTube' && _get(item, 'type') === 'Trailer'
+        );
+        return _get(trailer, 'key', '');
+      },
+    ],
+  });
+};
+
 export default {
   getConfiguration,
   getTopMovies,
@@ -134,4 +149,5 @@ export default {
   getMovie,
   getMovieTrailer,
   getSerie,
+  getSerieTrailer,
 };

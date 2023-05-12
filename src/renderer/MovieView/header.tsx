@@ -92,29 +92,33 @@ const Header = (props: Props) => {
                 {mathHelper.getNumerWithNDecimals(movie.vote_average, 1)}
               </CircularProgress>
             </div>
-            <Button types="outlined" onClick={() => setModalOpen(true)}>
-              <ion-icon name="play-circle-outline" />
-              <span>Play trailer</span>
-            </Button>
-            <Modal
-              open={modalOpen}
-              onClose={() => setModalOpen(false)}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <iframe
-                width="75%"
-                height="55%"
-                src={`https://www.youtube-nocookie.com/embed/${trailerKey}`}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay=true; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </Modal>
+            {trailerKey && (
+              <>
+                <Button types="outlined" onClick={() => setModalOpen(true)}>
+                  <ion-icon name="play-circle-outline" />
+                  <span>Play trailer</span>
+                </Button>
+                <Modal
+                  open={modalOpen}
+                  onClose={() => setModalOpen(false)}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <iframe
+                    width="75%"
+                    height="55%"
+                    src={`https://www.youtube-nocookie.com/embed/${trailerKey}`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay=true; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </Modal>
+              </>
+            )}
           </div>
           <h2 className="subtitle">Overview</h2>
           <p className="overview">{movie.overview}</p>

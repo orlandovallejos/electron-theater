@@ -47,7 +47,10 @@ const MovieView = (props: Props) => {
       }
       if (serieId) {
         movieResponse = await moviesApi.getSerie(serieId);
+        movieTrailerKeyResponse = await moviesApi.getSerieTrailer(serieId);
+
         setMovie(movieResponse);
+        setMovieTrailerKey(movieTrailerKeyResponse);
       }
     }
 

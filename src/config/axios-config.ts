@@ -6,7 +6,7 @@ import _get from 'lodash/get';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import electronHelper from 'helpers/electron';
+import electronHelper from '../helpers/electron';
 
 // Get environment variables:
 const envVars = electronHelper.getEnvVars();

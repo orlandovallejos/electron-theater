@@ -26,7 +26,7 @@ const getBackdropImage = (path: string): string => {
   // 1: "w780"
   // 2: "w1280"
   // 3: "original"
-  const size = 'original';
+  const size = 'w1280';
   return `${baseURL}${size}${path}`;
 };
 const getPosterImage = (path: string): string => {

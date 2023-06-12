@@ -9,6 +9,7 @@ import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 // Components
 import Home from '../Home';
 import AppBar from '../common/AppBar';
+import MovieView from '../MovieView';
 // Styles
 import LayoutWrapper, { ContentWrapper } from './style';
 
@@ -20,6 +21,8 @@ const Layout = () => (
       <ContentWrapper>
         <Router>
           <Switch>
+            <Route path="/movie/:movieId" component={MovieView} />
+            <Route path="/serie/:serieId" component={MovieView} />
             <Route path="/" component={Home} />
           </Switch>
         </Router>

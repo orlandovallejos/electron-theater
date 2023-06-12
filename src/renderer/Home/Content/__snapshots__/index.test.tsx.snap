@@ -5,10 +5,10 @@ exports[`<Content /> should render correctly 1`] = `
   <h1>
     Trending movies
   </h1>
-  <Section items={{...}} />
+  <Section items={{...}} baseUrl=\\"movie\\" />
   <h1>
     Trending TV Shows
   </h1>
-  <Section items={{...}} />
+  <Section items={{...}} baseUrl=\\"serie\\" />
 </ContentWrapper>"
 `;

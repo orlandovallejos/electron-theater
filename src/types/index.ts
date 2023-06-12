@@ -7,6 +7,7 @@ declare global {
           APP_TOKEN: string;
         };
         closeApp(): undefined;
+        fullScreenApp(): undefined;
         maximizeApp(): undefined;
         minimizeApp(): undefined;
       };
@@ -54,5 +55,20 @@ export type Serie = {
   vote_average: number;
   first_air_date: string;
 };
-
+/**
+ * Response type
+ */
+export type MovieViewItem = {
+  id: string;
+  title: string;
+  backdrop_path: string;
+  poster_path: string;
+  vote_average: number;
+  release_date: string;
+  tagline: string;
+  overview: string;
+  original_language: string;
+  budget: string;
+  revenue: string;
+};
 export {};

@@ -9,7 +9,7 @@ import moviesApi from './Movies';
 
 jest.mock('axios');
 
-describe('<App />', () => {
+describe('Movies api', () => {
   afterAll(() => {
     jest.resetAllMocks();
   });

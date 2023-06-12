@@ -3,6 +3,10 @@
 /*------------------------------------------------*/
 import styled from 'styled-components';
 import { transparentize } from 'polished';
+/*------------------------------------------------*/
+/* INTERNAL DEPENDENCIES
+/*------------------------------------------------*/
+import theme from '../../themes/default';
 
 const PosterItemWrapper = styled.div`
   width: 230px;
@@ -15,7 +19,7 @@ const PosterItemWrapper = styled.div`
 
     .title {
       font-size: 12px;
-      color: #f5f5f5;
+      color: ${theme.fonts.color.primary};
     }
   }
 

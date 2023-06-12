@@ -5,14 +5,14 @@ import imageHelper from './image';
 
 describe('Image helper', () => {
   it('should set the base url', () => {
-    const url = 'www.url.com';
+    const url = 'www.url.com/';
     const baseURL = imageHelper.setBaseURL({ url });
     expect(baseURL).toBe(url);
   });
 
   it('should get a backdrop image url', () => {
-    const size = 'original';
-    const url = 'www.url.com';
+    const size = 'w1280';
+    const url = 'www.url.com/';
     const backdropURL = '/image.jpg';
     const baseURL = imageHelper.setBaseURL({ url });
     const backdrop = imageHelper.getBackdropImage(backdropURL);

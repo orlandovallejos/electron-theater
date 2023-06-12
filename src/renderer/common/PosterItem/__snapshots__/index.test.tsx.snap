@@ -2,11 +2,13 @@
 
 exports[`<PosterItem /> should render a poster 1`] = `
 "<PosterItemWrapper>
-  <ImageWrapper vibrant=\\"blue\\" darkVibrant=\\"red\\">
-    <div className=\\"item\\">
-      <img src=\\"w780www.site.com/img.jpg\\" alt=\\"My movie\\" />
-    </div>
-  </ImageWrapper>
+  <Link to=\\"undefined/movie-01\\">
+    <ImageWrapper vibrant=\\"blue\\" darkVibrant=\\"red\\">
+      <div className=\\"item\\">
+        <img src=\\"w780www.site.com/img.jpg\\" alt=\\"My movie\\" />
+      </div>
+    </ImageWrapper>
+  </Link>
   <div className=\\"title-wrapper\\">
     <span className=\\"title\\">
       My movie

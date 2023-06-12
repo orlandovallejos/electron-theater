@@ -21,9 +21,9 @@ const Content = (props: Props) => {
   return (
     <ContentWrapper>
       <h1>Trending movies</h1>
-      <Section items={movies} />
+      <Section items={movies} baseUrl='movie' />
       <h1>Trending TV Shows</h1>
-      <Section items={series} />
+      <Section items={series} baseUrl='serie' />
     </ContentWrapper>
   );
 };

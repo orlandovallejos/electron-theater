@@ -32,6 +32,7 @@ describe('<PosterItem />', () => {
   it('should render a poster', async () => {
     const wrapper = shallow(
       <PosterItem
+        id="movie-01"
         url="www.site.com/img.jpg"
         title="My movie"
         voteAverage={7.8}

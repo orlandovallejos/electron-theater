@@ -1,18 +1,22 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const appEventsConstants = require('../constants/appEvents.mts');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     getEnvVars() {
-      return ipcRenderer.sendSync('get-env-vars', 'ping');
+      return ipcRenderer.sendSync(appEventsConstants.GET_ENV_VARS, 'ping');
     },
     closeApp() {
-      return ipcRenderer.send('close-app');
+      return ipcRenderer.send(appEventsConstants.CLOSE_APP);
+    },
+    fullScreenApp() {
+      return ipcRenderer.send(appEventsConstants.FULL_SCREEN_APP);
     },
     maximizeApp() {
-      return ipcRenderer.send('maximize-app');
+      return ipcRenderer.send(appEventsConstants.MAXIMIZE_APP);
     },
     minimizeApp() {
-      return ipcRenderer.send('minimize-app');
+      return ipcRenderer.send(appEventsConstants.MINIMIZE_APP);
     },
     on(channel, func) {
       const validChannels = ['get-env-vars-reply'];

@@ -3,6 +3,7 @@
 /*------------------------------------------------*/
 import React from 'react';
 import Vibrant from 'node-vibrant';
+import { Link } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -14,13 +15,15 @@ import imageHelper from '../../../helpers/image';
 const DEFAULT_COLOR = '#fff';
 
 type Props = {
+  id: string;
   url: string;
   title: string;
   voteAverage: number;
   releaseDate: string;
+  baseUrl?: string;
 };
 const PosterItem = (props: Props) => {
-  const { url, title, voteAverage, releaseDate } = props;
+  const { id, url, title, voteAverage, releaseDate, baseUrl } = props;
   const [borderVibrant, setBorderVibrant] =
     React.useState<string>(DEFAULT_COLOR);
   const [borderDarkVibrant, setBorderDarkVibrant] =
@@ -45,11 +48,13 @@ const PosterItem = (props: Props) => {
 
   return (
     <PosterItemWrapper>
-      <ImageWrapper vibrant={borderVibrant} darkVibrant={borderDarkVibrant}>
-        <div className="item">
-          {url && <img src={imageHelper.getPosterImage(url)} alt={title} />}
-        </div>
-      </ImageWrapper>
+      <Link to={`${baseUrl}/${id}`}>
+        <ImageWrapper vibrant={borderVibrant} darkVibrant={borderDarkVibrant}>
+          <div className="item">
+            {url && <img src={imageHelper.getPosterImage(url)} alt={title} />}
+          </div>
+        </ImageWrapper>
+      </Link>
       <div className="title-wrapper">
         <span className="title">{title}</span>
       </div>

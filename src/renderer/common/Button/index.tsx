@@ -6,10 +6,15 @@ import React from 'react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { ButtonPrimary, WrapperSecondary, ButtonSecondary } from './style';
+import {
+  ButtonPrimary,
+  ButtonOutlined,
+  WrapperSecondary,
+  ButtonSecondary,
+} from './style';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  types: 'primary' | 'secondary';
+  types: 'primary' | 'secondary' | 'outlined';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children: any;
 }
@@ -25,6 +30,9 @@ const Button = (props: Props) => {
           <ButtonSecondary {...rest}>{children}</ButtonSecondary>
         </WrapperSecondary>
       );
+      break;
+    case 'outlined':
+      component = <ButtonOutlined {...rest}>{children}</ButtonOutlined>;
       break;
     default:
       component = <ButtonPrimary {...rest}>{children}</ButtonPrimary>;

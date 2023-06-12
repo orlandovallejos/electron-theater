@@ -18,6 +18,8 @@ import dotenv from 'dotenv';
 // import Store from 'electron-store';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+// Constants
+import appEventsConstants from '../constants/appEvents';
 
 // Read variable from .env file:
 dotenv.config();
@@ -32,25 +34,38 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('get-env-vars', (event) => {
+ipcMain.on(appEventsConstants.GET_ENV_VARS, (event) => {
   event.returnValue = {
     API_URL: process.env.API_URL,
     APP_TOKEN: process.env.APP_TOKEN,
   };
 });
-
-ipcMain.on('close-app', () => {
+ipcMain.on(appEventsConstants.CLOSE_APP, () => {
   app.quit();
 });
-ipcMain.on('maximize-app', () => {
+ipcMain.on(appEventsConstants.FULL_SCREEN_APP, () => {
   if (mainWindow) {
     const isFullScreen = mainWindow.isFullScreen();
     mainWindow.setFullScreen(!isFullScreen);
   }
 });
-ipcMain.on('minimize-app', () => {
+ipcMain.on(appEventsConstants.MINIMIZE_APP, () => {
   if (mainWindow) {
     mainWindow.minimize();
+  }
+});
+let windowSize = [0, 0];
+let windowPosition = [0, 0];
+ipcMain.on(appEventsConstants.MAXIMIZE_APP, () => {
+  if (mainWindow) {
+    if (mainWindow.isMaximized()) {
+      mainWindow.setPosition(windowPosition[0], windowPosition[1]);
+      mainWindow.setSize(windowSize[0], windowSize[1]);
+    } else {
+      windowSize = mainWindow.getSize();
+      windowPosition = mainWindow.getPosition();
+      mainWindow.maximize();
+    }
   }
 });
 

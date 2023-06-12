@@ -6,9 +6,14 @@ const closeApp = () => {
   return window.electron.ipcRenderer.closeApp();
 };
 
+const fullScreenApp = () => {
+  return window.electron.ipcRenderer.fullScreenApp();
+};
+
 const maximizeApp = () => {
   return window.electron.ipcRenderer.maximizeApp();
 };
+
 const minimizeApp = () => {
   return window.electron.ipcRenderer.minimizeApp();
 };
@@ -19,6 +24,7 @@ const minimizeApp = () => {
 export default {
   getEnvVars,
   closeApp,
+  fullScreenApp,
   maximizeApp,
   minimizeApp,
 };

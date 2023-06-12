@@ -9,7 +9,7 @@ import Modal from '@mui/joy/Modal';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
-import Button from 'renderer/common/Button';
+import Button from '../common/Button';
 // Types
 import { MovieViewItem } from '../../types';
 // Helpers

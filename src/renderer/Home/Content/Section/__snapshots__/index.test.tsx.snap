@@ -2,6 +2,6 @@
 
 exports[`<Section /> should render correctly 1`] = `
 "<SectionWrapper>
-  <PosterItem url=\\"poster path\\" title=\\"My movie\\" voteAverage={7} releaseDate=\\"2021-04-19\\" />
+  <PosterItem id=\\"item-01\\" url=\\"poster path\\" title=\\"My movie\\" voteAverage={7} releaseDate=\\"2021-04-19\\" baseUrl={[undefined]} />
 </SectionWrapper>"
 `;

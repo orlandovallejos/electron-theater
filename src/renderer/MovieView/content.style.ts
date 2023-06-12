@@ -6,7 +6,7 @@ import { rem } from 'polished';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import theme from 'renderer/themes/default';
+import theme from '../themes/default';
 
 const ContentWrapper = styled.div`
   background: green;

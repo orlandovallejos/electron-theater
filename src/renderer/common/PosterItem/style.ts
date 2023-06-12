@@ -6,7 +6,7 @@ import { transparentize } from 'polished';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import theme from 'renderer/themes/default';
+import theme from '../../themes/default';
 
 const PosterItemWrapper = styled.div`
   width: 230px;

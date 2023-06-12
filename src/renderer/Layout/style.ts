@@ -5,7 +5,7 @@ import styled from 'styled-components';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import theme from 'renderer/themes/default';
+import theme from '../themes/default';
 
 const LayoutWrapper = styled.div`
   background: red;

@@ -7,7 +7,7 @@ import _debounce from 'lodash/debounce';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Helpers
-import electronHelper from 'helpers/electron';
+import electronHelper from '../../../helpers/electron';
 // Styles
 import AppBarWrapper from './style';
 

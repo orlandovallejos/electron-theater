@@ -1,13 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Layout /> should render correctly 1`] = `
-"<LayoutWrapper>
-  <ContentWrapper>
-    <MemoryRouter>
-      <Switch>
-        <Route path=\\"/\\" component={[Function: Home]} />
-      </Switch>
-    </MemoryRouter>
-  </ContentWrapper>
-</LayoutWrapper>"
+"<Fragment>
+  <Layout />
+  <LayoutWrapper>
+    <ContentWrapper>
+      <MemoryRouter>
+        <Switch>
+          <Route path=\\"/movie/:movieId\\" component={[Function: MovieView]} />
+          <Route path=\\"/serie/:serieId\\" component={[Function: MovieView]} />
+          <Route path=\\"/\\" component={[Function: Home]} />
+        </Switch>
+      </MemoryRouter>
+    </ContentWrapper>
+  </LayoutWrapper>
+</Fragment>"
 `;

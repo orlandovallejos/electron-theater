@@ -1,16 +1,16 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<Hero /> should render correctly 1`] = `
 "<HeroWrapper style={{...}}>
-  <div className=\\"info\\">
-    <span className=\\"title\\">
+  <div className="info">
+    <span className="title">
       My movie
     </span>
-    <div className=\\"btn-wrapper\\">
-      <Button types=\\"primary\\" className=\\"btn-trailer\\">
+    <div className="btn-wrapper">
+      <Button types="primary" className="btn-trailer">
         Trailer
       </Button>
-      <Button types=\\"secondary\\">
+      <Button types="secondary">
         Watchlist
       </Button>
     </div>

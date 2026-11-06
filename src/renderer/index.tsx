@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 // import axios from 'axios';
 import App from './App';
 import axiosConfig from '../config/axios-config';
@@ -24,4 +24,8 @@ axiosConfig.setup();
 //   .then((response) => console.log(response))
 //   .catch((error) => console.log(error));
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+if (!container) {
+  throw new Error('The root element was not found');
+}
+createRoot(container).render(<App />);

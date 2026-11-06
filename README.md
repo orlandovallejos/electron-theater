@@ -19,3 +19,6 @@ It's like a Tinder, but for movies!
 ## Note
 You need a MovieDB token, and use it in the `.env` file.
 [Get the token here](https://developer.themoviedb.org/v4/reference/intro/getting-started)
+
+## Roadmap
+The project is being revived. See [docs/ROADMAP.md](docs/ROADMAP.md) for the plan, milestones, and how work is organized.

@@ -8,6 +8,7 @@ This document explains where the project is today, where it's going, and how the
 organized. It is a living document: it's updated whenever a milestone closes or the plan changes.
 
 **Contents**
+
 1. [Why this project exists](#1-why-this-project-exists)
 2. [Current state](#2-current-state)
 3. [Known problems](#3-known-problems)
@@ -32,12 +33,12 @@ Electron desktop app with a React renderer, built on
 [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate),
 using [The Movie Database (TMDB)](https://www.themoviedb.org/) API.
 
-| Area | What exists | Where |
-|---|---|---|
-| Home | Random hero banner, rows of trending movies and TV shows, poster borders tinted from the artwork (`node-vibrant`) | `src/renderer/Home` |
-| Detail view | Backdrop, poster, rating ring, tagline, overview, YouTube trailer modal, status / language / budget / revenue | `src/renderer/MovieView` |
-| Window | Frameless window with custom close / minimize / fullscreen controls over IPC | `src/main`, `src/renderer/common/AppBar` |
-| Data | axios client with auth interceptor; response transforms for movies and series | `src/api`, `src/config` |
+| Area        | What exists                                                                                                       | Where                                    |
+| ----------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Home        | Random hero banner, rows of trending movies and TV shows, poster borders tinted from the artwork (`node-vibrant`) | `src/renderer/Home`                      |
+| Detail view | Backdrop, poster, rating ring, tagline, overview, YouTube trailer modal, status / language / budget / revenue     | `src/renderer/MovieView`                 |
+| Window      | Frameless window with custom close / minimize / fullscreen controls over IPC                                      | `src/main`, `src/renderer/common/AppBar` |
+| Data        | axios client with auth interceptor; response transforms for movies and series                                     | `src/api`, `src/config`                  |
 
 **Not built yet:** the core idea. There are no accounts, no swiping, no matches, and no shared list.
 
@@ -46,6 +47,7 @@ using [The Movie Database (TMDB)](https://www.themoviedb.org/) API.
 Found while reviewing the code before restarting. Each one maps to a milestone below.
 
 ### Bugs → M3
+
 - The detail view only re-fetches when `movieId` changes, so going from one TV show to another shows stale data.
 - The hero's **Trailer** and **Watchlist** buttons have no handlers.
 - The detail page's left column only shows the title. Credits, keywords, and similar titles are fetched but never used.
@@ -53,17 +55,20 @@ Found while reviewing the code before restarting. Each one maps to a milestone b
 - `AppBar` re-adds its scroll listener on every render.
 
 ### Security → M2
+
 - `webSecurity: false` on the main window.
 - The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.
 - Icons are loaded from a CDN at runtime, and there's no Content Security Policy.
 - Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.
 
 ### Hygiene → M0
-- Package metadata still identifies the app as electron-react-boilerplate, and auto-update points at the boilerplate's repo.
-- The git pre-commit hook never runs: husky 7 is installed, but the config uses the husky 4 format.
-- IPC channel names are duplicated in two files.
+
+- ~~Package metadata still identifies the app as electron-react-boilerplate, and auto-update points at the boilerplate's repo.~~ Fixed in #14.
+- ~~The git pre-commit hook never runs: husky 7 is installed, but the config uses the husky 4 format.~~ Fixed in #19.
+- IPC channel names are duplicated in two files. Not fixed yet.
 
 ### Outdated stack → M1
+
 Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23, Jest 27, Enzyme, `@mui/joy` alpha.
 
 ## 4. Milestones
@@ -71,29 +76,29 @@ Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23, Jest
 Milestones are ordered: foundation and safety first, then features. Each one has a clear
 "done when", so it's obvious when it can close.
 
-| | Milestone | Goal | Done when |
-|---|---|---|---|
-| M0 | [Project Foundation](https://github.com/orlandovallejos/electron-theater/milestone/1) | Run the repo like a professional project | Every PR runs CI, and a new contributor can run the app from the README alone |
-| M1 | [Stack Modernization](https://github.com/orlandovallejos/electron-theater/milestone/2) | Pay down dependency debt, one upgrade per PR | Supported versions everywhere, no deprecated APIs, tests pass |
-| M2 | [Security & Architecture](https://github.com/orlandovallejos/electron-theater/milestone/3) | Follow Electron's security checklist | The API token never reaches the renderer; no Electron security warnings |
-| M3 | [Bug Fixes & UX Polish](https://github.com/orlandovallejos/electron-theater/milestone/4) | Make existing features reliable | No known bugs; every screen handles failure; coverage threshold met |
-| M4 | [Watchlist & Persistence](https://github.com/orlandovallejos/electron-theater/milestone/5) | Save what you want to watch | The watchlist survives restarts and is tested |
-| M5 | [Match — Real-time Multiplayer](https://github.com/orlandovallejos/electron-theater/milestone/6) | Build the core idea | Two users on different machines pair, swipe, and see a match appear live |
-| M6 | [AI Movie Agent](https://github.com/orlandovallejos/electron-theater/milestone/7) | "What should we watch tonight?" assistant | Grounded recommendations from real data and both partners' tastes |
-| M7 | [Release & Quality](https://github.com/orlandovallejos/electron-theater/milestone/8) | Ship it like a real product | Tagging a release produces installable, auto-updating builds |
+|     | Milestone                                                                                        | Goal                                         | Done when                                                                     |
+| --- | ------------------------------------------------------------------------------------------------ | -------------------------------------------- | ----------------------------------------------------------------------------- |
+| M0  | [Project Foundation](https://github.com/orlandovallejos/electron-theater/milestone/1)            | Run the repo like a professional project     | Every PR runs CI, and a new contributor can run the app from the README alone |
+| M1  | [Stack Modernization](https://github.com/orlandovallejos/electron-theater/milestone/2)           | Pay down dependency debt, one upgrade per PR | Supported versions everywhere, no deprecated APIs, tests pass                 |
+| M2  | [Security & Architecture](https://github.com/orlandovallejos/electron-theater/milestone/3)       | Follow Electron's security checklist         | The API token never reaches the renderer; no Electron security warnings       |
+| M3  | [Bug Fixes & UX Polish](https://github.com/orlandovallejos/electron-theater/milestone/4)         | Make existing features reliable              | No known bugs; every screen handles failure; coverage threshold met           |
+| M4  | [Watchlist & Persistence](https://github.com/orlandovallejos/electron-theater/milestone/5)       | Save what you want to watch                  | The watchlist survives restarts and is tested                                 |
+| M5  | [Match — Real-time Multiplayer](https://github.com/orlandovallejos/electron-theater/milestone/6) | Build the core idea                          | Two users on different machines pair, swipe, and see a match appear live      |
+| M6  | [AI Movie Agent](https://github.com/orlandovallejos/electron-theater/milestone/7)                | "What should we watch tonight?" assistant    | Grounded recommendations from real data and both partners' tastes             |
+| M7  | [Release & Quality](https://github.com/orlandovallejos/electron-theater/milestone/8)             | Ship it like a real product                  | Tagging a release produces installable, auto-updating builds                  |
 
 ### Learning map
 
-| Milestone | Skills practised |
-|---|---|
-| M0 | GitHub workflow, CI with GitHub Actions, documentation, ADRs |
-| M1 | Safe incremental upgrades, build tooling, test migration |
-| M2 | Electron process model, IPC design, CSP, secrets handling |
-| M3 | React data fetching (TanStack Query), error handling, testing |
-| M4 | Local persistence (electron-store or SQLite), state management |
-| M5 | Backend design, auth, WebSockets, Docker, deployment |
-| M6 | LLM tool use, agent design, streaming, MCP |
-| M7 | E2E testing (Playwright), code signing, auto-update, observability |
+| Milestone | Skills practised                                                   |
+| --------- | ------------------------------------------------------------------ |
+| M0        | GitHub workflow, CI with GitHub Actions, documentation, ADRs       |
+| M1        | Safe incremental upgrades, build tooling, test migration           |
+| M2        | Electron process model, IPC design, CSP, secrets handling          |
+| M3        | React data fetching (TanStack Query), error handling, testing      |
+| M4        | Local persistence (electron-store or SQLite), state management     |
+| M5        | Backend design, auth, WebSockets, Docker, deployment               |
+| M6        | LLM tool use, agent design, streaming, MCP                         |
+| M7        | E2E testing (Playwright), code signing, auto-update, observability |
 
 ## 5. How work is organized
 
@@ -111,4 +116,7 @@ Milestone ──▶ Issue ──▶ Branch ──▶ Commits ──▶ Pull requ
 - **Pull requests** are small and focused, link their issue with `Closes #N`, and say how the change was tested.
 - **Decisions** with real trade-offs are recorded as ADRs in `docs/adr/` (see #20).
 
-Full contribution guidelines: `CONTRIBUTING.md` (coming in #18).
+Progress is tracked on the [Electron Theater Roadmap board](https://github.com/users/orlandovallejos/projects/1)
+(statuses: Backlog, Ready, In progress, In review, Done; fields: Milestone, Priority, Size).
+
+Full contribution guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md).

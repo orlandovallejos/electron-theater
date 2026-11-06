@@ -129,8 +129,9 @@ behind the main process is planned for milestone M2.
 ## Contributing
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow, branch and commit
-conventions, and the review checklist. Planned work is tracked in
-[issues and milestones](https://github.com/orlandovallejos/electron-theater/milestones) and described in the
+conventions, and the review checklist. Planned work is tracked on the
+[roadmap board](https://github.com/users/orlandovallejos/projects/1), in
+[issues and milestones](https://github.com/orlandovallejos/electron-theater/milestones), and described in the
 [roadmap](docs/ROADMAP.md). Decisions with trade-offs are recorded in [docs/adr](docs/adr/README.md).
 
 ## License

@@ -74,9 +74,6 @@ behind the main process is planned for milestone M2.
 - [Yarn 1](https://classic.yarnpkg.com/) (`npm install -g yarn`)
 - A free [TMDB account](https://www.themoviedb.org/signup) and its **API Read Access Token**
 
-> The pinned Node version (14) has no native build for Apple Silicon Macs. Install it through Rosetta, or use
-> Node 16, which the project also works with.
-
 ### Set up and run
 
 1. Clone the repository and go into it:

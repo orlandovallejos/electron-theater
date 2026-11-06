@@ -247,9 +247,8 @@
     "regenerator-runtime": "^0.13.9",
     "styled-components": "^5.3.3"
   },
-  "devEngines": {
-    "node": ">=14.x",
-    "npm": ">=7.x"
+  "engines": {
+    "node": ">=24"
   },
   "browserslist": [],
   "prettier": {

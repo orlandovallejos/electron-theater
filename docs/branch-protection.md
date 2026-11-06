@@ -12,7 +12,7 @@ How `main` is protected, and the exact commands used, so the setup can be reprod
 | History | Linear; squash merge only |
 | Branches after merge | Deleted automatically |
 | Force pushes, branch deletion | Blocked |
-| Required status check (CI) | **Pending**, to be added once #21 creates the workflow |
+| Required status checks (CI) | `lint`, `typecheck`, `build`. Not up-to-date with `main` required. `test` is **not** required yet: it fails on the coverage thresholds until #27 |
 
 **Self-review convention:** leave a "Comment" review on each PR before merging.
 
@@ -50,15 +50,15 @@ gh api -X PATCH repos/orlandovallejos/electron-theater \
   -F delete_branch_on_merge=true
 ```
 
-Once the CI workflow exists (#21), require its check. Replace `<check-name>` with the job name:
+Require the CI checks from `.github/workflows/ci.yml` (job names are the check names). Re-run the `PUT`
+above with `required_status_checks` set as below (the `PATCH .../required_status_checks` endpoint returns 404
+until checks have been enabled once):
 
-```bash
-gh api -X PATCH repos/orlandovallejos/electron-theater/branches/main/protection/required_status_checks \
-  -F strict=true -f 'contexts[]=<check-name>'
+```json
+"required_status_checks": {"strict": false, "contexts": ["lint", "typecheck", "build"]}
 ```
 
-If protection has no status checks yet, that call returns 404; use the `PUT` above with
-`"required_status_checks": {"strict": true, "contexts": ["<check-name>"]}` instead.
+When #27 is done, add `"test"` to `contexts`.
 
 ## History
 

@@ -78,20 +78,20 @@ const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDevelopment) {
-  require('electron-debug')();
+  // electron-debug is ESM only, so the function is its default export.
+  require('electron-debug').default();
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
+  const {
+    default: installExtension,
+    REACT_DEVELOPER_TOOLS,
+  } = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
 
-  return installer
-    .default(
-      extensions.map((name) => installer[name]),
-      forceDownload
-    )
-    .catch(console.log);
+  return installExtension(REACT_DEVELOPER_TOOLS, { forceDownload }).catch(
+    console.log
+  );
 };
 
 const createWindow = async () => {
@@ -115,6 +115,9 @@ const createWindow = async () => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      // Electron 20+ sandboxes renderers by default, but the preload script loads
+      // a local file with require(). Keep the old behavior; tightening it is part of M2.
+      sandbox: false,
       webSecurity: false,
     },
   });
@@ -141,9 +144,9 @@ const createWindow = async () => {
   menuBuilder.buildMenu();
 
   // Open urls in the user's browser
-  mainWindow.webContents.on('new-window', (event, url) => {
-    event.preventDefault();
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
+    return { action: 'deny' };
   });
 
   // Remove this if your app does not use auto updates

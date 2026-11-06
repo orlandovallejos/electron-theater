@@ -17,7 +17,6 @@ permissions:
 # Known baseline problems (see docs/baseline.md):
 # - `test` is expected to FAIL until coverage meets the Jest thresholds: #27.
 #   The thresholds are intentionally enforced, not skipped.
-# - `typecheck` uses --skipLibCheck because of duplicated @types/react in node_modules: #36.
 
 jobs:
   lint:

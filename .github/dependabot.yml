@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # Root app dependencies. Minor and patch updates arrive together in one weekly PR,
+  # so they stay easy to review. Major updates get their own PR.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: 'chore'
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  # Dependencies of the packaged app (release/app).
+  - package-ecosystem: npm
+    directory: /release/app
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: 'chore'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: 'ci'

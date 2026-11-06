@@ -44,9 +44,8 @@ export default merge(baseConfig, {
 
   target: ['web', 'electron-renderer'],
 
+  // The dev server adds its own client and hot reload entries (`hot: true` below).
   entry: [
-    `webpack-dev-server/client?http://localhost:${port}/dist`,
-    'webpack/hot/only-dev-server',
     'core-js',
     'regenerator-runtime/runtime',
     path.join(webpackPaths.srcRendererPath, 'index.tsx'),
@@ -270,9 +269,10 @@ export default merge(baseConfig, {
       verbose: true,
       disableDotRule: false,
     },
-    onBeforeSetupMiddleware() {
+    // Start the main process once the server accepts connections, so the window can load the page.
+    onListening() {
       console.log('Starting Main Process...');
-      spawn('npm', ['run', 'start:main'], {
+      spawn('npm run start:main', {
         shell: true,
         env: process.env,
         stdio: 'inherit',

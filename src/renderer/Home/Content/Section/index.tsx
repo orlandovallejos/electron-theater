@@ -14,7 +14,7 @@ import SectionWrapper from './style';
 
 type Props = {
   items: MovieItem[];
-  baseUrl?: string;
+  baseUrl: string;
 };
 
 const Section = (props: Props) => {

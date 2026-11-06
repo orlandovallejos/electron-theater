@@ -55,7 +55,7 @@ const MovieView = (props: Props) => {
     }
 
     getMovie();
-  }, [movieId]);
+  }, [movieId, serieId]);
 
   return (
     <div>

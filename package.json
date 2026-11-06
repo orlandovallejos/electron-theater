@@ -7,7 +7,7 @@
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
-    "lint": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true eslint . --cache --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --cache",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
     "prepare": "husky",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall",
@@ -19,16 +19,16 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true eslint --cache"
+      "eslint --cache"
     ],
-    "*.json,.{eslintrc,prettierrc}": [
-      "prettier --ignore-path .eslintignore --parser json --write"
+    "*.json,.prettierrc": [
+      "prettier --ignore-path .prettierignore --parser json --write"
     ],
     "*.{css,scss}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
+      "prettier --ignore-path .prettierignore --single-quote --write"
     ],
     "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
+      "prettier --ignore-path .prettierignore --single-quote --write"
     ]
   },
   "build": {
@@ -168,6 +168,7 @@
     "@commitlint/config-conventional": "^21.2.4",
     "@electron/notarize": "^3.1.2",
     "@electron/rebuild": "^4.2.1",
+    "@eslint/js": "^9",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.3",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/dom": "^10.4.2",
@@ -192,9 +193,19 @@
     "electron": "^45.2.3",
     "electron-builder": "^26.18.0",
     "electron-devtools-installer": "^4.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-erb": "^4.0.3",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-compat": "^7.0.2",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest": "^29.17.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.7",
+    "eslint-plugin-promise": "^7.3.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "file-loader": "^6.2.0",
+    "globals": "^17.14.0",
     "html-webpack-plugin": "^5.6.8",
     "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
@@ -203,7 +214,7 @@
     "lint-staged": "^17.6.0",
     "mini-css-extract-plugin": "^2.10.2",
     "opencollective-postinstall": "^2.0.3",
-    "prettier": "^2.4.1",
+    "prettier": "^3",
     "react-refresh": "^0.19.0",
     "react-refresh-typescript": "^2.0.12",
     "rimraf": "^6.1.4",
@@ -215,6 +226,7 @@
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3",
+    "typescript-eslint": "^8",
     "url-loader": "^4.1.1",
     "webpack": "^5.112.2",
     "webpack-bundle-analyzer": "^5.4.2",
@@ -249,15 +261,15 @@
     "overrides": [
       {
         "files": [
-          ".prettierrc",
-          ".eslintrc"
+          ".prettierrc"
         ],
         "options": {
           "parser": "json"
         }
       }
     ],
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "es5"
   },
   "resolutions": {
     "styled-components": "^5",

@@ -2,18 +2,17 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 import StyledButton from './index.style';
 
 const GoBackButton = () => {
-  // useHistory:
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   return (

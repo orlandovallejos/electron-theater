@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -20,11 +20,12 @@ const Layout = () => (
       {/* <div className={styles.sidebar}>sidebar</div> */}
       <ContentWrapper>
         <Router>
-          <Switch>
-            <Route path="/movie/:movieId" component={MovieView} />
-            <Route path="/serie/:serieId" component={MovieView} />
-            <Route path="/" component={Home} />
-          </Switch>
+          <Routes>
+            <Route path="/movie/:movieId" element={<MovieView />} />
+            <Route path="/serie/:serieId" element={<MovieView />} />
+            {/* Any other path shows the home screen, like the old "/" route did. */}
+            <Route path="*" element={<Home />} />
+          </Routes>
         </Router>
       </ContentWrapper>
     </LayoutWrapper>

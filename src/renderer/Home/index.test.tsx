@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -63,8 +63,11 @@ describe('<Home />', () => {
   it('should load the trending movies and series into the content', async () => {
     render(<Home />);
 
-    expect(await screen.findByTestId('content')).toHaveTextContent(
-      'movies: Movie one | series: Series one'
+    // Movies and series arrive one after the other, so wait for both.
+    await waitFor(() =>
+      expect(screen.getByTestId('content')).toHaveTextContent(
+        'movies: Movie one | series: Series one'
+      )
     );
   });
 

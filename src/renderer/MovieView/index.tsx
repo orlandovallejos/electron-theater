@@ -2,6 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
+import { useParams } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -14,24 +15,12 @@ import { MovieViewItem } from '../../types';
 import moviesApi from '../../api/Movies';
 import Content from './content';
 
-type Props = {
-  match: {
-    params: {
-      movieId: string;
-      serieId: string;
-    };
-  };
-};
-const MovieView = (props: Props) => {
+const MovieView = () => {
   // useState:
   const [movie, setMovie] = React.useState<MovieViewItem>();
   const [movieTrailerKey, setMovieTrailerKey] = React.useState<string>('');
 
-  const {
-    match: {
-      params: { movieId, serieId },
-    },
-  } = props;
+  const { movieId, serieId } = useParams<'movieId' | 'serieId'>();
 
   React.useEffect(() => {
     async function getMovie() {

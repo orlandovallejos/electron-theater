@@ -1,4 +1,6 @@
 # electron-theater
+
+[![CI](https://github.com/orlandovallejos/electron-theater/actions/workflows/ci.yml/badge.svg)](https://github.com/orlandovallejos/electron-theater/actions/workflows/ci.yml)
 How many times you sit on your couch and has no idea what to watch and end up scrolling Nexflix endlessly?
 
 Well, scroll no more!

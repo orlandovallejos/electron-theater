@@ -271,6 +271,8 @@ export default merge(baseConfig, {
     },
     // Start the main process once the server accepts connections, so the window can load the page.
     onListening() {
+      console.log('Building the preload script...');
+      execSync('npm run build:preload:dev', { stdio: 'inherit' });
       console.log('Starting Main Process...');
       spawn('npm run start:main', {
         shell: true,

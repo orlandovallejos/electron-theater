@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 import StyledButton from './index.style';
+import Icon from '../Icon';
 
 const GoBackButton = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const GoBackButton = () => {
 
   return (
     <StyledButton type="button" onClick={handleClick}>
-      <ion-icon name="arrow-back-circle-outline" />
+      <Icon name="arrow-back-circle-outline" />
     </StyledButton>
   );
 };

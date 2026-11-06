@@ -33,7 +33,7 @@ const PosterItemWrapper = styled.div`
       display: flex;
       color: #747474;
 
-      ion-icon {
+      .icon {
         margin: 0 5px 0 0;
       }
       .text {

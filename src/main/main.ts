@@ -11,7 +11,14 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  IpcMainEvent,
+  IpcMainInvokeEvent,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import dotenv from 'dotenv';
@@ -21,6 +28,7 @@ import { resolveHtmlPath } from './util';
 // Constants
 import appEventsConstants from '../constants/appEvents.cjs';
 import { createTmdbClient } from './tmdb';
+import { isAllowedExternalUrl, isAppUrl } from './security';
 
 // Read variable from .env file:
 dotenv.config();
@@ -35,6 +43,29 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+// Only the app's own page may talk to the main process: every handler checks who is calling.
+const appUrl = resolveHtmlPath('index.html');
+const isFromApp = (event: IpcMainEvent | IpcMainInvokeEvent) =>
+  isAppUrl(event.senderFrame?.url, appUrl);
+const handle = (
+  channel: string,
+  listener: (...args: unknown[]) => unknown
+): void => {
+  ipcMain.handle(channel, (event, ...args) => {
+    if (!isFromApp(event)) {
+      throw new Error('Untrusted sender');
+    }
+    return listener(...args);
+  });
+};
+const listen = (channel: string, listener: () => void): void => {
+  ipcMain.on(channel, (event) => {
+    if (isFromApp(event)) {
+      listener();
+    }
+  });
+};
+
 // The TMDB token stays in the main process: the renderer only gets the results.
 const tmdb = createTmdbClient({
   apiUrl: process.env.API_URL || '',
@@ -46,44 +77,36 @@ const requireId = (id: unknown): string => {
   }
   return id;
 };
-ipcMain.handle(appEventsConstants.TMDB_GET_CONFIGURATION, () =>
+handle(appEventsConstants.TMDB_GET_CONFIGURATION, () =>
   tmdb.getConfiguration()
 );
-ipcMain.handle(appEventsConstants.TMDB_GET_TOP_MOVIES, () =>
-  tmdb.getTopMovies()
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_TOP_SERIES, () =>
-  tmdb.getTopSeries()
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_MOVIE, (_e, id) =>
-  tmdb.getMovie(requireId(id))
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_MOVIE_TRAILER, (_e, id) =>
+handle(appEventsConstants.TMDB_GET_TOP_MOVIES, () => tmdb.getTopMovies());
+handle(appEventsConstants.TMDB_GET_TOP_SERIES, () => tmdb.getTopSeries());
+handle(appEventsConstants.TMDB_GET_MOVIE, (id) => tmdb.getMovie(requireId(id)));
+handle(appEventsConstants.TMDB_GET_MOVIE_TRAILER, (id) =>
   tmdb.getMovieTrailer(requireId(id))
 );
-ipcMain.handle(appEventsConstants.TMDB_GET_SERIE, (_e, id) =>
-  tmdb.getSerie(requireId(id))
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_SERIE_TRAILER, (_e, id) =>
+handle(appEventsConstants.TMDB_GET_SERIE, (id) => tmdb.getSerie(requireId(id)));
+handle(appEventsConstants.TMDB_GET_SERIE_TRAILER, (id) =>
   tmdb.getSerieTrailer(requireId(id))
 );
-ipcMain.on(appEventsConstants.CLOSE_APP, () => {
+listen(appEventsConstants.CLOSE_APP, () => {
   app.quit();
 });
-ipcMain.on(appEventsConstants.FULL_SCREEN_APP, () => {
+listen(appEventsConstants.FULL_SCREEN_APP, () => {
   if (mainWindow) {
     const isFullScreen = mainWindow.isFullScreen();
     mainWindow.setFullScreen(!isFullScreen);
   }
 });
-ipcMain.on(appEventsConstants.MINIMIZE_APP, () => {
+listen(appEventsConstants.MINIMIZE_APP, () => {
   if (mainWindow) {
     mainWindow.minimize();
   }
 });
 let windowSize = [0, 0];
 let windowPosition = [0, 0];
-ipcMain.on(appEventsConstants.MAXIMIZE_APP, () => {
+listen(appEventsConstants.MAXIMIZE_APP, () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
       mainWindow.setPosition(windowPosition[0], windowPosition[1]);
@@ -134,6 +157,12 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  // In development main runs from src/main, while the bundled preload lives in the dist folder.
+  const preloadPath =
+    process.env.NODE_ENV === 'development'
+      ? path.join(__dirname, '../../release/app/dist/main/preload.js')
+      : path.join(__dirname, 'preload.js');
+
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
@@ -141,11 +170,12 @@ const createWindow = async () => {
     icon: getAssetPath('icon.png'),
     frame: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      // Electron 20+ sandboxes renderers by default, but the preload script loads
-      // a local file with require(). Keep the old behavior; tightening it is part of M2.
-      sandbox: false,
-      webSecurity: false,
+      // The preload is a single bundled file (see webpack.config.preload.ts), so the
+      // renderer can run sandboxed with web security on.
+      preload: preloadPath,
+      sandbox: true,
+      contextIsolation: true,
+      nodeIntegration: false,
     },
   });
 
@@ -170,10 +200,19 @@ const createWindow = async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  // Open urls in the user's browser
+  // Open allow-listed https urls in the user's browser, deny everything else
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url);
+    if (isAllowedExternalUrl(url)) {
+      shell.openExternal(url);
+    }
     return { action: 'deny' };
+  });
+
+  // The window never navigates away from the app page (client-side routing is not a navigation)
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (!isAppUrl(url, appUrl)) {
+      event.preventDefault();
+    }
   });
 
   // Remove this if your app does not use auto updates

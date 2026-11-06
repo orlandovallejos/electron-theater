@@ -19,11 +19,9 @@ const loadRenderer = () => {
   let axiosSetup: jest.Mock | undefined;
   let createRootMock: jest.Mock | undefined;
   jest.isolateModules(() => {
-    /* eslint-disable global-require */
     require('./index');
     axiosSetup = require('../config/axios-config').setup;
     createRootMock = require('react-dom/client').createRoot;
-    /* eslint-enable global-require */
   });
   return { axiosSetup, createRootMock };
 };

@@ -41,13 +41,25 @@ const Layout = () => {
       onDoubleClick={electronHelper.maximizeApp}
     >
       <div className="button-wrapper">
-        <button type="button" onClick={electronHelper.closeApp}>
+        <button
+          type="button"
+          aria-label="Close"
+          onClick={electronHelper.closeApp}
+        >
           <span className="icon close" />
         </button>
-        <button type="button" onClick={electronHelper.minimizeApp}>
+        <button
+          type="button"
+          aria-label="Minimize"
+          onClick={electronHelper.minimizeApp}
+        >
           <span className="icon minimize" />
         </button>
-        <button type="button" onClick={electronHelper.fullScreenApp}>
+        <button
+          type="button"
+          aria-label="Toggle full screen"
+          onClick={electronHelper.fullScreenApp}
+        >
           <span className="icon maximize" />
         </button>
       </div>

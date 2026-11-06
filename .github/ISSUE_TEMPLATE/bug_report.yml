@@ -1,0 +1,43 @@
+name: Bug report
+description: Something isn't working as expected
+title: "fix: "
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the app
+        2. Click on ...
+        3. See the error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS and version, Node version (`node -v`), app commit or version.
+      placeholder: |
+        - OS: macOS 15
+        - Node: 16.20.2
+        - Commit: abc1234
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or logs
+      description: Drag images here, or paste console output.

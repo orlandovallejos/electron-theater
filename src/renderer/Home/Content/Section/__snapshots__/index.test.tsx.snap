@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
-
-exports[`<Section /> should render correctly 1`] = `
-"<SectionWrapper>
-  <PosterItem id="item-01" url="poster path" title="My movie" voteAverage={7} releaseDate="2021-04-19" baseUrl="movie" />
-</SectionWrapper>"
-`;

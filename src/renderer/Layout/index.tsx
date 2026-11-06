@@ -1,7 +1,7 @@
 /*------------------------------------------------*/
 /* LIBRARIES
 /*------------------------------------------------*/
-import React, { Fragment } from 'react';
+import React from 'react';
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
@@ -14,7 +14,7 @@ import MovieView from '../MovieView';
 import LayoutWrapper, { ContentWrapper } from './style';
 
 const Layout = () => (
-  <Fragment>
+  <>
     <AppBar />
     <LayoutWrapper>
       {/* <div className={styles.sidebar}>sidebar</div> */}
@@ -28,7 +28,7 @@ const Layout = () => (
         </Router>
       </ContentWrapper>
     </LayoutWrapper>
-  </Fragment>
+  </>
 );
 
 /*------------------------------------------------*/

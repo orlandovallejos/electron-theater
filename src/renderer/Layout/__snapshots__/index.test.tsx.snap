@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<Layout /> should render correctly 1`] = `
 "<Fragment>
@@ -7,9 +7,9 @@ exports[`<Layout /> should render correctly 1`] = `
     <ContentWrapper>
       <MemoryRouter>
         <Switch>
-          <Route path=\\"/movie/:movieId\\" component={[Function: MovieView]} />
-          <Route path=\\"/serie/:serieId\\" component={[Function: MovieView]} />
-          <Route path=\\"/\\" component={[Function: Home]} />
+          <Route path="/movie/:movieId" component={[Function: MovieView]} />
+          <Route path="/serie/:serieId" component={[Function: MovieView]} />
+          <Route path="/" component={[Function: Home]} />
         </Switch>
       </MemoryRouter>
     </ContentWrapper>

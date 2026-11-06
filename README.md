@@ -14,11 +14,18 @@ It's like a Tinder, but for movies!
 ## How to run it
 1. Get the source
 2. Install dependencies: `yarn install`
-3. Run the project: `yarn start`
+3. Create your environment file: `cp .env.example .env`, then set `APP_TOKEN` (see below)
+4. Run the project: `yarn start`
 
-## Note
-You need a MovieDB token, and use it in the `.env` file.
-[Get the token here](https://developer.themoviedb.org/v4/reference/intro/getting-started)
+## Environment variables
+The app reads its settings from a `.env` file in the project root (git-ignored). `.env.example` lists every variable with an explanation:
+
+| Variable | Required | Description |
+|---|---|---|
+| `API_URL` | yes | TMDB API base URL. The default in `.env.example` is correct. |
+| `APP_TOKEN` | yes | Your TMDB **API Read Access Token**. [Get it here](https://www.themoviedb.org/settings/api) (free account). |
+
+Without a valid token the app can't load movies. Restart `yarn start` after changing `.env`.
 
 ## Roadmap
 The project is being revived. See [docs/ROADMAP.md](docs/ROADMAP.md) for the plan, milestones, and how work is organized.

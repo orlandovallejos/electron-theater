@@ -10,6 +10,7 @@ import Modal from '@mui/joy/Modal';
 /*------------------------------------------------*/
 // Components
 import Button from '../common/Button';
+import Icon from '../common/Icon';
 // Types
 import { MovieViewItem } from '../../types';
 // Helpers
@@ -35,12 +36,17 @@ const Header = (props: Props) => {
 
   /* METHODS -------------------------*/
   const calculateBgColor = async (imageURL: string) => {
-    const palette = await Vibrant.from(
-      imageHelper.getPosterImage(imageURL)
-    ).getPalette();
+    try {
+      const palette = await Vibrant.from(
+        imageHelper.getPosterImage(imageURL)
+      ).getPalette();
 
-    const colorVibrant = palette.Vibrant?.getHex();
-    setBgColor(colorVibrant || DEFAULT_COLOR);
+      const colorVibrant = palette.Vibrant?.getHex();
+      setBgColor(colorVibrant || DEFAULT_COLOR);
+    } catch {
+      // Reading the pixels needs the image server to allow it (CORS): use the default color.
+      setBgColor(DEFAULT_COLOR);
+    }
   };
 
   /* EFFECTS -------------------------*/
@@ -95,7 +101,7 @@ const Header = (props: Props) => {
             {trailerKey && (
               <>
                 <Button types="outlined" onClick={() => setModalOpen(true)}>
-                  <ion-icon name="play-circle-outline" />
+                  <Icon name="play-circle-outline" />
                   <span>Play trailer</span>
                 </Button>
                 <Modal

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 /*------------------------------------------------*/
 // Styles
 import PosterItemWrapper, { ImageWrapper } from './style';
+import Icon from '../Icon';
 // Helpers
 import imageHelper from '../../../helpers/image';
 
@@ -30,14 +31,21 @@ const PosterItem = (props: Props) => {
     React.useState<string>(DEFAULT_COLOR);
 
   const setBorderColors = async (imageURL: string) => {
-    const palette = await Vibrant.from(
-      imageHelper.getPosterImage(imageURL)
-    ).getPalette();
+    try {
+      const palette = await Vibrant.from(
+        imageHelper.getPosterImage(imageURL)
+      ).getPalette();
 
-    const colorVibrant = palette.Vibrant?.getHex();
-    setBorderVibrant(colorVibrant || DEFAULT_COLOR);
-    const colorDarkVibrant = palette.DarkVibrant?.getHex();
-    setBorderDarkVibrant(colorDarkVibrant || DEFAULT_COLOR);
+      const colorVibrant = palette.Vibrant?.getHex();
+      setBorderVibrant(colorVibrant || DEFAULT_COLOR);
+      const colorDarkVibrant = palette.DarkVibrant?.getHex();
+      setBorderDarkVibrant(colorDarkVibrant || DEFAULT_COLOR);
+    } catch {
+      // Reading the pixels needs the image server to allow it (CORS). The poster
+      // still shows, so keep the default border colors.
+      setBorderVibrant(DEFAULT_COLOR);
+      setBorderDarkVibrant(DEFAULT_COLOR);
+    }
   };
 
   React.useEffect(() => {
@@ -60,11 +68,11 @@ const PosterItem = (props: Props) => {
       </div>
       <div className="title-extra-wrapper">
         <div className="extra-item">
-          <ion-icon name="star" />
+          <Icon name="star" />
           <span className="text">{voteAverage}</span>
         </div>
         <div className="extra-item">
-          <ion-icon name="calendar-clear" />
+          <Icon name="calendar-clear" />
           <span className="text">{releaseDate.substring(0, 4)}</span>
         </div>
       </div>

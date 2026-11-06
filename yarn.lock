@@ -2325,17 +2325,12 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.3.tgz#4b086e316ed4504f49bd78135d48642bf50aa135"
   integrity sha512-bAKB1GcA28FR/D8HHQ5U4FYk7nvoZdp7TZSy9oIyQ8gpYCzpeESa3LCK2TbeocXic7GwIXCkCItJg0DttO3ZaQ==
 
-"@types/node@16.18.126":
-  version "16.18.126"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.126.tgz#27875faa2926c0f475b39a8bb1e546c0176f8d4b"
-  integrity sha512-OTcgaiwfGFBKacvfwuHzzn1KLxH/er8mluiy8/uM3sGXHaRe73RrSIj01jow9t4kJEW633Ov+cOexXeiApTyAw==
-
 "@types/node@^10.11.7":
   version "10.17.60"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^24.9.0":
+"@types/node@^24", "@types/node@^24.9.0":
   version "24.19.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-24.19.2.tgz#8718eedbc0f89648de6525be9f4a9c61cdbaa502"
   integrity sha512-93d49wCWJkCyN87MxLpNN6KXPCwFw7bVUg79mGUV1OS40JGWwVCr8n61DXCSqz7CV6/VfPkb7xec7uP2M+QHWQ==
@@ -2449,11 +2444,6 @@
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.5.tgz#cb6e2a691b70cb177c6e3ae9c1d2e8b2ea8cd304"
   integrity sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==
-
-"@types/webpack-env@^1.16.2":
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.16.3.tgz#b776327a73e561b71e7881d0cd6d34a1424db86a"
-  integrity sha512-9gtOPPkfyNoEqCQgx4qJKkuNm/x0R2hKR7fdl7zvTJyHnIisuE/LfvXOsYWL0o3qq6uiBnKZNNNzi3l0y/X+xw==
 
 "@types/ws@^8.18.1":
   version "8.18.2"

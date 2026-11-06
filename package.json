@@ -14,7 +14,7 @@
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
     "start:main": "cross-env NODE_ENV=development electron ./.erb/scripts/start-main.js",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "typecheck": "tsc --noEmit --skipLibCheck",
+    "typecheck": "tsc --noEmit",
     "test": "jest --verbose=false --watchAll=false --coverage"
   },
   "lint-staged": {
@@ -176,12 +176,11 @@
     "@testing-library/user-event": "^14.6.8",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.27",
-    "@types/node": "16.18.126",
+    "@types/node": "^24",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "@types/styled-components": "^5",
     "@types/terser-webpack-plugin": "^5.0.4",
-    "@types/webpack-env": "^1.16.2",
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
     "concurrently": "^10.0.6",

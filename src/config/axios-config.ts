@@ -32,10 +32,12 @@ const setup = () => {
           );
         }
         if (myToken) {
-          clonedConfig.headers = {
-            Authorization: `Bearer ${myToken}`,
-            'Content-Type': 'application/json;charset=utf-8',
-          };
+          // In axios 1.x the headers are an AxiosHeaders object, set values on it.
+          clonedConfig.headers.set('Authorization', `Bearer ${myToken}`);
+          clonedConfig.headers.set(
+            'Content-Type',
+            'application/json;charset=utf-8'
+          );
         }
 
         return clonedConfig;

@@ -9,3 +9,4 @@ in, and add it to the table below.
 | ADR | Title | Status |
 |---|---|---|
 | [0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted |
+| [0002](0002-tmdb-calls-in-main-process.md) | TMDB calls live in the main process | Accepted |

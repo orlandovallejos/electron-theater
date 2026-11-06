@@ -19,7 +19,8 @@ import dotenv from 'dotenv';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 // Constants
-import appEventsConstants from '../constants/appEvents';
+import appEventsConstants from '../constants/appEvents.cjs';
+import { createTmdbClient } from './tmdb';
 
 // Read variable from .env file:
 dotenv.config();
@@ -34,12 +35,38 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on(appEventsConstants.GET_ENV_VARS, (event) => {
-  event.returnValue = {
-    API_URL: process.env.API_URL,
-    APP_TOKEN: process.env.APP_TOKEN,
-  };
+// The TMDB token stays in the main process: the renderer only gets the results.
+const tmdb = createTmdbClient({
+  apiUrl: process.env.API_URL || '',
+  token: process.env.APP_TOKEN || '',
 });
+const requireId = (id: unknown): string => {
+  if (typeof id !== 'string' || !/^\d+$/.test(id)) {
+    throw new Error('Invalid id');
+  }
+  return id;
+};
+ipcMain.handle(appEventsConstants.TMDB_GET_CONFIGURATION, () =>
+  tmdb.getConfiguration()
+);
+ipcMain.handle(appEventsConstants.TMDB_GET_TOP_MOVIES, () =>
+  tmdb.getTopMovies()
+);
+ipcMain.handle(appEventsConstants.TMDB_GET_TOP_SERIES, () =>
+  tmdb.getTopSeries()
+);
+ipcMain.handle(appEventsConstants.TMDB_GET_MOVIE, (_e, id) =>
+  tmdb.getMovie(requireId(id))
+);
+ipcMain.handle(appEventsConstants.TMDB_GET_MOVIE_TRAILER, (_e, id) =>
+  tmdb.getMovieTrailer(requireId(id))
+);
+ipcMain.handle(appEventsConstants.TMDB_GET_SERIE, (_e, id) =>
+  tmdb.getSerie(requireId(id))
+);
+ipcMain.handle(appEventsConstants.TMDB_GET_SERIE_TRAILER, (_e, id) =>
+  tmdb.getSerieTrailer(requireId(id))
+);
 ipcMain.on(appEventsConstants.CLOSE_APP, () => {
   app.quit();
 });

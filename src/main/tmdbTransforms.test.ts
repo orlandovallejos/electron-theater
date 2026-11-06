@@ -2,7 +2,7 @@
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 import { Movie, Serie } from 'types';
-import apiHelper from './helper';
+import apiHelper from './tmdbTransforms';
 
 describe('Api helper', () => {
   it('should receive a Movie and return a MovieItem', () => {

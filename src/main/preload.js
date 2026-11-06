@@ -2,10 +2,21 @@ const { contextBridge, ipcRenderer } = require('electron');
 const appEventsConstants = require('../constants/appEvents.cjs');
 
 contextBridge.exposeInMainWorld('electron', {
+  tmdb: {
+    getConfiguration: () =>
+      ipcRenderer.invoke(appEventsConstants.TMDB_GET_CONFIGURATION),
+    getTopMovies: () =>
+      ipcRenderer.invoke(appEventsConstants.TMDB_GET_TOP_MOVIES),
+    getTopSeries: () =>
+      ipcRenderer.invoke(appEventsConstants.TMDB_GET_TOP_SERIES),
+    getMovie: (id) => ipcRenderer.invoke(appEventsConstants.TMDB_GET_MOVIE, id),
+    getMovieTrailer: (id) =>
+      ipcRenderer.invoke(appEventsConstants.TMDB_GET_MOVIE_TRAILER, id),
+    getSerie: (id) => ipcRenderer.invoke(appEventsConstants.TMDB_GET_SERIE, id),
+    getSerieTrailer: (id) =>
+      ipcRenderer.invoke(appEventsConstants.TMDB_GET_SERIE_TRAILER, id),
+  },
   ipcRenderer: {
-    getEnvVars() {
-      return ipcRenderer.sendSync(appEventsConstants.GET_ENV_VARS, 'ping');
-    },
     closeApp() {
       return ipcRenderer.send(appEventsConstants.CLOSE_APP);
     },

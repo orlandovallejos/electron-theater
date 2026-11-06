@@ -1,7 +1,3 @@
-const getEnvVars = () => {
-  return window.electron.ipcRenderer.getEnvVars();
-};
-
 const closeApp = () => {
   return window.electron.ipcRenderer.closeApp();
 };
@@ -22,7 +18,6 @@ const minimizeApp = () => {
 /* EXPORT
 /*------------------------------------------------*/
 export default {
-  getEnvVars,
   closeApp,
   fullScreenApp,
   maximizeApp,

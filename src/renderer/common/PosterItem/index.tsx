@@ -20,7 +20,7 @@ type Props = {
   title: string;
   voteAverage: number;
   releaseDate: string;
-  baseUrl?: string;
+  baseUrl: string;
 };
 const PosterItem = (props: Props) => {
   const { id, url, title, voteAverage, releaseDate, baseUrl } = props;

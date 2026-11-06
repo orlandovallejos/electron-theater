@@ -22,6 +22,7 @@ describe('<Section />', () => {
             releaseDate: '2021-04-19',
           },
         ]}
+        baseUrl="movie"
       />
     );
 

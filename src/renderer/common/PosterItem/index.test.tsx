@@ -37,6 +37,7 @@ describe('<PosterItem />', () => {
         title="My movie"
         voteAverage={7.8}
         releaseDate="2018-05-15"
+        baseUrl="movie"
       />
     );
 

@@ -1,5 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const appEventsConstants = require('../constants/appEvents.mts');
+const appEventsConstants = require('../constants/appEvents.cjs');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {

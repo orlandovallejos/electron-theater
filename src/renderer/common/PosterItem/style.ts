@@ -57,7 +57,9 @@ const ImageWrapper = styled.div<TitleProps>`
     height: 304px;
     border-radius: 7px;
     margin: auto;
-    transition: box-shadow 0.5s, transform 0.5s;
+    transition:
+      box-shadow 0.5s,
+      transform 0.5s;
 
     img {
       width: 200px;
@@ -76,7 +78,9 @@ const ImageWrapper = styled.div<TitleProps>`
         0px -12px 10px -10px ${transparentize(0.5, props.vibrant)};
       `};
       transform: translate(0, -5px);
-      transition: box-shadow 0.5s, transform 0.5s;
+      transition:
+        box-shadow 0.5s,
+        transform 0.5s;
       background: ${(props) => `
         linear-gradient(to right, ${props.vibrant}, ${props.darkVibrant});
       `};

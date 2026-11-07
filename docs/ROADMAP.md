@@ -167,6 +167,50 @@ Each one has a clear "done when", so it's obvious when it can close. M0–M2 are
 The order can change where a dependency allows it. In particular, M10 (the AI agent) only needs the backend, so
 it could move before M8 and M9 if it becomes the priority.
 
+Milestones were renumbered on 2026-11-07. Older closed issues and pull requests that mention "M3" or "M4" use the
+old numbers (Bug Fixes & UX Polish and Watchlist & Persistence).
+
+### Path and estimate
+
+```mermaid
+flowchart LR
+  done["M0–M2 ✅<br/>Foundation, stack, security"]
+  m3["M3 Monorepo<br/>~1–2 wk"]
+  m4["M4 Design System<br/>~3–4 wk"]
+  m5["M5 Bugs + extract ui/screens<br/>~2–3 wk"]
+  m6["M6 Watchlist<br/>~1–2 wk"]
+  m7["M7 Backend + real-time<br/>~4–6 wk"]
+  m8["M8 Web<br/>~3–4 wk"]
+  m9["M9 Mobile<br/>~5–8 wk"]
+  m10["M10 AI agent<br/>~3–5 wk"]
+  m11["M11 Release<br/>~3–4 wk"]
+  m12["M12 Showcase<br/>~1–2 wk"]
+
+  done --> m3 --> m4 --> m5 --> m6 --> m7
+  m7 --> m8 --> m9 --> m11
+  m7 -.->|"could go first"| m10
+  m10 --> m11
+  m11 --> m12
+```
+
+| Milestone | Weeks (calendar)             |
+| --------- | ---------------------------- |
+| M3        | 1–2                          |
+| M4        | 3–4                          |
+| M5        | 2–3                          |
+| M6        | 1–2                          |
+| M7        | 4–6                          |
+| M8        | 3–4                          |
+| M9        | 5–8                          |
+| M10       | 3–5                          |
+| M11       | 3–4                          |
+| M12       | 1–2                          |
+| **Total** | **about 26–40 (6–9 months)** |
+
+These are rough guesses, not commitments. They assume 1–2 hours a day (about 7–14 hours a week) and are given in
+durations, not dates, because dates go stale when a week is skipped. M7 and M9 are the least certain, since they bring
+new infrastructure and a new platform. Revisit the numbers when each milestone closes.
+
 ### The one-place theming proof (M12)
 
 The test of the design system: change the primary color from green to pink, or the base padding, or the font

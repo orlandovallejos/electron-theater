@@ -3,7 +3,7 @@
  * process, which is the only place that knows the API token.
  */
 export type TmdbApi = {
-  getConfiguration(): Promise<{ images: { base_url: string } }>;
+  getConfiguration(): Promise<{ images: { secure_base_url: string } }>;
   getTopMovies(): Promise<{ results: MovieItem[] }>;
   getTopSeries(): Promise<{ results: MovieItem[] }>;
   getMovie(movieId: string): Promise<MovieViewItem>;

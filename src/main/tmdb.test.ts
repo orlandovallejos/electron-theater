@@ -5,7 +5,7 @@ import axios from 'axios';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { createTmdbClient } from './tmdb';
+import { createTmdbClient, toTmdbError } from './tmdb';
 
 jest.mock('axios');
 
@@ -30,7 +30,7 @@ describe('TMDB client', () => {
 
   it('should get the config', async () => {
     mockGet.mockResolvedValueOnce({
-      data: { images: { base_url: 'www.test.com/' } },
+      data: { images: { secure_base_url: 'www.test.com/' } },
     });
 
     const config = await createTmdbClient({
@@ -38,7 +38,7 @@ describe('TMDB client', () => {
       token: 'y',
     }).getConfiguration();
 
-    expect(config.images.base_url).toBe('www.test.com/');
+    expect(config.images.secure_base_url).toBe('www.test.com/');
     expect(mockGet).toHaveBeenCalledWith('configuration');
   });
 
@@ -132,5 +132,37 @@ describe('TMDB client', () => {
 
     expect(serie).toMatchObject({ id: 5, title: 'Show' });
     expect(mockGet).toHaveBeenCalledWith(expect.stringContaining('5%2F..%2Fx'));
+  });
+
+  it('should reject with a plain error that does not carry the token', async () => {
+    // The shape of an axios error: the request config holds the Authorization header.
+    mockGet.mockRejectedValueOnce({
+      message: 'Request failed with status code 401',
+      config: { headers: { Authorization: 'Bearer secret' } },
+      response: {
+        status: 401,
+        data: { status_message: 'Invalid API key' },
+      },
+    });
+
+    const error = (await createTmdbClient({ apiUrl: 'x', token: 'secret' })
+      .getConfiguration()
+      .catch((e: Error) => e)) as Error;
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.message).toBe(
+      'TMDB request "configuration" failed with status 401: Invalid API key'
+    );
+    expect(JSON.stringify(error)).not.toContain('secret');
+    expect(Object.keys(error)).toEqual([]);
+  });
+
+  it('should describe a request that failed without a response', () => {
+    expect(toTmdbError('movie/1', new Error('socket hang up')).message).toBe(
+      'TMDB request "movie/1" failed: socket hang up'
+    );
+    expect(toTmdbError('movie/1', undefined).message).toBe(
+      'TMDB request "movie/1" failed: unknown error'
+    );
   });
 });

@@ -23,7 +23,7 @@ const App = () => {
     async function getConfiguration() {
       const data = await moviesApi.getConfiguration();
       imageHelper.setBaseURL({
-        url: data.images.base_url,
+        url: data.images.secure_base_url,
       });
 
       setDone(true);

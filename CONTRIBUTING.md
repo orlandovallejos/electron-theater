@@ -94,7 +94,10 @@ with nvm). Commit from a terminal, or make Node available to the client.
 
 ## Pull request expectations
 
-- **Small and focused.** One issue per PR. If a PR grows, split it.
+- **Small and focused.** One issue per PR. Aim for roughly 300 to 500 changed lines, not counting lock files; a
+  PR over about 600 lines is too hard to review, so split it. Related issues can share one PR when they fit that size.
+- **Stack dependent changes.** If a change needs an unmerged one, base it on that branch. After the first is merged,
+  GitHub moves the next PR to `main` and offers **Update branch**.
 - **Linked issue.** `Closes #N` in the description.
 - **Tested.** Say what you ran and what you saw. Add or update tests for behavior changes.
 - **Screenshots** for any UI change.

@@ -38,7 +38,7 @@ using [The Movie Database (TMDB)](https://www.themoviedb.org/) API.
 | Home        | Random hero banner, rows of trending movies and TV shows, poster borders tinted from the artwork (`node-vibrant`) | `src/renderer/Home`                      |
 | Detail view | Backdrop, poster, rating ring, tagline, overview, YouTube trailer modal, status / language / budget / revenue     | `src/renderer/MovieView`                 |
 | Window      | Frameless window with custom close / minimize / fullscreen controls over IPC                                      | `src/main`, `src/renderer/common/AppBar` |
-| Data        | axios client with auth interceptor; response transforms for movies and series                                     | `src/api`, `src/config`                  |
+| Data        | TMDB client and response transforms in the main process; the renderer calls it over typed IPC (see ADR 2)         | `src/main/tmdb.ts`, `src/api`            |
 
 **Not built yet:** the core idea. There are no accounts, no swiping, no matches, and no shared list.
 
@@ -56,20 +56,29 @@ Found while reviewing the code before restarting. Each one maps to a milestone b
 
 ### Security → M2
 
-- `webSecurity: false` on the main window.
-- The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.
-- Icons are loaded from a CDN at runtime, and there's no Content Security Policy.
-- Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.
+All of these are fixed in M2:
+
+- ~~`webSecurity: false` on the main window.~~ Fixed in #76. The renderer is also sandboxed.
+- ~~The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.~~ Fixed in #75: the main process makes the TMDB calls (see [ADR 2](adr/0002-tmdb-calls-in-main-process.md)).
+- ~~Icons are loaded from a CDN at runtime, and there's no Content Security Policy.~~ Fixed in #76.
+- ~~Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.~~ Fixed in #62.
+- ~~IPC handlers do not check who is calling, and any URL opens in the system browser.~~ Fixed in #76.
+- ~~The packaged app ships with Electron's default fuses.~~ Fixed in #74.
+
+What the security model is, and how to report a problem, is in [SECURITY.md](../SECURITY.md).
 
 ### Hygiene → M0
 
 - ~~Package metadata still identifies the app as electron-react-boilerplate, and auto-update points at the boilerplate's repo.~~ Fixed in #14.
 - ~~The git pre-commit hook never runs: husky 7 is installed, but the config uses the husky 4 format.~~ Fixed in #19.
-- IPC channel names are duplicated in two files. Not fixed yet.
+- ~~IPC channel names are duplicated in two files.~~ Fixed in #75: they live in `src/constants/appEvents.cjs`.
 
 ### Outdated stack → M1
 
-Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23, Jest 27, Enzyme, `@mui/joy` alpha.
+Fixed in M1. The stack was Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23,
+Jest 27, Enzyme, and a `@mui/joy` alpha. It is now Node 24, Electron 45, React 18, React Router 6,
+TypeScript 5.9, axios 1.x, Jest 30 and React Testing Library, with ESLint 9 (flat config) and webpack 5.
+`@mui/joy` is still a beta release (`5.0.0-beta`).
 
 ## 4. Milestones
 

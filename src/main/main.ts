@@ -44,9 +44,29 @@ export default class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 // Only the app's own page may talk to the main process: every handler checks who is calling.
+/** Where the app window is loaded from: the dev server in development, a local file otherwise. */
 const appUrl = resolveHtmlPath('index.html');
+
+/**
+ * Tells whether an IPC message was sent by the app's own page.
+ * Any other page or frame that ends up in the window (for example the YouTube trailer iframe)
+ * must not be able to call the handlers below.
+ *
+ * @param event - The IPC event Electron passes to every `ipcMain` listener.
+ * @returns `true` only when the frame that sent the message is the app page.
+ */
 const isFromApp = (event: IpcMainEvent | IpcMainInvokeEvent) =>
   isAppUrl(event.senderFrame?.url, appUrl);
+
+/**
+ * Registers a request/response IPC handler (the renderer calls it with `ipcRenderer.invoke`).
+ * It works like `ipcMain.handle`, plus the sender check: a message from an untrusted
+ * frame is rejected, so the renderer's promise fails and the listener never runs.
+ *
+ * @param channel - The channel name, taken from `appEvents.cjs`.
+ * @param listener - Does the work. It receives only the arguments, never the raw event,
+ *   and its return value (or the value its promise resolves to) is sent back to the renderer.
+ */
 const handle = (
   channel: string,
   listener: (...args: unknown[]) => unknown
@@ -58,6 +78,16 @@ const handle = (
     return listener(...args);
   });
 };
+
+/**
+ * Registers a fire-and-forget IPC listener (the renderer calls it with `ipcRenderer.send`),
+ * used by the window buttons (close, minimize, maximize, full screen).
+ * It works like `ipcMain.on`, plus the sender check: a message from an untrusted frame
+ * is silently ignored.
+ *
+ * @param channel - The channel name, taken from `appEvents.cjs`.
+ * @param listener - Runs when the message comes from the app page. It receives no arguments.
+ */
 const listen = (channel: string, listener: () => void): void => {
   ipcMain.on(channel, (event) => {
     if (isFromApp(event)) {
@@ -71,6 +101,15 @@ const tmdb = createTmdbClient({
   apiUrl: process.env.API_URL || '',
   token: process.env.APP_TOKEN || '',
 });
+/**
+ * Checks an id received from the renderer before it is used in a TMDB request path.
+ * TMDB ids are plain numbers, so anything else (a path, a query string, a non-string)
+ * is refused.
+ *
+ * @param id - The value the renderer sent.
+ * @returns The same id, once it is known to be digits only.
+ * @throws If the id is not a string made only of digits.
+ */
 const requireId = (id: unknown): string => {
   if (typeof id !== 'string' || !/^\d+$/.test(id)) {
     throw new Error('Invalid id');
@@ -170,11 +209,18 @@ const createWindow = async () => {
     icon: getAssetPath('icon.png'),
     frame: false,
     webPreferences: {
-      // The preload is a single bundled file (see webpack.config.preload.ts), so the
-      // renderer can run sandboxed with web security on.
+      // The script that runs before the page and builds the `window.electron` API. It is the
+      // only bridge between the page and the main process (see webpack.config.preload.ts).
       preload: preloadPath,
+      // Runs the page in Chromium's sandbox: it has no access to Node.js or the operating
+      // system, even if a malicious script gets into the page. Possible because the preload
+      // is bundled into one file. (Web security, the same-origin policy, is on by default.)
       sandbox: true,
+      // Keeps the preload's code and the page's code in separate JavaScript worlds, so the
+      // page cannot tamper with the preload or reach Electron through it.
       contextIsolation: true,
+      // Never gives the page `require`, `process` or other Node.js APIs. The page can only
+      // use what the preload exposes with `contextBridge`.
       nodeIntegration: false,
     },
   });

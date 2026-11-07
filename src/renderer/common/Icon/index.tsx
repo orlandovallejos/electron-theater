@@ -23,6 +23,12 @@ export type IconName = keyof typeof ICONS;
 
 // ionicons exports each icon as a `data:image/svg+xml;utf8,<svg ...>` string.
 const DATA_URI_PREFIX = 'data:image/svg+xml;utf8,';
+/**
+ * Gets the SVG markup of a bundled icon.
+ *
+ * @param name - One of the registered icon names.
+ * @returns The `<svg>...</svg>` string, without the data URI prefix.
+ */
 const toSvg = (name: IconName) => ICONS[name].replace(DATA_URI_PREFIX, '');
 
 const Wrapper = styled.i`

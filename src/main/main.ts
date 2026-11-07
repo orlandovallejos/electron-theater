@@ -11,7 +11,14 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  IpcMainEvent,
+  IpcMainInvokeEvent,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import dotenv from 'dotenv';
@@ -21,6 +28,7 @@ import { resolveHtmlPath } from './util';
 // Constants
 import appEventsConstants from '../constants/appEvents.cjs';
 import { createTmdbClient } from './tmdb';
+import { isAllowedExternalUrl, isAppUrl } from './security';
 
 // Read variable from .env file:
 dotenv.config();
@@ -35,55 +43,109 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+// Only the app's own page may talk to the main process: every handler checks who is calling.
+/** Where the app window is loaded from: the dev server in development, a local file otherwise. */
+const appUrl = resolveHtmlPath('index.html');
+
+/**
+ * Tells whether an IPC message was sent by the app's own page.
+ * Any other page or frame that ends up in the window (for example the YouTube trailer iframe)
+ * must not be able to call the handlers below.
+ *
+ * @param event - The IPC event Electron passes to every `ipcMain` listener.
+ * @returns `true` only when the frame that sent the message is the app page.
+ */
+const isFromApp = (event: IpcMainEvent | IpcMainInvokeEvent) =>
+  isAppUrl(event.senderFrame?.url, appUrl);
+
+/**
+ * Registers a request/response IPC handler (the renderer calls it with `ipcRenderer.invoke`).
+ * It works like `ipcMain.handle`, plus the sender check: a message from an untrusted
+ * frame is rejected, so the renderer's promise fails and the listener never runs.
+ *
+ * @param channel - The channel name, taken from `appEvents.cjs`.
+ * @param listener - Does the work. It receives only the arguments, never the raw event,
+ *   and its return value (or the value its promise resolves to) is sent back to the renderer.
+ */
+const handle = (
+  channel: string,
+  listener: (...args: unknown[]) => unknown
+): void => {
+  ipcMain.handle(channel, (event, ...args) => {
+    if (!isFromApp(event)) {
+      throw new Error('Untrusted sender');
+    }
+    return listener(...args);
+  });
+};
+
+/**
+ * Registers a fire-and-forget IPC listener (the renderer calls it with `ipcRenderer.send`),
+ * used by the window buttons (close, minimize, maximize, full screen).
+ * It works like `ipcMain.on`, plus the sender check: a message from an untrusted frame
+ * is silently ignored.
+ *
+ * @param channel - The channel name, taken from `appEvents.cjs`.
+ * @param listener - Runs when the message comes from the app page. It receives no arguments.
+ */
+const listen = (channel: string, listener: () => void): void => {
+  ipcMain.on(channel, (event) => {
+    if (isFromApp(event)) {
+      listener();
+    }
+  });
+};
+
 // The TMDB token stays in the main process: the renderer only gets the results.
 const tmdb = createTmdbClient({
   apiUrl: process.env.API_URL || '',
   token: process.env.APP_TOKEN || '',
 });
+/**
+ * Checks an id received from the renderer before it is used in a TMDB request path.
+ * TMDB ids are plain numbers, so anything else (a path, a query string, a non-string)
+ * is refused.
+ *
+ * @param id - The value the renderer sent.
+ * @returns The same id, once it is known to be digits only.
+ * @throws If the id is not a string made only of digits.
+ */
 const requireId = (id: unknown): string => {
   if (typeof id !== 'string' || !/^\d+$/.test(id)) {
     throw new Error('Invalid id');
   }
   return id;
 };
-ipcMain.handle(appEventsConstants.TMDB_GET_CONFIGURATION, () =>
+handle(appEventsConstants.TMDB_GET_CONFIGURATION, () =>
   tmdb.getConfiguration()
 );
-ipcMain.handle(appEventsConstants.TMDB_GET_TOP_MOVIES, () =>
-  tmdb.getTopMovies()
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_TOP_SERIES, () =>
-  tmdb.getTopSeries()
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_MOVIE, (_e, id) =>
-  tmdb.getMovie(requireId(id))
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_MOVIE_TRAILER, (_e, id) =>
+handle(appEventsConstants.TMDB_GET_TOP_MOVIES, () => tmdb.getTopMovies());
+handle(appEventsConstants.TMDB_GET_TOP_SERIES, () => tmdb.getTopSeries());
+handle(appEventsConstants.TMDB_GET_MOVIE, (id) => tmdb.getMovie(requireId(id)));
+handle(appEventsConstants.TMDB_GET_MOVIE_TRAILER, (id) =>
   tmdb.getMovieTrailer(requireId(id))
 );
-ipcMain.handle(appEventsConstants.TMDB_GET_SERIE, (_e, id) =>
-  tmdb.getSerie(requireId(id))
-);
-ipcMain.handle(appEventsConstants.TMDB_GET_SERIE_TRAILER, (_e, id) =>
+handle(appEventsConstants.TMDB_GET_SERIE, (id) => tmdb.getSerie(requireId(id)));
+handle(appEventsConstants.TMDB_GET_SERIE_TRAILER, (id) =>
   tmdb.getSerieTrailer(requireId(id))
 );
-ipcMain.on(appEventsConstants.CLOSE_APP, () => {
+listen(appEventsConstants.CLOSE_APP, () => {
   app.quit();
 });
-ipcMain.on(appEventsConstants.FULL_SCREEN_APP, () => {
+listen(appEventsConstants.FULL_SCREEN_APP, () => {
   if (mainWindow) {
     const isFullScreen = mainWindow.isFullScreen();
     mainWindow.setFullScreen(!isFullScreen);
   }
 });
-ipcMain.on(appEventsConstants.MINIMIZE_APP, () => {
+listen(appEventsConstants.MINIMIZE_APP, () => {
   if (mainWindow) {
     mainWindow.minimize();
   }
 });
 let windowSize = [0, 0];
 let windowPosition = [0, 0];
-ipcMain.on(appEventsConstants.MAXIMIZE_APP, () => {
+listen(appEventsConstants.MAXIMIZE_APP, () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
       mainWindow.setPosition(windowPosition[0], windowPosition[1]);
@@ -134,6 +196,12 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  // In development main runs from src/main, while the bundled preload lives in the dist folder.
+  const preloadPath =
+    process.env.NODE_ENV === 'development'
+      ? path.join(__dirname, '../../release/app/dist/main/preload.js')
+      : path.join(__dirname, 'preload.js');
+
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
@@ -141,11 +209,19 @@ const createWindow = async () => {
     icon: getAssetPath('icon.png'),
     frame: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      // Electron 20+ sandboxes renderers by default, but the preload script loads
-      // a local file with require(). Keep the old behavior; tightening it is part of M2.
-      sandbox: false,
-      webSecurity: false,
+      // The script that runs before the page and builds the `window.electron` API. It is the
+      // only bridge between the page and the main process (see webpack.config.preload.ts).
+      preload: preloadPath,
+      // Runs the page in Chromium's sandbox: it has no access to Node.js or the operating
+      // system, even if a malicious script gets into the page. Possible because the preload
+      // is bundled into one file. (Web security, the same-origin policy, is on by default.)
+      sandbox: true,
+      // Keeps the preload's code and the page's code in separate JavaScript worlds, so the
+      // page cannot tamper with the preload or reach Electron through it.
+      contextIsolation: true,
+      // Never gives the page `require`, `process` or other Node.js APIs. The page can only
+      // use what the preload exposes with `contextBridge`.
+      nodeIntegration: false,
     },
   });
 
@@ -170,10 +246,19 @@ const createWindow = async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  // Open urls in the user's browser
+  // Open allow-listed https urls in the user's browser, deny everything else
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url);
+    if (isAllowedExternalUrl(url)) {
+      shell.openExternal(url);
+    }
     return { action: 'deny' };
+  });
+
+  // The window never navigates away from the app page (client-side routing is not a navigation)
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (!isAppUrl(url, appUrl)) {
+      event.preventDefault();
+    }
   });
 
   // Remove this if your app does not use auto updates

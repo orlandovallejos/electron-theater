@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   top: 30px;
   z-index: 1;
 
-  ion-icon {
+  .icon {
     font-size: 40px;
   }
 `;

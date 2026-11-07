@@ -36,7 +36,7 @@ const ButtonOutlined = styled.button`
   align-items: center;
   color: #101010;
 
-  ion-icon {
+  .icon {
     font-size: 22px;
   }
   span {

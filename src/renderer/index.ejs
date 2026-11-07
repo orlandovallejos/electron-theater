@@ -2,6 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <!--
+      Content Security Policy. Each allowance and why it exists:
+      - default-src 'self': anything not listed below can only come from the app itself.
+      - script-src 'self': only the bundled script runs (no CDN scripts, no inline scripts, no eval).
+      - style-src 'self' 'unsafe-inline' https://fonts.googleapis.com: styled-components and the
+        icon web component inject <style> tags at runtime (hence 'unsafe-inline'); the font CSS
+        comes from Google Fonts.
+      - font-src https://fonts.gstatic.com: the font files themselves.
+      - img-src 'self' data: https://image.tmdb.org: TMDB artwork; data: for inline SVG.
+      - frame-src https://www.youtube-nocookie.com: the trailer player.
+      - connect-src: the app makes no network calls from the page (TMDB goes through the main
+        process). In development the dev server needs its hot-reload WebSocket.
+      - object-src 'none', base-uri 'none', form-action 'none': features the app does not use.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://image.tmdb.org<%= htmlWebpackPlugin.options.isDevelopment ? ' http://localhost:*' : '' %>; frame-src https://www.youtube-nocookie.com; connect-src 'self'<%= htmlWebpackPlugin.options.isDevelopment ? ' ws://localhost:*' : '' %>; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
     <title>Electron Theater</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -9,7 +27,5 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   </body>
 </html>

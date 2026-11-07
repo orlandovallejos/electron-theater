@@ -3,7 +3,9 @@
   "productName": "Electron Theater",
   "description": "Swipe through movies and shows with a partner. When you both like the same title, it's a match.",
   "scripts": {
-    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
+    "build": "concurrently \"npm run build:main\" \"npm run build:preload\" \"npm run build:renderer\"",
+    "build:preload": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.ts",
+    "build:preload:dev": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.ts",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
@@ -244,6 +246,7 @@
     "electron-log": "^5.4.4",
     "electron-store": "^8.0.1",
     "electron-updater": "^6.8.11",
+    "ionicons": "5.5.2",
     "lodash": "^4.17.21",
     "node-vibrant": "^3.1.6",
     "polished": "^4.1.3",

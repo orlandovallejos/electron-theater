@@ -14,9 +14,7 @@ permissions:
 
 # Each check is its own job so a failure is easy to see and can be required on its own.
 #
-# Known baseline problems (see docs/baseline.md):
-# - `test` is expected to FAIL until coverage meets the Jest thresholds: #27.
-#   The thresholds are intentionally enforced, not skipped.
+# The Jest coverage thresholds are enforced, not skipped: `test` fails if coverage drops below them.
 
 jobs:
   lint:

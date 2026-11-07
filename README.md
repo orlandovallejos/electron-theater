@@ -114,14 +114,14 @@ behind the main process is planned for milestone M2.
 
 ## Scripts
 
-| Command          | What it does                                                                                                                                                                          |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `yarn start`     | Run the app in development with hot reload                                                                                                                                            |
-| `yarn lint`      | Lint with ESLint                                                                                                                                                                      |
-| `yarn typecheck` | Type-check with TypeScript                                                                                                                                                            |
-| `yarn test`      | Run the tests with coverage. Currently exits with an error on the coverage thresholds even when all tests pass ([#27](https://github.com/orlandovallejos/electron-theater/issues/27)) |
-| `yarn build`     | Build the main and renderer bundles                                                                                                                                                   |
-| `yarn package`   | Build and package an installer into `release/build`                                                                                                                                   |
+| Command          | What it does                                                           |
+| ---------------- | ---------------------------------------------------------------------- |
+| `yarn start`     | Run the app in development with hot reload                             |
+| `yarn lint`      | Lint with ESLint                                                       |
+| `yarn typecheck` | Type-check with TypeScript                                             |
+| `yarn test`      | Run the tests with coverage; fails if coverage is below the thresholds |
+| `yarn build`     | Build the main and renderer bundles                                    |
+| `yarn package`   | Build and package an installer into `release/build`                    |
 
 ## Contributing
 

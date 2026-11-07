@@ -250,7 +250,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/joy": "^5.0.0-beta.52",
     "axios": "^1.21.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^18.0.9",
     "electron-debug": "^5.0.0",
     "electron-log": "^5.4.4",
     "electron-store": "^8.0.1",

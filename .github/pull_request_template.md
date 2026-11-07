@@ -28,7 +28,7 @@ Closes #
 ## Checklist
 
 - [ ] Tests added or updated
-- [ ] `yarn lint` passes
+- [ ] `npm run lint` passes
 - [ ] Docs updated (README, `docs/`) where needed
 - [ ] Milestone and labels set
 - [ ] Followed [CONTRIBUTING.md](https://github.com/orlandovallejos/electron-theater/blob/main/CONTRIBUTING.md)

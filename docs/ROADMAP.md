@@ -57,7 +57,7 @@ Each one maps to a milestone below. Crossed-out items are fixed.
 - The detail page's left column only shows the title. Credits, keywords, and similar titles are fetched but never used.
 - If the TMDB configuration request fails, the app renders a blank screen forever. There are no loading or error states.
 - `AppBar` re-adds its scroll listener on every render.
-- `yarn test` exits with an error because coverage is below the thresholds (#27).
+- ~~`yarn test` exits with an error because coverage is below the thresholds (#27).~~ Fixed in #80.
 
 ### Security → M2
 

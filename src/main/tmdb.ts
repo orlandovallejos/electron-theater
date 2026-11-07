@@ -22,6 +22,23 @@ const findTrailerKey = (data: { results?: Video[] }): string => {
   return trailer?.key ?? '';
 };
 
+type RequestError = {
+  message?: string;
+  response?: { status?: number; data?: { status_message?: string } };
+};
+
+/**
+ * Turns a failed request into a plain error with only the path, the status and TMDB's message.
+ * An axios error carries the request config, including the `Authorization` header, and Electron
+ * prints the whole error when an IPC handler throws, so passing it on would log the token.
+ */
+export const toTmdbError = (url: string, error: unknown): Error => {
+  const { message, response } = (error ?? {}) as RequestError;
+  const status = response?.status ? ` with status ${response.status}` : '';
+  const detail = response?.data?.status_message ?? message ?? 'unknown error';
+  return new Error(`TMDB request "${url}" failed${status}: ${detail}`);
+};
+
 /**
  * TMDB client. It lives in the main process, so the token never reaches the renderer.
  */
@@ -33,10 +50,16 @@ export const createTmdbClient = ({ apiUrl, token }: TmdbOptions) => {
       'Content-Type': 'application/json;charset=utf-8',
     },
   });
-  const get = async (url: string) => (await http.get(url)).data;
+  const get = async (url: string) => {
+    try {
+      return (await http.get(url)).data;
+    } catch (error) {
+      throw toTmdbError(url, error);
+    }
+  };
 
   return {
-    getConfiguration: (): Promise<{ images: { base_url: string } }> =>
+    getConfiguration: (): Promise<{ images: { secure_base_url: string } }> =>
       get('configuration'),
 
     getTopMovies: async (): Promise<{ results: MovieItem[] }> => {

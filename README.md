@@ -71,7 +71,6 @@ behind the main process is planned for milestone M2.
 
 - [Node.js](https://nodejs.org/) matching [`.nvmrc`](.nvmrc), for example with
   [nvm](https://github.com/nvm-sh/nvm): `nvm install && nvm use`
-- [Yarn 1](https://classic.yarnpkg.com/) (`npm install -g yarn`)
 - A free [TMDB account](https://www.themoviedb.org/signup) and its **API Read Access Token**
 
 ### Set up and run
@@ -86,7 +85,7 @@ behind the main process is planned for milestone M2.
 2. Install the dependencies (this also sets up the Git hooks):
 
    ```bash
-   yarn install
+   npm install
    ```
 
 3. Create your environment file and set `APP_TOKEN`:
@@ -105,7 +104,7 @@ behind the main process is planned for milestone M2.
 4. Start the app:
 
    ```bash
-   yarn start
+   npm start
    ```
 
    Restart it after changing `.env`. In development you will see a harmless
@@ -114,14 +113,14 @@ behind the main process is planned for milestone M2.
 
 ## Scripts
 
-| Command          | What it does                                                           |
-| ---------------- | ---------------------------------------------------------------------- |
-| `yarn start`     | Run the app in development with hot reload                             |
-| `yarn lint`      | Lint with ESLint                                                       |
-| `yarn typecheck` | Type-check with TypeScript                                             |
-| `yarn test`      | Run the tests with coverage; fails if coverage is below the thresholds |
-| `yarn build`     | Build the main and renderer bundles                                    |
-| `yarn package`   | Build and package an installer into `release/build`                    |
+| Command             | What it does                                                           |
+| ------------------- | ---------------------------------------------------------------------- |
+| `npm start`         | Run the app in development with hot reload                             |
+| `npm run lint`      | Lint with ESLint                                                       |
+| `npm run typecheck` | Type-check with TypeScript                                             |
+| `npm test`          | Run the tests with coverage; fails if coverage is below the thresholds |
+| `npm run build`     | Build the main and renderer bundles                                    |
+| `npm run package`   | Build and package an installer into `release/build`                    |
 
 ## Contributing
 

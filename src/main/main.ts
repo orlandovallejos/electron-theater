@@ -37,7 +37,11 @@ export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
+    // The check rejects when there is nothing to update from (no GitHub release yet, or offline).
+    // That is not an app error, so log it instead of leaving an unhandled rejection.
+    autoUpdater.checkForUpdatesAndNotify().catch((error) => {
+      log.warn(`Update check failed: ${error.message}`);
+    });
   }
 }
 

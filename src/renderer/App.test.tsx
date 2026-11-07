@@ -34,7 +34,7 @@ describe('<App />', () => {
 
   it('should render the layout once the configuration is loaded', async () => {
     jest.mocked(moviesApi.getConfiguration).mockResolvedValue({
-      images: { base_url: 'www.test.com/' },
+      images: { secure_base_url: 'www.test.com/' },
     });
 
     render(<App />);
@@ -44,7 +44,7 @@ describe('<App />', () => {
 
   it('should use the configured images base url', async () => {
     jest.mocked(moviesApi.getConfiguration).mockResolvedValue({
-      images: { base_url: 'www.test.com/' },
+      images: { secure_base_url: 'www.test.com/' },
     });
 
     render(<App />);
@@ -52,6 +52,19 @@ describe('<App />', () => {
 
     expect(imageHelper.getPosterImage('/poster.jpg')).toMatch(
       /^www\.test\.com\//
+    );
+  });
+
+  it('should load images from the https base url, which the CSP allows', async () => {
+    jest.mocked(moviesApi.getConfiguration).mockResolvedValue({
+      images: { secure_base_url: 'https://image.tmdb.org/t/p/' },
+    });
+
+    render(<App />);
+    await screen.findByTestId('layout');
+
+    expect(imageHelper.getPosterImage('/poster.jpg')).toMatch(
+      /^https:\/\/image\.tmdb\.org\//
     );
   });
 });

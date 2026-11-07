@@ -11,3 +11,4 @@ in, and add it to the table below.
 | [0001](0001-record-architecture-decisions.md) | Record architecture decisions       | Accepted |
 | [0002](0002-tmdb-calls-in-main-process.md)    | TMDB calls live in the main process | Accepted |
 | [0003](0003-use-npm.md)                       | Use npm as the package manager      | Accepted |
+| [0004](0004-monorepo-layout.md)               | Monorepo layout and shared packages | Accepted |

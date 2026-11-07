@@ -105,6 +105,9 @@ agent. This section is the shared picture; the milestones below are the steps.
 
 ### Target architecture
 
+The layout, the rules for what goes in a shared package, and the trade-offs are in
+[ADR 4](adr/0004-monorepo-layout.md). The package manager is npm ([ADR 3](adr/0003-use-npm.md)).
+
 ```
 apps/
   desktop      Electron app (today's code)

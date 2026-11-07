@@ -12,8 +12,9 @@ organized. It is a living document: it's updated whenever a milestone closes or 
 1. [Why this project exists](#1-why-this-project-exists)
 2. [Current state](#2-current-state)
 3. [Known problems](#3-known-problems)
-4. [Milestones](#4-milestones)
-5. [How work is organized](#5-how-work-is-organized)
+4. [Direction](#4-direction)
+5. [Milestones](#5-milestones)
+6. [How work is organized](#6-how-work-is-organized)
 
 ---
 
@@ -23,7 +24,8 @@ The project was started in 2021 and paused after the movie detail view shipped. 
 revived with two goals:
 
 1. **Learning:** a real codebase for practising modern engineering: Electron security, dependency
-   upgrades, CI/CD, testing, real-time systems (WebSockets), and AI agents.
+   upgrades, CI/CD, testing, monorepos and design systems, real-time systems (WebSockets), mobile and
+   web clients, and AI agents.
 2. **Showing the work:** every change is planned in an issue, built on a branch, described in a
    pull request, and reviewed, so the history shows the process as well as the code.
 
@@ -31,76 +33,161 @@ revived with two goals:
 
 Electron desktop app with a React renderer, built on
 [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate),
-using [The Movie Database (TMDB)](https://www.themoviedb.org/) API.
+using [The Movie Database (TMDB)](https://www.themoviedb.org/) API. The stack is current (Electron 45,
+React 18, React Router 6, TypeScript 5.9, Jest 30 with React Testing Library, ESLint 9), CI runs on every
+pull request, and the security work of M2 is nearly done.
 
 | Area        | What exists                                                                                                       | Where                                    |
 | ----------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | Home        | Random hero banner, rows of trending movies and TV shows, poster borders tinted from the artwork (`node-vibrant`) | `src/renderer/Home`                      |
 | Detail view | Backdrop, poster, rating ring, tagline, overview, YouTube trailer modal, status / language / budget / revenue     | `src/renderer/MovieView`                 |
-| Window      | Frameless window with custom close / minimize / fullscreen controls over IPC                                      | `src/main`, `src/renderer/common/AppBar` |
-| Data        | axios client with auth interceptor; response transforms for movies and series                                     | `src/api`, `src/config`                  |
+| Window      | Frameless, sandboxed window with custom close / minimize / fullscreen controls over validated IPC                 | `src/main`, `src/renderer/common/AppBar` |
+| Data        | TMDB calls run in the main process, so the token never reaches the renderer; the renderer uses a typed API        | `src/main/tmdb.ts`, `src/api`            |
 
 **Not built yet:** the core idea. There are no accounts, no swiping, no matches, and no shared list.
 
 ## 3. Known problems
 
-Found while reviewing the code before restarting. Each one maps to a milestone below.
+Each one maps to a milestone below. Crossed-out items are fixed.
 
-### Bugs → M3
+### Bugs → M5
 
-- The detail view only re-fetches when `movieId` changes, so going from one TV show to another shows stale data.
+- ~~The detail view only re-fetches when `movieId` changes, so going from one TV show to another shows stale data.~~ Fixed in #34 (the effect also depends on `serieId`).
 - The hero's **Trailer** and **Watchlist** buttons have no handlers.
 - The detail page's left column only shows the title. Credits, keywords, and similar titles are fetched but never used.
 - If the TMDB configuration request fails, the app renders a blank screen forever. There are no loading or error states.
 - `AppBar` re-adds its scroll listener on every render.
+- `yarn test` exits with an error because coverage is below the thresholds (#27).
 
 ### Security → M2
 
-- `webSecurity: false` on the main window.
-- The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.
-- Icons are loaded from a CDN at runtime, and there's no Content Security Policy.
-- Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.
+- ~~`webSecurity: false` on the main window.~~ Fixed in M2.
+- ~~The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.~~ Fixed in M2 ([ADR 2](adr/0002-tmdb-calls-in-main-process.md)).
+- ~~Icons are loaded from a CDN at runtime, and there's no Content Security Policy.~~ Fixed in M2.
+- ~~Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.~~ Fixed in M1.
+- Electron fuses are not enabled in the packaged app (#74).
 
 ### Hygiene → M0
 
 - ~~Package metadata still identifies the app as electron-react-boilerplate, and auto-update points at the boilerplate's repo.~~ Fixed in #14.
 - ~~The git pre-commit hook never runs: husky 7 is installed, but the config uses the husky 4 format.~~ Fixed in #19.
-- IPC channel names are duplicated in two files. Not fixed yet.
+- ~~IPC channel names are duplicated in two files.~~ Fixed in #45.
 
 ### Outdated stack → M1
 
-Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23, Jest 27, Enzyme, `@mui/joy` alpha.
+~~Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23, Jest 27, Enzyme, `@mui/joy` alpha.~~
+Done in M1. Still open there: `@mui/joy` has no stable release (it stays on its last beta), and ESLint is on 9
+because `eslint-plugin-react` does not support ESLint 10 yet.
 
-## 4. Milestones
+## 4. Direction
 
-Milestones are ordered: foundation and safety first, then features. Each one has a clear
-"done when", so it's obvious when it can close.
+The app grows from one desktop client into three clients (desktop, web, mobile) on one backend, plus an AI
+agent. This section is the shared picture; the milestones below are the steps.
 
-|     | Milestone                                                                                        | Goal                                         | Done when                                                                     |
-| --- | ------------------------------------------------------------------------------------------------ | -------------------------------------------- | ----------------------------------------------------------------------------- |
-| M0  | [Project Foundation](https://github.com/orlandovallejos/electron-theater/milestone/1)            | Run the repo like a professional project     | Every PR runs CI, and a new contributor can run the app from the README alone |
-| M1  | [Stack Modernization](https://github.com/orlandovallejos/electron-theater/milestone/2)           | Pay down dependency debt, one upgrade per PR | Supported versions everywhere, no deprecated APIs, tests pass                 |
-| M2  | [Security & Architecture](https://github.com/orlandovallejos/electron-theater/milestone/3)       | Follow Electron's security checklist         | The API token never reaches the renderer; no Electron security warnings       |
-| M3  | [Bug Fixes & UX Polish](https://github.com/orlandovallejos/electron-theater/milestone/4)         | Make existing features reliable              | No known bugs; every screen handles failure; coverage threshold met           |
-| M4  | [Watchlist & Persistence](https://github.com/orlandovallejos/electron-theater/milestone/5)       | Save what you want to watch                  | The watchlist survives restarts and is tested                                 |
-| M5  | [Match — Real-time Multiplayer](https://github.com/orlandovallejos/electron-theater/milestone/6) | Build the core idea                          | Two users on different machines pair, swipe, and see a match appear live      |
-| M6  | [AI Movie Agent](https://github.com/orlandovallejos/electron-theater/milestone/7)                | "What should we watch tonight?" assistant    | Grounded recommendations from real data and both partners' tastes             |
-| M7  | [Release & Quality](https://github.com/orlandovallejos/electron-theater/milestone/8)             | Ship it like a real product                  | Tagging a release produces installable, auto-updating builds                  |
+### Principles
+
+1. **Free services only.** Hosting, database, auth, tracing and models must have a free tier. Each choice is
+   recorded in an ADR with a fallback, and the limits are checked right before the milestone that needs them
+   (free tiers change).
+2. **Share code in layers.** Share types, logic and the API client everywhere; share visual components only
+   where they can really run (the DOM apps); keep platform-specific parts behind small adapters.
+3. **One source of truth for the look.** Colors, type, spacing and the rest are design tokens defined once.
+   Changing a token (for example the primary color) updates every client. M12 proves it.
+4. **Decisions are written down.** Trade-offs go in ADRs (`docs/adr/`), not only in pull requests.
+5. **Small, reviewable changes.** See [How work is organized](#6-how-work-is-organized).
+
+### Target architecture
+
+```
+apps/
+  desktop      Electron app (today's code)
+  web          browser client
+  mobile       Expo / React Native
+packages/
+  core         types, pure logic, response transforms, design tokens
+  api-client   ApiClient interface and its HTTP implementation
+  ui           presentational components and the theme (DOM only)
+  screens      Home, MovieView, ... built from ui; platform parts are injected
+  config       shared Prettier, ESLint and TypeScript settings
+services/
+  backend      API + WebSocket server (Node, Docker)
+  agent        AI agent (Python)
+```
+
+| Package      | Desktop | Web | Mobile                   |
+| ------------ | ------- | --- | ------------------------ |
+| `core`       | yes     | yes | yes                      |
+| `api-client` | yes     | yes | yes                      |
+| `ui`         | yes     | yes | no (own UI, same tokens) |
+| `screens`    | yes     | yes | no (own screens)         |
+| `config`     | yes     | yes | yes                      |
+
+Shared screens do not know which platform they run on. They ask React context for an `ApiClient`, a way to
+open external links, and so on. The desktop app supplies an IPC-backed `ApiClient` (today's
+`window.electron.tmdb`), and the web client supplies an HTTP one. Window controls stay desktop-only.
+
+The mobile app cannot reuse DOM components, so it shares `core`, `api-client` and the design tokens instead.
+That keeps its look consistent without a "universal UI" layer.
+
+### Open question: what is the desktop app for?
+
+If the desktop app only wraps the web app, there is no reason for it to exist. Swiping fits a phone best,
+and the web client needs no install, so the desktop app must do something the others cannot. This is
+**undecided**. One candidate: playing video and keeping a library of local video files. Decide it after the
+clients exist and it is clearer what is missing, and record it in an ADR.
+
+## 5. Milestones
+
+Milestones are ordered: foundation and safety first, then the shared structure, then features and clients.
+Each one has a clear "done when", so it's obvious when it can close. M0–M2 are done or nearly done; the rest
+is the plan.
+
+|     | Milestone                                                                                                 | Goal                                                          | Done when                                                                                      |
+| --- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| M0  | [Project Foundation](https://github.com/orlandovallejos/electron-theater/milestone/1)                     | Run the repo like a professional project                      | Every PR runs CI, and a new contributor can run the app from the README alone                  |
+| M1  | [Stack Modernization](https://github.com/orlandovallejos/electron-theater/milestone/2)                    | Pay down dependency debt, one upgrade per PR                  | Supported versions everywhere, no deprecated APIs, tests pass                                  |
+| M2  | [Security & Architecture](https://github.com/orlandovallejos/electron-theater/milestone/3)                | Follow Electron's security checklist                          | The API token never reaches the renderer; no Electron security warnings                        |
+| M3  | [Monorepo Foundation](https://github.com/orlandovallejos/electron-theater/milestone/9)                    | Make room for web and mobile without duplicating work         | CI green on the new layout, installer still builds, `core` holds the shared code               |
+| M4  | [Design System](https://github.com/orlandovallejos/electron-theater/milestone/10)                         | One look and feel across all clients, defined once            | Every color, space and font comes from tokens; guardrails run in CI                            |
+| M5  | [Bug Fixes & UX Polish](https://github.com/orlandovallejos/electron-theater/milestone/4)                  | Make existing features reliable; extract `ui` and `screens`   | No known bugs; every screen handles failure; coverage threshold met; desktop uses the packages |
+| M6  | [Watchlist & Persistence](https://github.com/orlandovallejos/electron-theater/milestone/5)                | Save what you want to watch                                   | The watchlist survives restarts and is tested                                                  |
+| M7  | [Match: Backend & Real-time Multiplayer](https://github.com/orlandovallejos/electron-theater/milestone/6) | Build the core idea on free infrastructure                    | Two users on different machines pair, swipe, and see a match appear live                       |
+| M8  | [Web Client](https://github.com/orlandovallejos/electron-theater/milestone/11)                            | Use it from a browser with nothing to install                 | Sign in, pair, swipe and see matches on the web, sharing components with desktop               |
+| M9  | [Mobile App](https://github.com/orlandovallejos/electron-theater/milestone/12)                            | The swipe experience on a phone                               | A phone user and a desktop or web user pair and see a match live                               |
+| M10 | [AI Movie Agent](https://github.com/orlandovallejos/electron-theater/milestone/7)                         | A "what should we watch tonight?" assistant we build and host | Grounded recommendations, every run traceable, the model swappable by configuration            |
+| M11 | [Release & Quality](https://github.com/orlandovallejos/electron-theater/milestone/8)                      | Ship it like a real product, for all three clients            | One tagged release builds desktop installers, deploys the web client and makes a mobile build  |
+| M12 | [Showcase](https://github.com/orlandovallejos/electron-theater/milestone/13)                              | Show the work, not just claim it                              | One tokens change updates all three clients; write-up and demo published                       |
+
+The order can change where a dependency allows it. In particular, M10 (the AI agent) only needs the backend, so
+it could move before M8 and M9 if it becomes the priority.
+
+### The one-place theming proof (M12)
+
+The test of the design system: change the primary color from green to pink, or the base padding, or the font
+family, in the token files only, and see all three clients update. The proof is one pull request that touches
+one tokens file, with before/after screenshots of desktop, web and mobile. It is done last, but the groundwork
+is in M4: tokens feed both the DOM apps and React Native, a lint rule rejects hard-coded colors and spacing,
+and screenshot tests catch visual changes. That keeps the final proof from becoming a hunt for hard-coded values.
 
 ### Learning map
 
-| Milestone | Skills practised                                                   |
-| --------- | ------------------------------------------------------------------ |
-| M0        | GitHub workflow, CI with GitHub Actions, documentation, ADRs       |
-| M1        | Safe incremental upgrades, build tooling, test migration           |
-| M2        | Electron process model, IPC design, CSP, secrets handling          |
-| M3        | React data fetching (TanStack Query), error handling, testing      |
-| M4        | Local persistence (electron-store or SQLite), state management     |
-| M5        | Backend design, auth, WebSockets, Docker, deployment               |
-| M6        | LLM tool use, agent design, streaming, MCP                         |
-| M7        | E2E testing (Playwright), code signing, auto-update, observability |
+| Milestone | Skills practised                                                                      |
+| --------- | ------------------------------------------------------------------------------------- |
+| M0        | GitHub workflow, CI with GitHub Actions, documentation, ADRs                          |
+| M1        | Safe incremental upgrades, build tooling, test migration                              |
+| M2        | Electron process model, IPC design, CSP, secrets handling                             |
+| M3        | Monorepos and workspaces, shared packages, keeping CI and packaging working           |
+| M4        | Design tokens, theming across platforms, accessibility, Storybook, visual regression  |
+| M5        | React data fetching (TanStack Query), error handling, testing, extracting a library   |
+| M6        | Local persistence (electron-store or SQLite), state management                        |
+| M7        | Backend design, auth, WebSockets, Docker, deploying on free tiers                     |
+| M8        | Reusing components across apps, dependency injection through adapters, static hosting |
+| M9        | React Native and Expo, sharing logic (not UI) with web                                |
+| M10       | LLM tool use, agent design in Python, tracing and evals (LangSmith), open models      |
+| M11       | E2E testing (Playwright), code signing, auto-update, observability                    |
+| M12       | Technical writing, demos, proving architectural claims                                |
 
-## 5. How work is organized
+## 6. How work is organized
 
 ```
 Milestone ──▶ Issue ──▶ Branch ──▶ Commits ──▶ Pull request ──▶ Review ──▶ Squash merge
@@ -113,7 +200,10 @@ Milestone ──▶ Issue ──▶ Branch ──▶ Commits ──▶ Pull requ
 - **Branches** are named `<type>/<issue-number>-<short-slug>`, e.g. `fix/14-movieview-stale-series`.
 - **Commits** follow [Conventional Commits](https://www.conventionalcommits.org/), e.g.
   `fix: refetch series when the route changes`.
-- **Pull requests** are small and focused, link their issue with `Closes #N`, and say how the change was tested.
+- **Pull requests** are small and focused, aim for roughly 300 to 500 changed lines (not counting lock files), link
+  their issue with `Closes #N`, and say how the change was tested. A change that depends on an unmerged one is a
+  **stacked** PR: its base is the previous branch, and after the previous one is merged, GitHub moves it to
+  `main` and offers **Update branch**.
 - **Decisions** with real trade-offs are recorded as ADRs in `docs/adr/` (see #20).
 
 Progress is tracked on the [Electron Theater Roadmap board](https://github.com/users/orlandovallejos/projects/1)

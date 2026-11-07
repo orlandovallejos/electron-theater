@@ -10,16 +10,12 @@ import { render, screen, waitFor } from '@testing-library/react';
 import imageHelper from '../../../helpers/image';
 import PosterItem from './index';
 
-jest.mock('node-vibrant', () => {
+jest.mock('node-vibrant/browser', () => {
   return {
-    from: jest.fn(() => ({
+    Vibrant: jest.fn(() => ({
       getPalette: jest.fn().mockResolvedValue({
-        Vibrant: {
-          getHex: jest.fn(() => 'blue'),
-        },
-        DarkVibrant: {
-          getHex: jest.fn(() => 'red'),
-        },
+        Vibrant: { hex: 'blue' },
+        DarkVibrant: { hex: 'red' },
       }),
     })),
   };

@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import Vibrant from 'node-vibrant';
+import { Vibrant } from 'node-vibrant/browser';
 import CircularProgress from '@mui/joy/CircularProgress';
 import Modal from '@mui/joy/Modal';
 /*------------------------------------------------*/
@@ -37,11 +37,11 @@ const Header = (props: Props) => {
   /* METHODS -------------------------*/
   const calculateBgColor = async (imageURL: string) => {
     try {
-      const palette = await Vibrant.from(
+      const palette = await new Vibrant(
         imageHelper.getPosterImage(imageURL)
       ).getPalette();
 
-      const colorVibrant = palette.Vibrant?.getHex();
+      const colorVibrant = palette.Vibrant?.hex;
       setBgColor(colorVibrant || DEFAULT_COLOR);
     } catch {
       // Reading the pixels needs the image server to allow it (CORS): use the default color.

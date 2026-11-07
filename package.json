@@ -285,11 +285,17 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "resolutions": {
-    "styled-components": "^5",
-    "@types/react": "^18.3.31",
+  "overrides": {
+    "styled-components": "$styled-components",
+    "@types/react": "$@types/react",
     "loader-utils": "^1.4.2",
     "minimist": "^1.2.8",
     "@babel/traverse": "^7.29.13"
+  },
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "core-js": false,
+    "core-js-pure": false,
+    "electron-winstaller": false
   }
 }

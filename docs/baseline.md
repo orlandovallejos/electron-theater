@@ -2,6 +2,9 @@
 
 What works and what doesn't **before any modernization work**, so later PRs can show what they fixed or broke.
 
+> The project used Yarn 1 when this was written. It now uses npm ([ADR 3](adr/0003-use-npm.md)), so `yarn X`
+> below is `npm run X` today (`npm install`, `npm start` and `npm test` need no `run`).
+
 - **Date:** 2026-11-05
 - **Commit:** `1d5fa60` (`main`)
 - **Machine:** macOS (Apple Silicon, arm64), Yarn 1.22.22
@@ -14,13 +17,13 @@ Node 14 / x86_64 may differ slightly. Tracked by the M1 stack-modernization work
 
 ## Summary
 
-| Command | Result | Details |
-|---|---|---|
-| `yarn install` | Passes (with warnings) | 70 s |
-| `yarn start` | Starts, with an error | Dev server and Electron window come up; devtools extension install fails |
-| `yarn lint` | **Fails** | Crashes on TypeScript errors in `.erb` configs; with that worked around, 14 lint errors |
-| `yarn test` | **Fails** | Needs `yarn build` first; once built, 12/12 suites and 17/17 tests pass but coverage thresholds fail |
-| `yarn build` | Passes | ~11 s, main and renderer both build |
+| Command        | Result                 | Details                                                                                              |
+| -------------- | ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| `yarn install` | Passes (with warnings) | 70 s                                                                                                 |
+| `yarn start`   | Starts, with an error  | Dev server and Electron window come up; devtools extension install fails                             |
+| `yarn lint`    | **Fails**              | Crashes on TypeScript errors in `.erb` configs; with that worked around, 14 lint errors              |
+| `yarn test`    | **Fails**              | Needs `yarn build` first; once built, 12/12 suites and 17/17 tests pass but coverage thresholds fail |
+| `yarn build`   | Passes                 | ~11 s, main and renderer both build                                                                  |
 
 ## Details
 
@@ -69,16 +72,16 @@ Tracked by #25.
 ### `yarn test` — fails
 
 1. **Run on a fresh clone, all 12 suites fail** with `The main process is not built yet. Build it by
-   running "npm run build:main"` (from `.erb/scripts/check-build-exists.ts`). Tests depend on a prior build.
+running "npm run build:main"` (from `.erb/scripts/check-build-exists.ts`). Tests depend on a prior build.
 2. **After `yarn build`, all 12 suites pass (17 tests)** but the command still exits 1 because the global
    coverage thresholds are not met:
 
-   | Metric | Actual | Threshold |
-   |---|---|---|
-   | Statements | 65.08% | 75% |
-   | Branches | 31.25% | 70% |
-   | Functions | 40% | 70% |
-   | Lines | 65.52% | 75% |
+   | Metric     | Actual | Threshold |
+   | ---------- | ------ | --------- |
+   | Statements | 65.08% | 75%       |
+   | Branches   | 31.25% | 70%       |
+   | Functions  | 40%    | 70%       |
+   | Lines      | 65.52% | 75%       |
 
 Tracked by #26 (build requirement) and #27 (coverage).
 

@@ -6,16 +6,16 @@ easy to follow and review. The plan and milestones are in [docs/ROADMAP.md](docs
 ## Development setup
 
 Follow [Getting started in the README](README.md#getting-started): install the Node version from
-`.nvmrc`, run `yarn install`, and create your `.env` from `.env.example`.
+`.nvmrc`, run `npm install`, and create your `.env` from `.env.example`.
 
-`yarn install` also sets up the Git hooks (see [Commit messages](#commit-messages)). Run the app with
-`yarn start`. Before opening a PR, run what CI runs:
+`npm install` also sets up the Git hooks (see [Commit messages](#commit-messages)). Run the app with
+`npm start`. Before opening a PR, run what CI runs:
 
 ```bash
-yarn lint
-yarn typecheck
-yarn test
-yarn build
+npm run lint
+npm run typecheck
+npm test
+npm run build
 ```
 
 ## Workflow
@@ -86,7 +86,7 @@ message like `update stuff` is rejected. A `pre-commit` hook also lints the file
 [lint-staged](https://github.com/okonet/lint-staged). Hooks are a fast first check, not a replacement for CI:
 CI runs on every pull request and cannot be skipped.
 
-If a commit fails with `yarn: command not found`, your Git client doesn't load your shell setup (common
+If a commit fails with `npx: command not found`, your Git client doesn't load your shell setup (common
 with nvm). Commit from a terminal, or make Node available to the client.
 
 ## Pull request expectations
@@ -104,7 +104,7 @@ with nvm). Commit from a terminal, or make Node available to the client.
 ## Code style
 
 - **Formatting and linting** are handled by Prettier and ESLint (Airbnb and TypeScript rules). Run
-  `yarn lint`. Don't disable a rule to make a check pass without a comment explaining why.
+  `npm run lint`. Don't disable a rule to make a check pass without a comment explaining why.
 - **TypeScript** is used throughout. Avoid `any`; type component props.
 - **Comments** explain _why_, not _what_. Good names and small functions say what the code does. Comment
   non-obvious decisions, workarounds (with a link to the issue), and anything that would surprise a reader.

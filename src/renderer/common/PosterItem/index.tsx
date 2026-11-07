@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import Vibrant from 'node-vibrant';
+import { Vibrant } from 'node-vibrant/browser';
 import { Link } from 'react-router-dom';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
@@ -32,13 +32,13 @@ const PosterItem = (props: Props) => {
 
   const setBorderColors = async (imageURL: string) => {
     try {
-      const palette = await Vibrant.from(
+      const palette = await new Vibrant(
         imageHelper.getPosterImage(imageURL)
       ).getPalette();
 
-      const colorVibrant = palette.Vibrant?.getHex();
+      const colorVibrant = palette.Vibrant?.hex;
       setBorderVibrant(colorVibrant || DEFAULT_COLOR);
-      const colorDarkVibrant = palette.DarkVibrant?.getHex();
+      const colorDarkVibrant = palette.DarkVibrant?.hex;
       setBorderDarkVibrant(colorDarkVibrant || DEFAULT_COLOR);
     } catch {
       // Reading the pixels needs the image server to allow it (CORS). The poster

@@ -35,7 +35,7 @@ Electron desktop app with a React renderer, built on
 [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate),
 using [The Movie Database (TMDB)](https://www.themoviedb.org/) API. The stack is current (Electron 45,
 React 18, React Router 6, TypeScript 5.9, Jest 30 with React Testing Library, ESLint 9), CI runs on every
-pull request, and the security work of M2 is nearly done.
+pull request, and the security work of M2 is done.
 
 | Area        | What exists                                                                                                       | Where                                    |
 | ----------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
@@ -61,23 +61,30 @@ Each one maps to a milestone below. Crossed-out items are fixed.
 
 ### Security → M2
 
-- ~~`webSecurity: false` on the main window.~~ Fixed in M2.
-- ~~The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.~~ Fixed in M2 ([ADR 2](adr/0002-tmdb-calls-in-main-process.md)).
-- ~~Icons are loaded from a CDN at runtime, and there's no Content Security Policy.~~ Fixed in M2.
-- ~~Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.~~ Fixed in M1.
-- Electron fuses are not enabled in the packaged app (#74).
+All of these are fixed in M2:
+
+- ~~`webSecurity: false` on the main window.~~ Fixed in #76. The renderer is also sandboxed.
+- ~~The TMDB token is sent to the renderer over IPC, so it's readable from DevTools.~~ Fixed in #75: the main process makes the TMDB calls (see [ADR 2](adr/0002-tmdb-calls-in-main-process.md)).
+- ~~Icons are loaded from a CDN at runtime, and there's no Content Security Policy.~~ Fixed in #76.
+- ~~Uses the deprecated `new-window` event instead of `setWindowOpenHandler`.~~ Fixed in #62.
+- ~~IPC handlers do not check who is calling, and any URL opens in the system browser.~~ Fixed in #76.
+- ~~The packaged app ships with Electron's default fuses.~~ Fixed in #74.
+
+What the security model is, and how to report a problem, is in [SECURITY.md](../SECURITY.md).
 
 ### Hygiene → M0
 
 - ~~Package metadata still identifies the app as electron-react-boilerplate, and auto-update points at the boilerplate's repo.~~ Fixed in #14.
 - ~~The git pre-commit hook never runs: husky 7 is installed, but the config uses the husky 4 format.~~ Fixed in #19.
-- ~~IPC channel names are duplicated in two files.~~ Fixed in #45.
+- ~~IPC channel names are duplicated in two files.~~ Fixed in #75: they live in `src/constants/appEvents.cjs`.
 
 ### Outdated stack → M1
 
-~~Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23, Jest 27, Enzyme, `@mui/joy` alpha.~~
-Done in M1. Still open there: `@mui/joy` has no stable release (it stays on its last beta), and ESLint is on 9
-because `eslint-plugin-react` does not support ESLint 10 yet.
+Fixed in M1. The stack was Node 14, Electron 15, React 17, React Router 5, TypeScript 4.4, axios 0.23,
+Jest 27, Enzyme, and a `@mui/joy` alpha. It is now Node 24, Electron 45, React 18, React Router 6,
+TypeScript 5.9, axios 1.x, Jest 30 and React Testing Library, with ESLint 9 (flat config) and webpack 5.
+`@mui/joy` is still a beta release (`5.0.0-beta`), and ESLint stays on 9 because `eslint-plugin-react` does not
+support ESLint 10 yet.
 
 ## 4. Direction
 
@@ -139,8 +146,7 @@ clients exist and it is clearer what is missing, and record it in an ADR.
 ## 5. Milestones
 
 Milestones are ordered: foundation and safety first, then the shared structure, then features and clients.
-Each one has a clear "done when", so it's obvious when it can close. M0–M2 are done or nearly done; the rest
-is the plan.
+Each one has a clear "done when", so it's obvious when it can close. M0–M2 are done; the rest is the plan.
 
 |     | Milestone                                                                                                 | Goal                                                          | Done when                                                                                      |
 | --- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |

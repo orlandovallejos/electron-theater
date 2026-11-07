@@ -27,6 +27,63 @@ The app has three parts, and each one gets only the power it needs.
 | Preload (`src/main/preload.js`) | Bridge    | Exposes a small, typed `window.electron` API and nothing else                 |
 | Renderer (`src/renderer`)       | Untrusted | Draws the UI. Has no token, no Node.js and no direct network access to TMDB   |
 
+```mermaid
+flowchart LR
+    subgraph REND["Renderer (UNTRUSTED)<br/>React UI, third-party content"]
+        UI["React components<br/>src/renderer"]
+        YT["YouTube trailer iframe"]
+    end
+
+    subgraph PRE["Preload (BRIDGE)<br/>src/main/preload.js"]
+        API["window.electron<br/>tmdb.* and 4 window buttons<br/>nothing else"]
+    end
+
+    subgraph MAIN["Main process (TRUSTED)<br/>src/main"]
+        CHK["Sender check<br/>only the app page may call"]
+        VAL["Input validation<br/>ids are digits only"]
+        TMDB["TMDB client<br/>holds the token"]
+        NAV["Link allow-list<br/>no navigation away"]
+    end
+
+    EXT[("TMDB API")]
+    ENV[".env<br/>APP_TOKEN"]
+
+    UI -->|"typed call"| API
+    API -->|"ipcRenderer.invoke<br/>fixed channels"| CHK
+    CHK --> VAL --> TMDB
+    ENV --> TMDB
+    TMDB -->|"HTTPS + token"| EXT
+    TMDB -.->|"data only, never the token"| API
+    YT -.->|"window.open / links"| NAV
+
+    classDef bad fill:#fdd,stroke:#c00,color:#600;
+    classDef mid fill:#eef,stroke:#449,color:#224;
+    classDef good fill:#dfd,stroke:#080,color:#030;
+    class UI,YT bad;
+    class API mid;
+    class CHK,VAL,TMDB,NAV good;
+    style REND fill:#fff0f0,stroke:#c00,stroke-width:2px,stroke-dasharray: 5 3
+    style PRE fill:#f3f3ff,stroke:#449,stroke-width:2px
+    style MAIN fill:#f0fff0,stroke:#080,stroke-width:2px
+```
+
+The layers of protection, from the outside in. An attacker who gets code into the renderer has to get
+through every layer to reach the token or the operating system:
+
+```mermaid
+flowchart TB
+    A["1. Content Security Policy<br/>limits what can load into the page"]
+    B["2. Sandbox + context isolation + no Node.js<br/>the page cannot touch the OS or the preload"]
+    C["3. Preload API<br/>a small fixed list of functions, no generic IPC"]
+    D["4. Main process checks<br/>sender is the app page, ids are digits only"]
+    E["5. Token stays in main<br/>the renderer never receives it"]
+    F["6. Electron fuses<br/>even the packaged binary cannot be run as Node or inspected"]
+    A --> B --> C --> D --> E
+    F -.-> E
+    classDef layer fill:#eef,stroke:#449,color:#224;
+    class A,B,C,D,E,F layer;
+```
+
 The protections, and where they live:
 
 - **The TMDB token never reaches the renderer.** The main process owns it and the renderer asks for

@@ -144,7 +144,8 @@
       "release/app/node_modules"
     ],
     "testPathIgnorePatterns": [
-      "release/app/dist"
+      "release/app/dist",
+      "<rootDir>/.claude/"
     ],
     "setupFilesAfterEnv": [
       "./src/setupTests.ts"
@@ -159,7 +160,8 @@
       "**/src/renderer/**/*.{ts,tsx}",
       "!**/src/renderer/**/*style.{ts,tsx}",
       "!**/node_modules/**",
-      "!**/release/**"
+      "!**/release/**",
+      "!**/.claude/**"
     ],
     "coverageThreshold": {
       "global": {

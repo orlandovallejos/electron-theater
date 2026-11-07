@@ -18,9 +18,6 @@ yarn test
 yarn build
 ```
 
-> `yarn test` currently fails on the coverage thresholds even when all tests pass. This is a known problem
-> tracked in [#27](https://github.com/orlandovallejos/electron-theater/issues/27). The tests themselves must pass.
-
 ## Workflow
 
 ```

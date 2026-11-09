@@ -112,7 +112,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       # Electron and electron-builder's tools are downloaded on the first build. Keep them between runs.
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: |
             ~/.cache/electron

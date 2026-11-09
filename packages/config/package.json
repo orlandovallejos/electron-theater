@@ -1,0 +1,36 @@
+{
+  "name": "@electron-theater/config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared Prettier, TypeScript and ESLint settings for the Electron Theater workspaces.",
+  "exports": {
+    "./eslint/base": "./eslint/base.mjs",
+    "./eslint/react": "./eslint/react.mjs",
+    "./prettier": "./prettier.json",
+    "./tsconfig.base.json": "./tsconfig.base.json"
+  },
+  "scripts": {
+    "lint": "eslint . --cache"
+  },
+  "dependencies": {
+    "@eslint/js": "^9",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-compat": "^7.0.2",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jest": "^29.17.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.7",
+    "eslint-plugin-promise": "^7.3.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "typescript-eslint": "^8"
+  },
+  "peerDependencies": {
+    "eslint": "^9",
+    "prettier": "^3",
+    "typescript": "~5.9.3"
+  },
+  "license": "MIT"
+}

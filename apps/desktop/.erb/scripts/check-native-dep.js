@@ -1,13 +1,29 @@
 import fs from 'fs';
+import path from 'path';
 import chalk from 'chalk';
 import { execSync } from 'child_process';
 import { dependencies } from '../../package.json';
 
-if (dependencies) {
+// In the npm workspace, dependencies are hoisted to the repo root, so the app folder may have no
+// node_modules of its own. Use the closest one, the same way Node resolves packages.
+const findNodeModules = (dir) => {
+  const candidate = path.join(dir, 'node_modules');
+  if (fs.existsSync(candidate)) {
+    return candidate;
+  }
+  const parent = path.dirname(dir);
+  return parent === dir ? null : findNodeModules(parent);
+};
+
+const nodeModulesPath = findNodeModules(process.cwd());
+
+if (dependencies && nodeModulesPath) {
   const dependenciesKeys = Object.keys(dependencies);
   const nativeDeps = fs
-    .readdirSync('node_modules')
-    .filter((folder) => fs.existsSync(`node_modules/${folder}/binding.gyp`));
+    .readdirSync(nodeModulesPath)
+    .filter((folder) =>
+      fs.existsSync(path.join(nodeModulesPath, folder, 'binding.gyp'))
+    );
   if (nativeDeps.length === 0) {
     process.exit(0);
   }

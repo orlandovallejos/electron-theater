@@ -1,0 +1,231 @@
+{
+  "name": "@electron-theater/desktop",
+  "productName": "Electron Theater",
+  "description": "Swipe through movies and shows with a partner. When you both like the same title, it's a match.",
+  "private": true,
+  "scripts": {
+    "build": "concurrently \"npm run build:main\" \"npm run build:preload\" \"npm run build:renderer\"",
+    "build:preload": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.ts",
+    "build:preload:dev": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.ts",
+    "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
+    "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
+    "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
+    "lint": "eslint . --cache",
+    "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
+    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall",
+    "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
+    "start:main": "cross-env NODE_ENV=development electron ./.erb/scripts/start-main.js",
+    "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --verbose=false --watchAll=false --coverage"
+  },
+  "browserslist": [],
+  "build": {
+    "productName": "Electron Theater",
+    "appId": "com.orlandovallejos.electron-theater",
+    "asar": true,
+    "asarUnpack": "**\\*.{node,dll}",
+    "files": [
+      "dist",
+      "node_modules",
+      "package.json"
+    ],
+    "afterSign": ".erb/scripts/notarize.js",
+    "electronFuses": {
+      "runAsNode": false,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableCookieEncryption": true,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "resetAdHocDarwinSignature": true
+    },
+    "mac": {
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "AudioVideo"
+    },
+    "directories": {
+      "app": "release/app",
+      "buildResources": "assets",
+      "output": "release/build"
+    },
+    "extraResources": [
+      "./assets/**"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "orlandovallejos",
+      "repo": "electron-theater"
+    }
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "url": "http://localhost/"
+    },
+    "transform": {
+      "\\.(ts|tsx|js|jsx)$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx",
+      "json"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "release/app/node_modules"
+    ],
+    "testPathIgnorePatterns": [
+      "release/app/dist",
+      "<rootDir>/.claude/"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/setupTests.ts"
+    ],
+    "fakeTimers": {
+      "enableGlobally": true
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/src/api/**/*.{ts,tsx}",
+      "**/src/helpers/**/*.{ts,tsx}",
+      "**/src/renderer/**/*.{ts,tsx}",
+      "!**/src/renderer/**/*style.{ts,tsx}",
+      "!**/node_modules/**",
+      "!**/release/**",
+      "!**/.claude/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 75,
+        "branches": 70,
+        "functions": 70,
+        "lines": 75
+      }
+    },
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
+    ]
+  },
+  "devDependencies": {
+    "@electron/notarize": "^3.1.2",
+    "@electron/rebuild": "^4.2.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.3",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/jest": "^30.0.0",
+    "@types/lodash": "^4.17.27",
+    "@types/node": "^24",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@types/styled-components": "^5",
+    "@types/terser-webpack-plugin": "^5.0.4",
+    "browserslist-config-erb": "^0.0.3",
+    "chalk": "^4.1.2",
+    "concurrently": "^10.0.6",
+    "core-js": "^3.51.0",
+    "cross-env": "^10.1.0",
+    "css-loader": "^7.1.5",
+    "css-minimizer-webpack-plugin": "^8.0.0",
+    "detect-port": "^2.1.0",
+    "electron": "45.2.3",
+    "electron-builder": "^26.18.0",
+    "electron-devtools-installer": "^4.0.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.6.8",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "mini-css-extract-plugin": "^2.10.2",
+    "opencollective-postinstall": "^2.0.3",
+    "react-refresh": "^0.19.0",
+    "react-refresh-typescript": "^2.0.12",
+    "rimraf": "^6.1.4",
+    "sass": "^1.108.0",
+    "sass-loader": "^17.1.0",
+    "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.6.1",
+    "ts-jest": "^29.4.15",
+    "ts-loader": "^9.6.2",
+    "ts-node": "^10.9.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.112.2",
+    "webpack-bundle-analyzer": "^5.4.2",
+    "webpack-cli": "^7.3.1",
+    "webpack-dev-server": "^6.1.0",
+    "webpack-merge": "^6.0.1",
+    "typescript": "~5.9.3"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/joy": "^5.0.0-beta.52",
+    "axios": "^1.21.0",
+    "dotenv": "^18.0.9",
+    "electron-debug": "^5.0.0",
+    "electron-log": "^5.4.4",
+    "electron-store": "^8.0.1",
+    "electron-updater": "^6.8.11",
+    "ionicons": "5.5.2",
+    "lodash": "^4.18.1",
+    "node-vibrant": "^4.0.4",
+    "polished": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "regenerator-runtime": "^0.14.1",
+    "styled-components": "^5.3.3"
+  },
+  "author": {
+    "name": "Orlando Vallejos",
+    "email": "orlandovallejos@gmail.com",
+    "url": "https://github.com/orlandovallejos"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orlandovallejos/electron-theater.git"
+  },
+  "homepage": "https://github.com/orlandovallejos/electron-theater#readme",
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,4 +1,5 @@
 // ESLint flat config. Replaces .eslintrc.js, .eslintignore and the eslint-config-erb / Airbnb preset.
+import path from 'node:path';
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -15,11 +16,11 @@ export default tseslint.config(
   {
     ignores: [
       'node_modules/',
-      'coverage/',
-      'release/app/dist/',
-      'release/build/',
+      '**/coverage/',
+      'apps/desktop/release/app/dist/',
+      'apps/desktop/release/build/',
       // ESLint 7 skipped dot-folders, so the build scripts were never linted. Kept that way.
-      '.erb/',
+      'apps/desktop/.erb/',
       '**/*.css.d.ts',
       '**/*.sass.d.ts',
       '**/*.scss.d.ts',
@@ -45,7 +46,10 @@ export default tseslint.config(
     settings: {
       react: { version: 'detect' },
       'import/resolver': {
-        typescript: { project: './tsconfig.json' },
+        // Absolute, so it works whether ESLint runs from the root (lint-staged) or from the app.
+        typescript: {
+          project: path.join(import.meta.dirname, 'apps/desktop/tsconfig.json'),
+        },
         node: {},
       },
     },
@@ -59,7 +63,7 @@ export default tseslint.config(
         'error',
         { caughtErrors: 'none', ignoreRestSiblings: true },
       ],
-      // Only the dev dependencies are installed at the root.
+      // Dependencies are hoisted to the root node_modules, so the rule can't tell which package owns one.
       'import/no-extraneous-dependencies': 'off',
     },
   },
@@ -283,7 +287,7 @@ export default tseslint.config(
   },
 
   {
-    files: ['**/*.test.{ts,tsx}', 'src/setupTests.ts'],
+    files: ['**/*.test.{ts,tsx}', 'apps/desktop/src/setupTests.ts'],
     ...jest.configs['flat/recommended'],
     languageOptions: { globals: { ...globals.jest } },
   },

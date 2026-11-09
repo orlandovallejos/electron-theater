@@ -15,7 +15,7 @@ updates:
 
   # Dependencies of the packaged app (release/app).
   - package-ecosystem: npm
-    directory: /release/app
+    directory: /apps/desktop/release/app
     schedule:
       interval: weekly
     open-pull-requests-limit: 2

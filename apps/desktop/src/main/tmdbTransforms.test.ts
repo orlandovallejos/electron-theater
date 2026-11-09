@@ -1,7 +1,7 @@
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { Movie, Serie } from 'types';
+import { Movie, Serie } from '@electron-theater/core';
 import apiHelper from './tmdbTransforms';
 
 describe('Api helper', () => {

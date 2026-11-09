@@ -3,14 +3,13 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { MovieViewItem } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
 import Header from './header';
 import GoBackButton from '../common/GoBackButton';
-// Types
-import { MovieViewItem } from '../../types';
 // Api
 import moviesApi from '../../api/Movies';
 import Content from './content';

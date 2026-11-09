@@ -5,7 +5,7 @@ import axios from 'axios';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { MovieItem, MovieViewItem } from '../types';
+import { MovieItem, MovieViewItem } from '@electron-theater/core';
 import transforms from './tmdbTransforms';
 
 type TmdbOptions = {

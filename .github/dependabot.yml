@@ -1,7 +1,7 @@
 version: 2
 updates:
-  # Root app dependencies. Minor and patch updates arrive together in one weekly PR,
-  # so they stay easy to review. Major updates get their own PR.
+  # Every npm workspace (the root, apps/*, packages/*). Minor and patch updates arrive together in one
+  # weekly PR, so they stay easy to review. Major updates get their own PR.
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -10,8 +10,27 @@ updates:
     commit-message:
       prefix: 'chore'
     groups:
+      # react and react-dom must always be on the same version, so they update in one PR.
+      # Listed before minor-and-patch, because a dependency goes into the first group that matches.
+      react:
+        patterns: [react, react-dom, '@types/react', '@types/react-dom']
       minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # React 19 is a migration, not a version bump: #99. Remove this when it is done.
+      - dependency-name: react
+        update-types: ['version-update:semver-major']
+      - dependency-name: react-dom
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react-dom'
+        update-types: ['version-update:semver-major']
+      # ESLint stays on 9 until eslint-plugin-react supports 10: #100. Remove this when it is done.
+      - dependency-name: eslint
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@eslint/js'
+        update-types: ['version-update:semver-major']
 
   # Dependencies of the packaged app (release/app).
   - package-ecosystem: npm

@@ -21,11 +21,11 @@ please be patient.
 
 The app has three parts, and each one gets only the power it needs.
 
-| Part                            | Trust     | What it can do                                                                |
-| ------------------------------- | --------- | ----------------------------------------------------------------------------- |
-| Main process (`src/main`)       | Trusted   | Holds the TMDB token, makes every TMDB request, opens links, controls windows |
-| Preload (`src/main/preload.js`) | Bridge    | Exposes a small, typed `window.electron` API and nothing else                 |
-| Renderer (`src/renderer`)       | Untrusted | Draws the UI. Has no token, no Node.js and no direct network access to TMDB   |
+| Part                                         | Trust     | What it can do                                                                |
+| -------------------------------------------- | --------- | ----------------------------------------------------------------------------- |
+| Main process (`apps/desktop/src/main`)       | Trusted   | Holds the TMDB token, makes every TMDB request, opens links, controls windows |
+| Preload (`apps/desktop/src/main/preload.js`) | Bridge    | Exposes a small, typed `window.electron` API and nothing else                 |
+| Renderer (`apps/desktop/src/renderer`)       | Untrusted | Draws the UI. Has no token, no Node.js and no direct network access to TMDB   |
 
 ```mermaid
 flowchart LR
@@ -90,10 +90,10 @@ The protections, and where they live:
   results over fixed IPC channels. See [ADR 2](docs/adr/0002-tmdb-calls-in-main-process.md).
 - **Sandbox and isolation.** The renderer runs with `sandbox: true`, `contextIsolation: true` and
   `nodeIntegration: false`, and web security (the same-origin policy) is on.
-- **Content Security Policy.** `src/renderer/index.ejs` limits where scripts, styles, fonts, images and
+- **Content Security Policy.** `apps/desktop/src/renderer/index.ejs` limits where scripts, styles, fonts, images and
   frames can load from. Each allowance is explained in a comment next to it.
 - **IPC validation.** Every handler checks that the message comes from the app's own page, and ids from
-  the renderer must be digits only (`src/main/main.ts`, `src/main/security.ts`).
+  the renderer must be digits only (`apps/desktop/src/main/main.ts`, `apps/desktop/src/main/security.ts`).
 - **Links and navigation.** The app opens only `https` links to an allow-listed set of hosts in the
   user's browser, and the window cannot navigate away from the app page.
 - **Electron fuses.** The packaged app turns off `RunAsNode`, the `NODE_OPTIONS` variable and the

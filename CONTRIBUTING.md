@@ -18,6 +18,23 @@ npm test
 npm run build
 ```
 
+To run a check in one workspace only, add `-w` and the workspace name, for example
+`npm test -w @electron-theater/core` or `npm run lint -w @electron-theater/desktop`.
+
+### Where code goes
+
+The repo is an npm workspaces monorepo (see the [layout in the README](README.md#repository-layout) and
+[ADR 4](docs/adr/0004-monorepo-layout.md)):
+
+- **`packages/core`:** types and pure logic that any client could use. It must not use browser, Node or
+  Electron APIs, or React; its type check fails if it does. Its tests run in Node, next to the code.
+- **The app (`apps/desktop`):** anything that touches Electron, `window.electron`, the DOM or React
+  components.
+- **`packages/config`:** settings shared by every workspace (Prettier, TypeScript, ESLint). Change a rule
+  there, not in an app.
+
+If you're not sure, start in the app and move the code to `core` once a second client needs it.
+
 ## Workflow
 
 ```

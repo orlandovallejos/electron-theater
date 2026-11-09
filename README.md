@@ -30,40 +30,67 @@
 
 ## Tech stack
 
-- [Electron](https://www.electronjs.org/) with [React](https://react.dev/) and
-  [TypeScript](https://www.typescriptlang.org/)
-- [React Router](https://reactrouter.com/), [styled-components](https://styled-components.com/)
-- [axios](https://axios-http.com/) for [The Movie Database (TMDB)](https://www.themoviedb.org/) API calls
-- [Webpack](https://webpack.js.org/), built from the
+- [Electron](https://www.electronjs.org/) 45 with [React](https://react.dev/) 18 and
+  [TypeScript](https://www.typescriptlang.org/) 5.9
+- [React Router](https://reactrouter.com/), [styled-components](https://styled-components.com/) and
+  [MUI Joy](https://mui.com/joy-ui/getting-started/)
+- [axios](https://axios-http.com/) for [The Movie Database (TMDB)](https://www.themoviedb.org/) API calls, made
+  from the main process
+- [Webpack](https://webpack.js.org/) and [electron-builder](https://www.electron.build/), from the
   [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate)
   template
-- [Jest](https://jestjs.io/) and [Enzyme](https://enzymejs.github.io/enzyme/) for tests, ESLint and
-  Prettier for code style, GitHub Actions for CI
+- [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+  for tests, ESLint and Prettier for code style
+- An [npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces) monorepo, with GitHub Actions running
+  lint, type checks, tests, the build and a Linux installer build on every pull request
 
-The versions are dated. Updating them is the plan for milestone M1.
+## Repository layout
+
+```
+apps/
+  desktop/        the Electron app
+    src/main/       main process: window, menu, IPC handlers, TMDB client
+    src/renderer/   React UI: Home, MovieView, Layout, shared components in common/
+    src/api/        typed wrapper over the TMDB API the preload script exposes
+    release/app/    what ships inside the installer
+    .erb/           webpack configs and build scripts
+packages/
+  core/           types and pure logic shared by every client: date, math and image helpers, TMDB transforms
+  config/         shared Prettier, TypeScript and ESLint settings
+docs/             roadmap, ADRs, security notes
+```
+
+The web client, the mobile app and the backend will be added next to these (see the
+[roadmap](docs/ROADMAP.md#target-architecture)). What goes in a shared package and what stays in an app is in
+[ADR 4](docs/adr/0004-monorepo-layout.md).
 
 ## Architecture
 
 ```mermaid
 flowchart LR
   subgraph Electron
-    M["Main process<br/>src/main"]
-    R["Renderer (React)<br/>src/renderer"]
+    M["Main process<br/>apps/desktop/src/main"]
+    P["Preload<br/>window.electron"]
+    R["Renderer (React)<br/>apps/desktop/src/renderer"]
   end
-  R -- "IPC: env vars, window controls" --> M
-  R -- "HTTPS + token" --> T[("TMDB API")]
-  M -- ".env" --> E[".env<br/>API_URL, APP_TOKEN"]
+  C["packages/core<br/>types, helpers, transforms"]
+  R -- "IPC: TMDB calls, window controls" --> P --> M
+  M -- "HTTPS + token" --> T[("TMDB API")]
+  M -- "reads" --> E[".env<br/>API_URL, APP_TOKEN"]
+  C -. "used by" .-> M
+  C -. "used by" .-> R
 ```
 
-| Part              | Where                      | What it does                                                                            |
-| ----------------- | -------------------------- | --------------------------------------------------------------------------------------- |
-| Main process      | `src/main`                 | Creates the window and menu, loads `.env`, and handles IPC for window controls          |
-| Renderer          | `src/renderer`             | The React UI: `Home`, `MovieView`, `Layout` and shared components in `common`           |
-| API client        | `src/api`, `src/config`    | An axios client that adds the TMDB token, and transforms for movie and series responses |
-| Helpers and types | `src/helpers`, `src/types` | Image URLs, dates, and shared types                                                     |
+| Part         | Where                              | What it does                                                                         |
+| ------------ | ---------------------------------- | ------------------------------------------------------------------------------------ |
+| Main process | `apps/desktop/src/main`            | Creates the window and menu, loads `.env`, makes every TMDB request, and handles IPC |
+| Preload      | `apps/desktop/src/main/preload.js` | Exposes a small typed `window.electron` API to the renderer and nothing else         |
+| Renderer     | `apps/desktop/src/renderer`        | The React UI: `Home`, `MovieView`, `Layout` and shared components in `common`        |
+| API wrapper  | `apps/desktop/src/api`             | Thin, typed wrapper over `window.electron.tmdb`                                      |
+| Shared code  | `packages/core`                    | Domain types, the date / math / image helpers, and the transforms for TMDB responses |
 
-Today the renderer reads the TMDB token from the main process over IPC and calls TMDB directly. Moving that
-behind the main process is planned for milestone M2.
+The TMDB token only exists in the main process; the renderer never sees it
+([ADR 2](docs/adr/0002-tmdb-calls-in-main-process.md), [SECURITY.md](SECURITY.md)).
 
 ## Getting started
 
@@ -120,7 +147,10 @@ behind the main process is planned for milestone M2.
 | `npm run typecheck` | Type-check with TypeScript                                             |
 | `npm test`          | Run the tests with coverage; fails if coverage is below the thresholds |
 | `npm run build`     | Build the main and renderer bundles                                    |
-| `npm run package`   | Build and package an installer into `release/build`                    |
+| `npm run package`   | Build and package an installer into `apps/desktop/release/build`       |
+
+Run from the repo root. `lint`, `typecheck` and `test` run in every workspace; to run one workspace only, add
+`-w` and its name, for example `npm test -w @electron-theater/core`.
 
 ## Contributing
 

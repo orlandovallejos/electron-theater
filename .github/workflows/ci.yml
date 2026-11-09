@@ -15,6 +15,11 @@ permissions:
 # Each check is its own job so a failure is easy to see and can be required on its own.
 #
 # The Jest coverage thresholds are enforced, not skipped: `test` fails if coverage drops below them.
+#
+# `package` builds the Linux installer (AppImage), so a change that breaks electron-builder fails here
+# instead of at release time. It is skipped when a pull request only changes docs. Because a skipped job
+# can't be a required check, the required check is `installer`, which passes when `package` passed or
+# was skipped.
 
 jobs:
   lint:
@@ -67,3 +72,71 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+
+  # Decides whether the installer has to be built. Pushes to main always build it; a pull request
+  # skips it when every changed file is documentation.
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed=$(git diff --name-only "$BASE_SHA" HEAD)
+          echo "Changed files:"
+          echo "$changed"
+          docs_only='^(docs/.*|.*\.md|LICENSE|\.github/ISSUE_TEMPLATE/.*|\.github/pull_request_template\.md|\.vscode/.*)$'
+          if echo "$changed" | grep -qvE "$docs_only"; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  package:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      # Electron and electron-builder's tools are downloaded on the first build. Keep them between runs.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+          key: electron-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: electron-${{ runner.os }}-
+      - run: npm ci
+      - run: npm run package
+      - name: Upload installer
+        uses: actions/upload-artifact@v7
+        with:
+          name: installer-linux
+          path: apps/desktop/release/build/*.AppImage
+          if-no-files-found: error
+          retention-days: 7
+
+  # The required check for the installer: passes when `package` succeeded, or was skipped because the
+  # change is docs only. Fails if `changes` itself failed, so a broken filter can't skip the build.
+  installer:
+    needs: [changes, package]
+    if: always()
+    runs-on: ubuntu-22.04
+    steps:
+      - run: |
+          echo "changes: ${{ needs.changes.result }}, package: ${{ needs.package.result }}"
+          [ "${{ needs.changes.result }}" = "success" ] || exit 1
+          [ "${{ needs.package.result }}" = "success" ] || [ "${{ needs.package.result }}" = "skipped" ]

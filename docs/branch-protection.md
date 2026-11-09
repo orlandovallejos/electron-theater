@@ -12,7 +12,7 @@ How `main` is protected, and the exact commands used, so the setup can be reprod
 | History | Linear; squash merge only |
 | Branches after merge | Deleted automatically |
 | Force pushes, branch deletion | Blocked |
-| Required status checks (CI) | `lint`, `typecheck`, `build`. Not up-to-date with `main` required. `test` is **not** required yet: it fails on the coverage thresholds until #27 |
+| Required status checks (CI) | `lint`, `typecheck`, `test`, `build`, `installer`. Not up-to-date with `main` required. `installer` is the wrapper around the `package` job (see below) |
 
 **Self-review convention:** leave a "Comment" review on each PR before merging.
 
@@ -55,10 +55,14 @@ above with `required_status_checks` set as below (the `PATCH .../required_status
 until checks have been enabled once):
 
 ```json
-"required_status_checks": {"strict": false, "contexts": ["lint", "typecheck", "build"]}
+"required_status_checks": {"strict": false, "contexts": ["lint", "typecheck", "test", "build", "installer"]}
 ```
 
-When #27 is done, add `"test"` to `contexts`.
+`test` became required once the coverage thresholds passed (#27, fixed in #80).
+
+The installer build (`package`) is skipped on docs-only pull requests, and a skipped job can't be a required
+check, so `installer` is required instead: it passes when `package` succeeded or was skipped, and fails
+otherwise. Don't require `package` or `changes` directly.
 
 ## History
 

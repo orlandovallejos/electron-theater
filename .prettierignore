@@ -18,9 +18,9 @@ node_modules
 # OSX
 .DS_Store
 
-release/app/dist
-release/build
-.erb/dll
+apps/desktop/release/app/dist
+apps/desktop/release/build
+apps/desktop/.erb/dll
 
 .idea
 npm-debug.log.*

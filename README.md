@@ -88,10 +88,10 @@ behind the main process is planned for milestone M2.
    npm install
    ```
 
-3. Create your environment file and set `APP_TOKEN`:
+3. Create the desktop app's environment file and set `APP_TOKEN`:
 
    ```bash
-   cp .env.example .env
+   cp apps/desktop/.env.example apps/desktop/.env
    ```
 
    | Variable    | Required | Description                                                                                                                                   |

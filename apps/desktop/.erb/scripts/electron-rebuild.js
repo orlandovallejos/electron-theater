@@ -1,4 +1,3 @@
-import path from 'path';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import { dependencies } from '../../release/app/package.json';
@@ -8,14 +7,13 @@ if (
   Object.keys(dependencies || {}).length > 0 &&
   fs.existsSync(webpackPaths.appNodeModulesPath)
 ) {
-  const electronRebuildCmd =
-    '../../node_modules/.bin/electron-rebuild --parallel --force --types prod,dev,optional --module-dir .';
-  const cmd =
-    process.platform === 'win32'
-      ? electronRebuildCmd.replace(/\//g, '\\')
-      : electronRebuildCmd;
-  execSync(cmd, {
-    cwd: webpackPaths.appPath,
-    stdio: 'inherit',
-  });
+  // npx finds the binary in the hoisted workspace node_modules, wherever that is. It runs from the
+  // desktop app's folder, and --module-dir points it at the packaged app's dependencies.
+  execSync(
+    'npx --no -- electron-rebuild --parallel --force --types prod,dev,optional --module-dir release/app',
+    {
+      cwd: webpackPaths.rootPath,
+      stdio: 'inherit',
+    }
+  );
 }

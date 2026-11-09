@@ -6,7 +6,7 @@ easy to follow and review. The plan and milestones are in [docs/ROADMAP.md](docs
 ## Development setup
 
 Follow [Getting started in the README](README.md#getting-started): install the Node version from
-`.nvmrc`, run `npm install`, and create your `.env` from `.env.example`.
+`.nvmrc`, run `npm install`, and create `apps/desktop/.env` from `apps/desktop/.env.example`.
 
 `npm install` also sets up the Git hooks (see [Commit messages](#commit-messages)). Run the app with
 `npm start`. Before opening a PR, run what CI runs:

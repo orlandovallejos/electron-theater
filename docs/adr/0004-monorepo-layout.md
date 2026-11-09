@@ -41,9 +41,49 @@ workspace too; `services/agent` (Python) lives in the repo but is not an npm wor
 is no build step. Each app's bundler compiles the package with the app, and each package runs its own
 tests with ts-jest. A package gets a build step only when something outside the repo needs to install it.
 
-**Names and versions.** Every workspace is `private`, uses the `@electron-theater/` scope (for example
-`@electron-theater/core`) and stays at version `0.0.0`. Apps depend on packages with `"*"`, which always
-means "the copy in this repo".
+**Names and versions.** Each workspace has its own `package.json`. These rules say what goes in it:
+
+- **Name:** the folder name with an `@electron-theater/` prefix, so `packages/core` is called
+  `@electron-theater/core`. The prefix (an npm "scope") makes it clear that a package is ours, and it
+  can't clash with a public npm package that happens to be called `core`.
+- **`"private": true`:** npm refuses to publish the package, so it can't end up on the public registry
+  by mistake. Our packages are only used inside this repo.
+- **`"version": "0.0.0"`:** the packages are never released on their own, so their version number has
+  no meaning. Only the apps have real versions (the desktop app's version is in `release/app`).
+- **Depending on a package:** an app lists it with the version `"*"`. In a workspace, npm then links the
+  folder from this repo instead of downloading anything, so the app always uses the current code of
+  the package. (npm has no special `workspace:` syntax for this, unlike Yarn and pnpm.)
+
+For example, `packages/core/package.json`:
+
+```json
+{
+  "name": "@electron-theater/core",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}
+```
+
+`apps/desktop/package.json` then lists it like any other dependency:
+
+```json
+{
+  "name": "@electron-theater/desktop",
+  "private": true,
+  "dependencies": {
+    "@electron-theater/core": "*"
+  }
+}
+```
+
+And code in the desktop app imports it by name instead of with a relative path:
+
+```ts
+// before: import { MovieItem } from '../../types';
+import { MovieItem } from '@electron-theater/core';
+```
 
 **What goes where.**
 

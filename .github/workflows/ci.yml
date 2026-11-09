@@ -59,7 +59,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: coverage
-          path: apps/desktop/coverage
+          path: |
+            apps/desktop/coverage
+            packages/core/coverage
           if-no-files-found: ignore
 
   build:

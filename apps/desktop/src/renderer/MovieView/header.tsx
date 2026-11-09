@@ -5,17 +5,18 @@ import React from 'react';
 import { Vibrant } from 'node-vibrant/browser';
 import CircularProgress from '@mui/joy/CircularProgress';
 import Modal from '@mui/joy/Modal';
-import { MovieViewItem } from '@electron-theater/core';
+import {
+  MovieViewItem,
+  dateHelper,
+  imageHelper,
+  mathHelper,
+} from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
 import Button from '../common/Button';
 import Icon from '../common/Icon';
-// Helpers
-import imageHelper from '../../helpers/image';
-import dateHelper from '../../helpers/date';
-import mathHelper from '../../helpers/math';
 // Style
 import HeaderWrapper, { Shadow } from './header.style';
 

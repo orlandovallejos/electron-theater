@@ -1,0 +1,9 @@
+{
+  // The tests also need Jest's globals. The source itself is checked by tsconfig.json, which loads no
+  // @types at all, so the "no browser or Node APIs" rule still holds for everything that ships.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest"]
+  },
+  "include": ["src"]
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Vibrant } from 'node-vibrant/browser';
-import imageHelper from '../../helpers/image';
+import { imageHelper } from '@electron-theater/core';
 import Header from './header';
 
 jest.mock('node-vibrant/browser', () => ({

@@ -3,11 +3,11 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { imageHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 import moviesApi from '../api/Movies';
-import imageHelper from '../helpers/image';
 import App from './App';
 
 jest.mock('../api/Movies');

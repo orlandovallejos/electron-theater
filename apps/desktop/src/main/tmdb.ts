@@ -5,8 +5,11 @@ import axios from 'axios';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { MovieItem, MovieViewItem } from '@electron-theater/core';
-import transforms from './tmdbTransforms';
+import {
+  MovieItem,
+  MovieViewItem,
+  tmdbTransforms,
+} from '@electron-theater/core';
 
 type TmdbOptions = {
   apiUrl: string;
@@ -66,14 +69,20 @@ export const createTmdbClient = ({ apiUrl, token }: TmdbOptions) => {
       const data = await get(
         'discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=1'
       );
-      return { ...data, results: data.results.map(transforms.transformMovie) };
+      return {
+        ...data,
+        results: data.results.map(tmdbTransforms.transformMovie),
+      };
     },
 
     getTopSeries: async (): Promise<{ results: MovieItem[] }> => {
       const data = await get(
         'discover/tv?language=en-US&with_original_language=en&sort_by=popularity.desc&include_adult=false&page=1'
       );
-      return { ...data, results: data.results.map(transforms.transformSerie) };
+      return {
+        ...data,
+        results: data.results.map(tmdbTransforms.transformSerie),
+      };
     },
 
     getMovie: (movieId: string): Promise<MovieViewItem> =>

@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { MovieItem } from '@electron-theater/core';
+import { MovieItem, mathHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -11,8 +11,6 @@ import Hero from './Hero';
 import Content from './Content';
 // Api
 import moviesApi from '../../api/Movies';
-// Helpers
-import mathHelper from '../../helpers/math';
 
 const Home = () => {
   const [movies, setMovies] = React.useState<MovieItem[]>([]);

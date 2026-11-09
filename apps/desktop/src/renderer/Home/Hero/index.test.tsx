@@ -3,10 +3,10 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { imageHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import imageHelper from '../../../helpers/image';
 import Hero from './index';
 
 const movie = {

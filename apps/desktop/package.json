@@ -155,7 +155,7 @@
     "@types/lodash": "^4.17.27",
     "@types/node": "^24",
     "@types/react": "^18.3.31",
-    "@types/react-dom": "^18.3.7",
+    "@types/react-dom": "^19.3.0",
     "@types/styled-components": "^5",
     "@types/terser-webpack-plugin": "^5.0.4",
     "browserslist-config-erb": "^0.0.3",
@@ -209,7 +209,7 @@
     "node-vibrant": "^4.0.4",
     "polished": "^4.3.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.3.1",
     "react-router-dom": "^6.30.6",
     "regenerator-runtime": "^0.14.1",
     "styled-components": "^5.3.3"

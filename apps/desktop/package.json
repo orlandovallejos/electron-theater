@@ -205,7 +205,7 @@
     "electron-log": "^5.4.4",
     "electron-store": "^8.0.1",
     "electron-updater": "^6.8.11",
-    "ionicons": "5.5.2",
+    "ionicons": "8.1.0",
     "lodash": "^4.18.1",
     "node-vibrant": "^4.0.4",
     "polished": "^4.3.1",

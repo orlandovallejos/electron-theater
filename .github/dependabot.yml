@@ -19,18 +19,18 @@ updates:
     ignore:
       # React 19 is a migration, not a version bump: #99. Remove this when it is done.
       - dependency-name: react
-        update-types: [version-update:semver-major]
+        update-types: ['version-update:semver-major']
       - dependency-name: react-dom
-        update-types: [version-update:semver-major]
+        update-types: ['version-update:semver-major']
       - dependency-name: '@types/react'
-        update-types: [version-update:semver-major]
+        update-types: ['version-update:semver-major']
       - dependency-name: '@types/react-dom'
-        update-types: [version-update:semver-major]
+        update-types: ['version-update:semver-major']
       # ESLint stays on 9 until eslint-plugin-react supports 10: #100. Remove this when it is done.
       - dependency-name: eslint
-        update-types: [version-update:semver-major]
+        update-types: ['version-update:semver-major']
       - dependency-name: '@eslint/js'
-        update-types: [version-update:semver-major]
+        update-types: ['version-update:semver-major']
 
   # Dependencies of the packaged app (release/app).
   - package-ecosystem: npm

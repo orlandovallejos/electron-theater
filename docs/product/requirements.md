@@ -147,6 +147,7 @@ never. **Milestone** is where the feature is first built.
 | `TITLE`  | Where to watch in your region (TMDB watch providers)         | ✓     | ✓     | ✓     | first version | M5        |
 | `TITLE`  | Trailer                                                      | ✓     | ✓     | ✓     | first version | M5        |
 | `PERSON` | Person page: photo, bio, known for                           | ✓     | ✓     | ✓     | first version | M5        |
+| `TITLE`  | Share a link to a title                                      | later | later | later | later         | —         |
 
 ### Likes and your own lists
 

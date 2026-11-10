@@ -3,6 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-11-07
 - **Amended:** 2026-11-09, the project and the package scope were renamed from Electron Theater (`@electron-theater/`) to Movie Mates (`@movie-mates/`) in #110.
+- **Amended:** 2026-11-09, the design tokens live in their own package, `packages/tokens`, instead of `core` ([ADR 5](0005-styling-and-design-tokens.md)).
 
 ## Context
 
@@ -95,7 +96,7 @@ import { MovieItem } from '@movie-mates/core';
 | Domain types (`MovieItem`, `Movie`, `Serie`, `MovieViewItem`, …)             | `core`                                |
 | Pure functions with no platform APIs (date, math, image URL helpers)         | `core`                                |
 | TMDB response transforms                                                     | `core`                                |
-| Design tokens                                                                | `core` (in M4)                        |
+| Design tokens                                                                | `tokens` (in M4, see ADR 5)           |
 | Anything that touches Electron, `window.electron`, Node-only APIs or the DOM | the app                               |
 | React components and screens                                                 | the app now; `ui` and `screens` in M5 |
 

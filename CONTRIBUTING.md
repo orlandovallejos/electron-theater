@@ -45,8 +45,9 @@ Issue ──▶ Branch ──▶ Commits ──▶ Pull request ──▶ Review
    there is none, open one first (use the issue forms).
 2. **Branch** from an up-to-date `main`, named as described [below](#branch-names).
 3. **Commit** in small steps with [Conventional Commits](#commit-messages).
-4. **Open a pull request** that links the issue with `Closes #N`, sets the milestone and labels, and says how
-   it was tested. The [PR template](.github/pull_request_template.md) has the structure.
+4. **Open a pull request** that links the issue with `Closes #N`, sets the milestone and labels, says how
+   it was tested, and has a short [Lesson](#what-well-learn-and-lessons). The
+   [PR template](.github/pull_request_template.md) has the structure.
 5. **Review.** Leave a review on the PR before merging. On this project there is one maintainer, and GitHub
    does not let authors approve their own PRs, so the convention is a **"Comment" review** on every PR.
 6. **Squash merge.** The PR title becomes the commit message on `main`, so it must follow Conventional
@@ -55,6 +56,20 @@ Issue ──▶ Branch ──▶ Commits ──▶ Pull request ──▶ Review
 `main` is protected: changes go through a pull request, history is linear, and the `lint`, `typecheck` and
 `build` checks must pass. Nobody is exempt, including admins. Details and the exact settings are in
 [docs/branch-protection.md](docs/branch-protection.md).
+
+### What we'll learn, and lessons
+
+Learning is the project's first goal (see the [roadmap](docs/ROADMAP.md)), so every change records its
+reasoning, not just its diff:
+
+- **Issues** ask one or two questions in **What we'll learn**, about the _why_. For example: "Why have a
+  linter at all?" or "Why does its config sit at the repo root?"
+- **Pull requests** answer them in a **Lesson** paragraph, written after the work is done, when you know the
+  answer. Keep it short and in plain words, as you would explain it to someone new to the project. For the
+  linter: one consistent style without arguing about it in reviews, and one config at the root that every
+  workspace shares and can make stricter.
+
+A lesson isn't a summary of the diff. If it only says what changed, ask "why this way, and not another?"
 
 ### Branch names
 

@@ -147,9 +147,10 @@ apps/
   web          browser client
   mobile       Expo / React Native
 packages/
-  core         types, pure logic, response transforms, design tokens
+  core         types, pure logic, response transforms
+  tokens       design tokens and the Tailwind theme generated from them
   api-client   ApiClient interface and its HTTP implementation
-  ui           presentational components and the theme (DOM only)
+  ui           presentational components (DOM only)
   screens      Home, MovieView, ... built from ui; platform parts are injected
   config       shared Prettier, ESLint and TypeScript settings
 services/
@@ -160,6 +161,7 @@ services/
 | Package      | Desktop | Web | Mobile                   |
 | ------------ | ------- | --- | ------------------------ |
 | `core`       | yes     | yes | yes                      |
+| `tokens`     | yes     | yes | yes                      |
 | `api-client` | yes     | yes | yes                      |
 | `ui`         | yes     | yes | no (own UI, same tokens) |
 | `screens`    | yes     | yes | no (own screens)         |
@@ -171,6 +173,9 @@ open external links, and so on. The desktop app supplies an IPC-backed `ApiClien
 
 The mobile app cannot reuse DOM components, so it shares `core`, `api-client` and the design tokens instead.
 That keeps its look consistent without a "universal UI" layer.
+Styling is Tailwind on desktop and web, and the same classes on mobile (Uniwind or NativeWind, picked in M9).
+The reasons, and the alternative of one React Native component set for every client, are in
+[ADR 5](adr/0005-styling-and-design-tokens.md).
 
 ### Open question: what is the desktop app for?
 

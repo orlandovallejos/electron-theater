@@ -5,11 +5,7 @@ import axios from 'axios';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import {
-  MovieItem,
-  MovieViewItem,
-  tmdbTransforms,
-} from '@movie-mates/core';
+import { MovieItem, MovieViewItem, tmdbTransforms } from '@movie-mates/core';
 
 type TmdbOptions = {
   apiUrl: string;

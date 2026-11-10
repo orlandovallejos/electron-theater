@@ -109,6 +109,7 @@ agent. This section is the shared picture; the milestones below are the steps.
    where they can really run (the DOM apps); keep platform-specific parts behind small adapters.
 3. **One source of truth for the look.** Colors, type, spacing and the rest are design tokens defined once.
    Changing a token (for example the primary color) updates every client. M12 proves it.
+   The [design principles and the component inventory](design/README.md) say how the tokens are used.
 4. **Decisions are written down.** Trade-offs go in ADRs (`docs/adr/`), not only in pull requests.
 5. **Small, reviewable changes.** See [How work is organized](#6-how-work-is-organized).
 

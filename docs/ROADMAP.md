@@ -35,14 +35,16 @@ Electron desktop app with a React renderer, built on
 [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate),
 using [The Movie Database (TMDB)](https://www.themoviedb.org/) API. The stack is current (Electron 45,
 React 18, React Router 6, TypeScript 5.9, Jest 30 with React Testing Library, ESLint 9), CI runs on every
-pull request, and the security work of M2 is done.
+pull request and builds the Linux installer, and the security work of M2 is done. Since M3 the repo is an npm
+workspaces monorepo: the app is in `apps/desktop`, shared code in `packages/core` and shared tooling settings
+in `packages/config`.
 
-| Area        | What exists                                                                                                       | Where                                    |
-| ----------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| Home        | Random hero banner, rows of trending movies and TV shows, poster borders tinted from the artwork (`node-vibrant`) | `src/renderer/Home`                      |
-| Detail view | Backdrop, poster, rating ring, tagline, overview, YouTube trailer modal, status / language / budget / revenue     | `src/renderer/MovieView`                 |
-| Window      | Frameless, sandboxed window with custom close / minimize / fullscreen controls over validated IPC                 | `src/main`, `src/renderer/common/AppBar` |
-| Data        | TMDB calls run in the main process, so the token never reaches the renderer; the renderer uses a typed API        | `src/main/tmdb.ts`, `src/api`            |
+| Area        | What exists                                                                                                       | Where                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Home        | Random hero banner, rows of trending movies and TV shows, poster borders tinted from the artwork (`node-vibrant`) | `apps/desktop/src/renderer/Home`                                   |
+| Detail view | Backdrop, poster, rating ring, tagline, overview, YouTube trailer modal, status / language / budget / revenue     | `apps/desktop/src/renderer/MovieView`                              |
+| Window      | Frameless, sandboxed window with custom close / minimize / fullscreen controls over validated IPC                 | `apps/desktop/src/main`, `apps/desktop/src/renderer/common/AppBar` |
+| Data        | TMDB calls run in the main process, so the token never reaches the renderer; the renderer uses a typed API        | `apps/desktop/src/main/tmdb.ts`, `apps/desktop/src/api`            |
 
 **Not built yet:** the core idea. There are no accounts, no swiping, no matches, and no shared list.
 
@@ -76,7 +78,7 @@ What the security model is, and how to report a problem, is in [SECURITY.md](../
 
 - ~~Package metadata still identifies the app as electron-react-boilerplate, and auto-update points at the boilerplate's repo.~~ Fixed in #14.
 - ~~The git pre-commit hook never runs: husky 7 is installed, but the config uses the husky 4 format.~~ Fixed in #19.
-- ~~IPC channel names are duplicated in two files.~~ Fixed in #75: they live in `src/constants/appEvents.cjs`.
+- ~~IPC channel names are duplicated in two files.~~ Fixed in #75: they live in `apps/desktop/src/constants/appEvents.cjs`.
 
 ### Outdated stack → M1
 
@@ -149,7 +151,7 @@ clients exist and it is clearer what is missing, and record it in an ADR.
 ## 5. Milestones
 
 Milestones are ordered: foundation and safety first, then the shared structure, then features and clients.
-Each one has a clear "done when", so it's obvious when it can close. M0–M2 are done; the rest is the plan.
+Each one has a clear "done when", so it's obvious when it can close. M0–M3 are done; the rest is the plan.
 
 |     | Milestone                                                                                                 | Goal                                                          | Done when                                                                                      |
 | --- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -177,8 +179,7 @@ old numbers (Bug Fixes & UX Polish and Watchlist & Persistence).
 
 ```mermaid
 flowchart LR
-  done["M0–M2 ✅<br/>Foundation, stack, security"]
-  m3["M3 Monorepo<br/>~1–2 wk"]
+  done["M0–M3 ✅<br/>Foundation, stack, security, monorepo"]
   m4["M4 Design System<br/>~3–4 wk"]
   m5["M5 Bugs + extract ui/screens<br/>~2–3 wk"]
   m6["M6 Watchlist<br/>~1–2 wk"]
@@ -189,7 +190,7 @@ flowchart LR
   m11["M11 Release<br/>~3–4 wk"]
   m12["M12 Showcase<br/>~1–2 wk"]
 
-  done --> m3 --> m4 --> m5 --> m6 --> m7
+  done --> m4 --> m5 --> m6 --> m7
   m7 --> m8 --> m9 --> m11
   m7 -.->|"could go first"| m10
   m10 --> m11
@@ -198,7 +199,7 @@ flowchart LR
 
 | Milestone | Weeks (calendar)             |
 | --------- | ---------------------------- |
-| M3        | 1–2                          |
+| M3        | 1–2 (took 3 days)            |
 | M4        | 3–4                          |
 | M5        | 2–3                          |
 | M6        | 1–2                          |

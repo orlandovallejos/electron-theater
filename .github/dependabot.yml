@@ -31,6 +31,12 @@ updates:
         update-types: ['version-update:semver-major']
       - dependency-name: '@eslint/js'
         update-types: ['version-update:semver-major']
+      # React Router 7 is a migration (the tests fail on it): #114. Remove this when it is done.
+      - dependency-name: react-router-dom
+        update-types: ['version-update:semver-major']
+      # TypeScript 7 needs ts-loader, ts-jest and typescript-eslint to support it first: #115.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
 
   # Dependencies of the packaged app (release/app).
   - package-ecosystem: npm

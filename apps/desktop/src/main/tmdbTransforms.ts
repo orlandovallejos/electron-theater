@@ -1,7 +1,7 @@
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import { MovieItem, Movie, Serie } from '../types';
+import { MovieItem, Movie, Serie } from '@electron-theater/core';
 
 const transformMovie = (movie: Movie): MovieItem => {
   return {

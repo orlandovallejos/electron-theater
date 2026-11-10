@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { MovieItem } from 'types';
+import { MovieItem } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

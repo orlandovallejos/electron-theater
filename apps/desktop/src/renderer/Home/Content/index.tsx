@@ -2,12 +2,11 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
+import { MovieItem } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 import Section from './Section';
-// Types
-import { MovieItem } from '../../../types';
 // Styles
 import ContentWrapper from './style';
 

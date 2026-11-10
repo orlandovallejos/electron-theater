@@ -66,13 +66,15 @@ For example, `packages/core/package.json`:
 }
 ```
 
-`apps/desktop/package.json` then lists it like any other dependency:
+`apps/desktop/package.json` then lists it. In the desktop app that is under `devDependencies`, like the
+other code webpack bundles: entries in `dependencies` are also pre-bundled into the development DLL and
+copied into the installer by electron-builder (#97), which a TypeScript source package must not be.
 
 ```json
 {
   "name": "@electron-theater/desktop",
   "private": true,
-  "dependencies": {
+  "devDependencies": {
     "@electron-theater/core": "*"
   }
 }

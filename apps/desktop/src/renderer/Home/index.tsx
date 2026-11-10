@@ -2,14 +2,13 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
+import { MovieItem } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Components
 import Hero from './Hero';
 import Content from './Content';
-// Types
-import { MovieItem } from '../../types';
 // Api
 import moviesApi from '../../api/Movies';
 // Helpers

@@ -92,7 +92,8 @@ Fixed in M1. The stack was Node 14, Electron 15, React 17, React Router 5, TypeS
 Jest 27, Enzyme, and a `@mui/joy` alpha. It is now Node 24, Electron 45, React 18, React Router 6,
 TypeScript 5.9, axios 1.x, Jest 30 and React Testing Library, with ESLint 9 (flat config) and webpack 5.
 `@mui/joy` is still a beta release (`5.0.0-beta`), and ESLint stays on 9 because `eslint-plugin-react` does not
-support ESLint 10 yet.
+support ESLint 10 yet. React Router stays on 6 until the migration in M5 (#114), and TypeScript stays on 5.9 until
+ts-loader, ts-jest and typescript-eslint support TypeScript 7 (#115).
 
 ## 4. Direction
 

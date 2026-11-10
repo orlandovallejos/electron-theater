@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { MovieItem } from '@electron-theater/core';
+import { MovieItem, imageHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -10,8 +10,6 @@ import { MovieItem } from '@electron-theater/core';
 import Button from '../../common/Button';
 // Styles
 import HeroWrapper from './style';
-// Helpers
-import imageHelper from '../../../helpers/image';
 
 type Props = {
   movie: MovieItem;

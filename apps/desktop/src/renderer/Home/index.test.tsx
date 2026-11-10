@@ -3,15 +3,14 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import { mathHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 import moviesApi from '../../api/Movies';
-import mathHelper from '../../helpers/math';
 import Home from './index';
 
 jest.mock('../../api/Movies');
-jest.mock('../../helpers/math');
 
 // The children are tested on their own, here only what Home gives them matters.
 jest.mock('./Hero', () => ({
@@ -53,11 +52,13 @@ describe('<Home />', () => {
     jest.mocked(moviesApi.getTopSeries).mockResolvedValue({
       results: [buildItem('s1', 'Series one')],
     });
-    jest.mocked(mathHelper.randomIntFromInterval).mockReturnValue(1);
+    // Only the random pick is replaced; the rest of core stays real.
+    jest.spyOn(mathHelper, 'randomIntFromInterval').mockReturnValue(1);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should load the trending movies and series into the content', async () => {

@@ -7,10 +7,44 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint . --cache",
-    "typecheck": "tsc --noEmit"
+    "test": "jest --verbose=false --watchAll=false --coverage",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json"
   },
   "devDependencies": {
-    "@electron-theater/config": "*"
+    "@electron-theater/config": "*",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.5.2",
+    "ts-jest": "^29.4.15"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "\\.ts$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.test.json"
+        }
+      ]
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.test.ts",
+      "!src/index.ts",
+      "!src/types.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 75,
+        "branches": 70,
+        "functions": 70,
+        "lines": 75
+      }
+    },
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
+    ]
+  }
 }

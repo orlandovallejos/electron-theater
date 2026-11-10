@@ -3,6 +3,7 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import { imageHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
@@ -12,8 +13,6 @@ import Layout from './Layout';
 import './App.global.css';
 // Api
 import moviesApi from '../api/Movies';
-// Helpers
-import imageHelper from '../helpers/image';
 // Theme
 import defaultTheme from './themes/default';
 

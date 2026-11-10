@@ -4,10 +4,10 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen, waitFor } from '@testing-library/react';
+import { imageHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
-import imageHelper from '../../../helpers/image';
 import PosterItem from './index';
 
 jest.mock('node-vibrant/browser', () => {

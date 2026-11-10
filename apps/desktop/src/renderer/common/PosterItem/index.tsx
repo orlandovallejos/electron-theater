@@ -4,14 +4,13 @@
 import React from 'react';
 import { Vibrant } from 'node-vibrant/browser';
 import { Link } from 'react-router-dom';
+import { imageHelper } from '@electron-theater/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Styles
 import PosterItemWrapper, { ImageWrapper } from './style';
 import Icon from '../Icon';
-// Helpers
-import imageHelper from '../../../helpers/image';
 
 const DEFAULT_COLOR = '#fff';
 

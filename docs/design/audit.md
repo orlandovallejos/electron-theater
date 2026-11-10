@@ -168,17 +168,17 @@ The running app shows three bugs that reading the code didn't:
   caches images for a year. The poster `<img>` loads first, without CORS, and is cached without the header;
   when `node-vibrant` asks for the same URL to read its pixels, the browser reuses that cached copy and blocks
   it, so `PosterItem` falls back to white. A likely fix is `crossOrigin="anonymous"` on the poster `<img>`, so
-  both requests are CORS requests. The MovieView tint uses the same code and can fail the same way.
+  both requests are CORS requests (#142). The MovieView tint uses the same code and can fail the same way.
 
   | Production build (as designed)                                               | Development (`npm start`)                                           |
   | ---------------------------------------------------------------------------- | ------------------------------------------------------------------- |
   | ![Poster hover with the poster's colors](screenshots/poster-hover-build.jpg) | ![Poster hover with a white glow](screenshots/poster-hover-dev.jpg) |
 
-- **Outline icons render as solid black circles** (the back button, the icon in "Play trailer"). ionicons'
+- **Outline icons render as solid black circles** (#140; the back button, the icon in "Play trailer"). ionicons'
   outline icons rely on its CSS classes `ionicon-fill-none` and `ionicon-stroke-width`, which the bundled
   `Icon` component doesn't define, so the paths are filled instead of stroked. Filled icons (the star, the
   calendar) look right. Also, the icons inherit black because their buttons set no color.
-- **MovieView's left column shows the title in black on black** (`content.tsx`, `.left-content`): it's there,
+- **MovieView's left column shows the title in black on black** (#141; `content.tsx`, `.left-content`): it's there,
   but invisible, below the header.
 
 ## What this means for the next issues

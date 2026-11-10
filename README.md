@@ -3,14 +3,16 @@
 [![CI](https://github.com/orlandovallejos/movie-mates/actions/workflows/ci.yml/badge.svg)](https://github.com/orlandovallejos/movie-mates/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-> How many times have you sat on the couch with no idea what to watch, scrolling endlessly?
-> **Movie Mates** lets two people swipe through movies and shows. When both like the same title,
-> it's a **match**, and it goes onto a shared list. Tinder, but for movies.
+> After a long day, you sit down after dinner to watch something, and with so many options it takes
+> longer to pick than to watch. **Movie Mates** fixes that. During the week, each person likes the movies
+> and shows they'd want to see. Their likes stay private. When two connected people like the same title,
+> it's a **match**, and it goes onto the list they share. When it's time to watch, you open that list and
+> pick from things you both already want.
 
 ![Movie Mates home screen](https://i.imgur.com/mrQ0Rd0.jpg)
 
-> **Status:** the project is being revived. Browsing and details work today; swiping, matching and the
-> shared list are not built yet. See the [roadmap](docs/ROADMAP.md).
+> **Status:** the project is being revived. Browsing and details work today; likes, private lists, matching
+> and shared lists are not built yet. See the [roadmap](docs/ROADMAP.md).
 
 ## Features
 
@@ -24,8 +26,9 @@
 
 **Planned** (see the [roadmap](docs/ROADMAP.md))
 
-- Watchlist that survives restarts
-- Real-time matching between two people
+- A heart to like titles, and private lists of your own (for example "Action" or "Horror to watch alone")
+- Connections by invite, with a shared list of the titles you both like, and a notification for each new
+  match
 - An AI assistant for "what should we watch tonight?"
 
 ## Tech stack

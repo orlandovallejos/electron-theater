@@ -60,7 +60,7 @@ apps/
 packages/
   core/           types and pure logic shared by every client: date, math and image helpers, TMDB transforms
   config/         shared Prettier, TypeScript and ESLint settings
-docs/             roadmap, ADRs, security notes
+docs/             roadmap, ADRs, design principles and components (docs/design), security notes
 ```
 
 The web client, the mobile app and the backend will be added next to these (see the

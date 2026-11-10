@@ -28,8 +28,20 @@ Facts about the options, checked on 2026-11-09:
   finds in the source. Version 4 is configured in CSS: an `@theme` block defines the tokens, and each one
   becomes both a utility class (`bg-surface`) and a CSS variable (`--color-surface`). It plugs into webpack
   through `postcss-loader` and `@tailwindcss/postcss`.
-- **NativeWind** (MIT) runs Tailwind classes on React Native. The stable 4.2 line uses Tailwind 3; version 5
-  (release candidate since September 2026) uses Tailwind 4 and the same CSS-first theme.
+- **Tailwind on React Native** needs a library that turns classes into React Native styles:
+  - **NativeWind** (MIT, 8.1k GitHub stars, 2.7 million npm downloads a week). The stable 4.2 line needs
+    Tailwind 3, so it can't read a Tailwind 4 theme. Version 5, which uses Tailwind 4, has been in preview or
+    release candidate since September 2025 (rc.1 on 2026-11-02). Nearly all commits come from one maintainer.
+  - **Uniwind** (MIT, 1.7k stars, 1.5 million downloads a week), from the team behind Unistyles. Stable since
+    1.0 in November 2025, built for Tailwind 4's CSS-first theme, with the same `className` API as NativeWind.
+    It is young (created July 2025) but active (74 commits since August 2026, 1 open issue). A paid Pro tier
+    adds performance features we don't need.
+  - Both need **React 19** and React Native 0.81 or later. The desktop app is on React 18; the upgrade is #99
+    in M5.
+- **Icons:** the app uses ionicons 8 (515 icons in 3 styles, web only, delivered as SVG strings). Its outline
+  icons need CSS the app doesn't load, which is bug #140. **Lucide** (ISC, 25.7k stars, 2,046 icons, releases
+  every few days) ships React and React Native packages from one repo with the same names, and has the icons
+  the planned screens need: heart, popcorn, clapperboard, film, ticket, tv, list, lock, users, bell.
 - **react-native-web 0.21** (MIT) runs React Native components in the browser. UI kits built on it,
   such as gluestack-ui 5 and react-native-reusables, are maintained and use NativeWind for styling.
 - [ADR 4](0004-monorepo-layout.md) plans a DOM-only `packages/ui` shared by desktop and web, with mobile writing
@@ -40,8 +52,12 @@ Facts about the options, checked on 2026-11-09:
 
 ### 1. The styling system: Tailwind CSS
 
-We will style desktop and web with **Tailwind CSS 4**, and mobile with **NativeWind** (version 5, the
-Tailwind 4 line), so all three clients use the same class names and the same theme.
+We will style desktop and web with **Tailwind CSS 4**, and mobile with a **Tailwind 4 library for React
+Native**, so all three clients use the same class names and the same theme. The default is **Uniwind**, with
+**NativeWind 5** as the fallback once it's stable. The final pick is made at the start of M9 with a one-day
+spike (the token theme, a few components, Expo's current SDK), because both are moving fast and M9 is months
+away. Either way the classes and the theme file are the same, so the choice doesn't touch the tokens or the
+desktop and web code.
 
 Components use token classes only (`bg-surface`, `text-muted`, `p-4`). Arbitrary values such as
 `bg-[#123456]` are not allowed; the lint rule in #130 enforces it. Values computed at runtime (the poster
@@ -54,14 +70,15 @@ gets hard to read.
 
 ### 2. What happens to each current library
 
-| Library                                                                | Decision    | Why                                                                                                                                                                                                                                                                                                                        |
-| ---------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| styled-components                                                      | **Removed** | In maintenance mode, v5 is unmaintained, and it injects styles at runtime. Tailwind replaces all of it.                                                                                                                                                                                                                    |
-| `@mui/joy`, `@emotion/react`, `@emotion/styled`                        | **Removed** | Joy is an on-hold beta used for two components, and it brings a second CSS-in-JS runtime with its own theme. The rating circle becomes a small SVG component; the modal becomes a native `<dialog>` opened with `showModal()` (the rest of the page becomes inert, Escape closes it, and `::backdrop` styles the overlay). |
-| `sass`, `sass-loader`, `@teamsupercell/typings-for-css-modules-loader` | **Removed** | Nothing uses them. The webpack rules go too.                                                                                                                                                                                                                                                                               |
-| `polished`                                                             | **Removed** | CSS does the same now: `color-mix(in srgb, var(--poster-tint) 50%, transparent)` replaces `transparentize`, and Tailwind's opacity modifiers (`bg-surface/80`) cover the static cases.                                                                                                                                     |
-| `themes/default.ts`, `types/styled.d.ts`, `App.global.css`             | **Removed** | Replaced by the tokens and Tailwind's base layer.                                                                                                                                                                                                                                                                          |
-| `node-vibrant`, `ionicons`                                             | Kept        | Not styling libraries: one reads colors from posters, the other is the icon set.                                                                                                                                                                                                                                           |
+| Library                                                                | Decision               | Why                                                                                                                                                                                                                                                                                                                        |
+| ---------------------------------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| styled-components                                                      | **Removed**            | In maintenance mode, v5 is unmaintained, and it injects styles at runtime. Tailwind replaces all of it.                                                                                                                                                                                                                    |
+| `@mui/joy`, `@emotion/react`, `@emotion/styled`                        | **Removed**            | Joy is an on-hold beta used for two components, and it brings a second CSS-in-JS runtime with its own theme. The rating circle becomes a small SVG component; the modal becomes a native `<dialog>` opened with `showModal()` (the rest of the page becomes inert, Escape closes it, and `::backdrop` styles the overlay). |
+| `sass`, `sass-loader`, `@teamsupercell/typings-for-css-modules-loader` | **Removed**            | Nothing uses them. The webpack rules go too.                                                                                                                                                                                                                                                                               |
+| `polished`                                                             | **Removed**            | CSS does the same now: `color-mix(in srgb, var(--poster-tint) 50%, transparent)` replaces `transparentize`, and Tailwind's opacity modifiers (`bg-surface/80`) cover the static cases.                                                                                                                                     |
+| `themes/default.ts`, `types/styled.d.ts`, `App.global.css`             | **Removed**            | Replaced by the tokens and Tailwind's base layer.                                                                                                                                                                                                                                                                          |
+| `ionicons`                                                             | **Replaced by Lucide** | See [Icons](#icons-lucide). Fixes #140 along the way.                                                                                                                                                                                                                                                                      |
+| `node-vibrant`                                                         | Kept                   | Not a styling library: it reads the colors from posters.                                                                                                                                                                                                                                                                   |
 
 The removal itself is #129, after the screens are migrated.
 
@@ -70,13 +87,22 @@ announce), we use a **headless** library that brings behavior and accessibility 
 stays the only way to style. The default choice is React Aria Components (Apache 2.0, Adobe, active); the
 choice is made in the issue that first needs it, not up front.
 
+### Icons: Lucide
+
+We will use **Lucide**: `lucide-react` on desktop and web, `lucide-react-native` on mobile, with the same icon
+names everywhere. Each icon is a React component that takes its size and color from the text around it
+(`currentColor`), so it follows the tokens like text does. The liked heart is the same `Heart` icon filled
+(`fill="currentColor"`). Lucide replaces ionicons in #127, when `Icon` moves to Tailwind, which also fixes
+#140. Only the icons we import end up in the bundle.
+
 ### 3. How much UI the clients share: option A
 
 We will keep the plan from ADR 4 (**option A**):
 
 - **Tokens and class names** are shared by all three clients.
 - **Desktop and web share DOM components** (`packages/ui`, extracted in M5) and screens (`packages/screens`).
-- **Mobile writes its own components** with React Native primitives and the same classes through NativeWind.
+- **Mobile writes its own components** with React Native primitives and the same classes (through Uniwind or
+  NativeWind, above).
 
 Option B (one set of React Native components for every client, running on the web through
 react-native-web) is described under [Alternatives](#alternatives-considered). We don't choose it now
@@ -101,10 +127,10 @@ fallback if a design tool ever needs to read or write the tokens.
 **Outputs** (#125), generated by `npm run tokens`:
 
 - `theme.css`: Tailwind's `@theme` block with the base values, plus the light and dark roles as CSS variables
-  (dark is the default, selected by an attribute on the root element). Desktop and web import it, and so can
-  NativeWind 5.
-- a NativeWind preset in JavaScript, only if mobile ends up on NativeWind 4 (Tailwind 3 needs a JavaScript
-  config instead of `@theme`).
+  (dark is the default, selected by an attribute on the root element). Desktop and web import it, and so does
+  mobile: Uniwind and NativeWind 5 both read Tailwind 4's `@theme`.
+- a JavaScript preset, only if mobile ever has to use NativeWind 4 (Tailwind 3 needs a JavaScript config
+  instead of `@theme`).
 
 The generated files are **committed**, and CI regenerates them and fails if they differ. That keeps the
 package source-only as ADR 4 asks: apps import the files and don't need to run a build step first.
@@ -126,8 +152,8 @@ change on purpose (for example a value that moves to the 4 px scale).
 
 ### Fallback
 
-If Tailwind doesn't work out (for example, NativeWind 5 isn't stable by M9 and version 4 can't share the
-theme), the tokens still stand: they generate CSS variables, and components can use **CSS Modules** with
+If Tailwind doesn't work out on mobile (for example, neither Uniwind nor NativeWind 5 works with the Expo SDK
+of the day), the tokens still stand: they generate CSS variables, and components can use **CSS Modules** with
 those variables on desktop and web (webpack already supports them), and `StyleSheet` objects built from the
 same TypeScript tokens on mobile. Only the component styles would change, not the tokens or the M12 proof.
 
@@ -141,8 +167,10 @@ same TypeScript tokens on mobile. Only the component styles would change, not th
 - The tokens reach every client through one generated file, which is what the M12 proof needs.
 - Markup gets longer class lists. Long ones are a sign that a component should be split.
 - Tailwind is new to the project, so M4 includes learning it. The token theme keeps the set of classes small.
-- Mobile depends on NativeWind 5 becoming stable before M9. If it doesn't, the fallback above applies, and
-  the generator gains the JavaScript preset.
+- Mobile depends on a young library (Uniwind) or one whose Tailwind 4 version isn't stable yet (NativeWind 5).
+  The M9 spike decides; the fallback above covers the case where neither works.
+- **React 19 must land before M9.** Both mobile libraries need it, and two React versions in one monorepo
+  would mean duplicate copies and type conflicts. The desktop upgrade (#99) is in M5.
 - ADR 4 is amended: tokens live in `packages/tokens`, not in `core`. The roadmap's package list is updated to
   match.
 - Follow-ups: the font is loaded from Google Fonts at startup; self-hosting it (for example with Fontsource)
@@ -165,6 +193,12 @@ same TypeScript tokens on mobile. Only the component styles would change, not th
   DOM-only `ui` package, adds a runtime layer to desktop and web, and gives up web features that don't map to
   React Native (native `<dialog>`, CSS hover and grid layouts, the YouTube `<iframe>`). It's the better choice
   if the mobile screens turn out to be nearly the same as the web ones; that's why it is revisited before M9.
+- **NativeWind as the only mobile option** (this ADR's first draft): the most used library, but its Tailwind 4
+  version has been a release candidate for over a year, and it depends mostly on one maintainer.
+- **Other icon sets:** Tabler Icons (MIT, 5,200+ icons, very active) has the most icons but no popcorn and a
+  more technical style. Phosphor (MIT, 1,500 icons in 6 weights, including true filled versions) has the best
+  liked/unliked pairs, but its React package hasn't had a release since May 2025. Keeping ionicons means
+  keeping web-only SVG strings and adding its CSS by hand.
 - **Tokens in `core`** (ADR 4's plan): one package fewer. But it mixes generated CSS and a generator into the
   package that the backend and the agent use for types and logic.
 - **Tokens as JSON with Style Dictionary:** the standard format, readable by design tools. It adds a

@@ -173,8 +173,8 @@ open external links, and so on. The desktop app supplies an IPC-backed `ApiClien
 
 The mobile app cannot reuse DOM components, so it shares `core`, `api-client` and the design tokens instead.
 That keeps its look consistent without a "universal UI" layer.
-Styling is Tailwind on desktop and web and NativeWind on mobile, with the same classes; the reasons, and the
-alternative of one React Native component set for every client, are in
+Styling is Tailwind on desktop and web, and the same classes on mobile (Uniwind or NativeWind, picked in M9).
+The reasons, and the alternative of one React Native component set for every client, are in
 [ADR 5](adr/0005-styling-and-design-tokens.md).
 
 ### Open question: what is the desktop app for?

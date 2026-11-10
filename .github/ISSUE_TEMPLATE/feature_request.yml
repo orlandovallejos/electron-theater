@@ -1,7 +1,7 @@
 name: Feature request
 description: Propose a new feature or improvement
-title: "feat: "
-labels: ["type: feature"]
+title: 'feat: '
+labels: ['type: feature']
 body:
   - type: textarea
     id: problem
@@ -17,6 +17,14 @@ body:
       description: How should it work? Mention alternatives you considered.
     validations:
       required: true
+  - type: textarea
+    id: learn
+    attributes:
+      label: What we'll learn
+      description: Optional. One or two questions this issue should answer, about the why, not the what. The PR answers them in its Lesson.
+      placeholder: |
+        - Why do we need ...?
+        - What's the difference between ... and ...?
   - type: textarea
     id: acceptance
     attributes:

@@ -5,6 +5,11 @@
 
 Closes #
 
+## Lesson
+
+<!-- One short paragraph, in plain words: answer the issue's "What we'll learn" questions now that the -->
+<!-- work is done. Explain the reasoning, not the diff: why this approach, and what you'd tell someone new. -->
+
 ## Type of change
 
 <!-- Keep the one that applies. -->

@@ -1,4 +1,4 @@
-import type { MovieItem, MovieViewItem } from '@electron-theater/core';
+import type { MovieItem, MovieViewItem } from '@movie-mates/core';
 
 /**
  * TMDB API exposed to the renderer by the preload script. The calls run in the main

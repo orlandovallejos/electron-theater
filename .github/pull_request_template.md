@@ -31,4 +31,4 @@ Closes #
 - [ ] `npm run lint` passes
 - [ ] Docs updated (README, `docs/`) where needed
 - [ ] Milestone and labels set
-- [ ] Followed [CONTRIBUTING.md](https://github.com/orlandovallejos/electron-theater/blob/main/CONTRIBUTING.md)
+- [ ] Followed [CONTRIBUTING.md](https://github.com/orlandovallejos/movie-mates/blob/main/CONTRIBUTING.md)

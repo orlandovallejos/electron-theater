@@ -57,14 +57,14 @@ export default class MenuBuilder {
       label: 'Electron',
       submenu: [
         {
-          label: 'About Electron Theater',
+          label: 'About Movie Mates',
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide Electron Theater',
+          label: 'Hide Movie Mates',
           accelerator: 'Command+H',
           selector: 'hide:',
         },

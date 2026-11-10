@@ -1,5 +1,5 @@
 {
-  "name": "electron-theater",
+  "name": "movie-mates",
   "private": true,
   "description": "Swipe through movies and shows with a partner. When you both like the same title, it's a match.",
   "workspaces": [
@@ -7,10 +7,10 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "npm start -w @electron-theater/desktop",
-    "build": "npm run build -w @electron-theater/desktop",
-    "package": "npm run package -w @electron-theater/desktop",
-    "rebuild": "npm run rebuild -w @electron-theater/desktop",
+    "start": "npm start -w @movie-mates/desktop",
+    "build": "npm run build -w @movie-mates/desktop",
+    "package": "npm run package -w @movie-mates/desktop",
+    "rebuild": "npm run rebuild -w @movie-mates/desktop",
     "lint": "eslint --cache \"*.{js,mjs}\" && npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm test --workspaces --if-present",
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
-    "@electron-theater/config": "*",
+    "@movie-mates/config": "*",
     "eslint": "^9",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/orlandovallejos/electron-theater.git"
+    "url": "git+https://github.com/orlandovallejos/movie-mates.git"
   },
   "author": {
     "name": "Orlando Vallejos",
@@ -51,7 +51,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/orlandovallejos/electron-theater/issues"
+    "url": "https://github.com/orlandovallejos/movie-mates/issues"
   },
   "keywords": [
     "electron",
@@ -60,11 +60,11 @@
     "movies",
     "tmdb"
   ],
-  "homepage": "https://github.com/orlandovallejos/electron-theater#readme",
+  "homepage": "https://github.com/orlandovallejos/movie-mates#readme",
   "engines": {
     "node": ">=24"
   },
-  "prettier": "@electron-theater/config/prettier",
+  "prettier": "@movie-mates/config/prettier",
   "overrides": {
     "styled-components": "^5.3.3",
     "@types/react": "^18.3.31",

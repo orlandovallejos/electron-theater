@@ -4,7 +4,7 @@
 import React from 'react';
 import { Vibrant } from 'node-vibrant/browser';
 import { Link } from 'react-router-dom';
-import { imageHelper } from '@electron-theater/core';
+import { imageHelper } from '@movie-mates/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

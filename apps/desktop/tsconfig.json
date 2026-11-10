@@ -1,5 +1,5 @@
 {
-  "extends": "@electron-theater/config/tsconfig.base.json",
+  "extends": "@movie-mates/config/tsconfig.base.json",
   "compilerOptions": {
     "lib": ["dom", "esnext"],
     "jsx": "react",

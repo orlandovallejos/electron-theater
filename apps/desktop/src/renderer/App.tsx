@@ -3,7 +3,7 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { imageHelper } from '@electron-theater/core';
+import { imageHelper } from '@movie-mates/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

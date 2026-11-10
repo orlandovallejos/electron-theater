@@ -1,6 +1,6 @@
 # Security
 
-Electron Theater is a desktop app, so the main risk is a malicious page, script or link
+Movie Mates is a desktop app, so the main risk is a malicious page, script or link
 getting more power than it should. This document explains how the app is protected and how to
 report a problem.
 

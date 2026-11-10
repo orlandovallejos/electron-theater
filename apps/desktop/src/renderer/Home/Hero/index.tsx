@@ -2,7 +2,7 @@
 /* LIBRARIES
 /*------------------------------------------------*/
 import React from 'react';
-import { MovieItem, imageHelper } from '@electron-theater/core';
+import { MovieItem, imageHelper } from '@movie-mates/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

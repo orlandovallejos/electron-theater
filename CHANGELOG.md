@@ -28,3 +28,5 @@ All notable changes to this project are documented here. The format follows
 
 - Renamed the app from the electron-react-boilerplate template to Electron Theater, with its own
   app ID and update repository. The boilerplate's changelog was removed.
+- Renamed the project from Electron Theater to Movie Mates, since Electron is only the desktop client.
+  The app ID, the package scope (`@movie-mates/`) and the repository name changed with it.

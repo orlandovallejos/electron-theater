@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-07
+- **Amended:** 2026-11-09, the project and the package scope were renamed from Electron Theater (`@electron-theater/`) to Movie Mates (`@movie-mates/`) in #110.
 
 ## Context
 
@@ -43,8 +44,8 @@ tests with ts-jest. A package gets a build step only when something outside the 
 
 **Names and versions.** Each workspace has its own `package.json`. These rules say what goes in it:
 
-- **Name:** the folder name with an `@electron-theater/` prefix, so `packages/core` is called
-  `@electron-theater/core`. The prefix (an npm "scope") makes it clear that a package is ours, and it
+- **Name:** the folder name with an `@movie-mates/` prefix, so `packages/core` is called
+  `@movie-mates/core`. The prefix (an npm "scope") makes it clear that a package is ours, and it
   can't clash with a public npm package that happens to be called `core`.
 - **`"private": true`:** npm refuses to publish the package, so it can't end up on the public registry
   by mistake. Our packages are only used inside this repo.
@@ -58,7 +59,7 @@ For example, `packages/core/package.json`:
 
 ```json
 {
-  "name": "@electron-theater/core",
+  "name": "@movie-mates/core",
   "version": "0.0.0",
   "private": true,
   "main": "src/index.ts",
@@ -72,10 +73,10 @@ copied into the installer by electron-builder (#97), which a TypeScript source p
 
 ```json
 {
-  "name": "@electron-theater/desktop",
+  "name": "@movie-mates/desktop",
   "private": true,
   "devDependencies": {
-    "@electron-theater/core": "*"
+    "@movie-mates/core": "*"
   }
 }
 ```
@@ -84,7 +85,7 @@ And code in the desktop app imports it by name instead of with a relative path:
 
 ```ts
 // before: import { MovieItem } from '../../types';
-import { MovieItem } from '@electron-theater/core';
+import { MovieItem } from '@movie-mates/core';
 ```
 
 **What goes where.**

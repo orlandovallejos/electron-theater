@@ -39,13 +39,13 @@ cat > protection.json <<'JSON'
 }
 JSON
 
-gh api -X PUT repos/orlandovallejos/electron-theater/branches/main/protection --input protection.json
+gh api -X PUT repos/orlandovallejos/movie-mates/branches/main/protection --input protection.json
 ```
 
 Squash-only merges, and delete branches after merge:
 
 ```bash
-gh api -X PATCH repos/orlandovallejos/electron-theater \
+gh api -X PATCH repos/orlandovallejos/movie-mates \
   -F allow_squash_merge=true -F allow_merge_commit=false -F allow_rebase_merge=false \
   -F delete_branch_on_merge=true
 ```

@@ -3,7 +3,7 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MovieViewItem } from '@electron-theater/core';
+import { MovieViewItem } from '@movie-mates/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

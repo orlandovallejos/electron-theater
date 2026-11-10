@@ -22,8 +22,9 @@ Paths below are relative to `apps/desktop/src/renderer`.
   default sizes.
 - **Accessibility:** focus outlines are removed on every button, the back button has no name, and the
   primary button's text fails contrast. Details [below](#accessibility-gaps).
-- **Two visible bugs** turned up in the screenshots: outline icons render as black circles, and an invisible
-  title sits under the MovieView header. See [Screenshots](#screenshots-before).
+- **Three visible bugs** turned up in the running app: the poster hover glow is white instead of the poster's
+  colors in development, outline icons render as black circles, and an invisible title sits under the
+  MovieView header. See [Screenshots](#screenshots-before).
 
 ## Colors
 
@@ -114,11 +115,11 @@ config change with no code to migrate.
 These colors come from the poster image at runtime (`node-vibrant`), so they stay as inline styles or CSS
 variables after the migration, with a comment. The lint rule in #130 needs an allow-list for them.
 
-| Where                           | What                                                                                                             | Fallback         |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------- |
-| `common/PosterItem`             | Hover border gradient and six tinted shadows from the poster's Vibrant and DarkVibrant colors (50 % transparent) | `#fff` for both  |
-| `MovieView/header` (`Shadow`)   | The overlay on the backdrop: the poster's Vibrant color at 90 %                                                  | `#fff`           |
-| `Home/Hero`, `MovieView/header` | The backdrop image itself (`background-image` inline)                                                            | `#000` behind it |
+| Where                           | What                                                                                                                                                                              | Fallback         |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `common/PosterItem`             | Hover border gradient and six tinted shadows from the poster's Vibrant and DarkVibrant colors (50 % transparent). Falls back to white in development ([bug](#screenshots-before)) | `#fff` for both  |
+| `MovieView/header` (`Shadow`)   | The overlay on the backdrop: the poster's Vibrant color at 90 %                                                                                                                   | `#fff`           |
+| `Home/Hero`, `MovieView/header` | The backdrop image itself (`background-image` inline)                                                                                                                             | `#000` behind it |
 
 The fallback (`DEFAULT_COLOR = '#fff'`) is defined twice; it should become a token (`color.surface` or a
 dedicated `color.poster-fallback`).
@@ -156,7 +157,22 @@ Taken with the production build (`npm run build`) in a 1280 × 800 window.
 Taken on macOS at 2× and scaled down to 1280 px wide. The Hero title and the posters change with what's
 trending, so compare layout and styling, not content.
 
-The screenshots show two bugs that reading the code didn't:
+The running app shows three bugs that reading the code didn't:
+
+- **The poster hover glow is white instead of the poster's colors** in development (`npm start`). Hovering a
+  poster should light its border and shadow with the two main colors of the image (Vibrant and DarkVibrant).
+  In development, 37 of 40 posters on Home fall back to `#fff`; in the production build, all 40 get their
+  colors. The console shows why: `Access to image at 'https://image.tmdb.org/…' from origin
+'http://localhost:1212' has been blocked by CORS policy`. TMDB's image server only sends
+  `Access-Control-Allow-Origin` when the request has an `Origin` header, doesn't send `Vary: Origin`, and
+  caches images for a year. The poster `<img>` loads first, without CORS, and is cached without the header;
+  when `node-vibrant` asks for the same URL to read its pixels, the browser reuses that cached copy and blocks
+  it, so `PosterItem` falls back to white. A likely fix is `crossOrigin="anonymous"` on the poster `<img>`, so
+  both requests are CORS requests. The MovieView tint uses the same code and can fail the same way.
+
+  | Production build (as designed)                                               | Development (`npm start`)                                           |
+  | ---------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+  | ![Poster hover with the poster's colors](screenshots/poster-hover-build.jpg) | ![Poster hover with a white glow](screenshots/poster-hover-dev.jpg) |
 
 - **Outline icons render as solid black circles** (the back button, the icon in "Play trailer"). ionicons'
   outline icons rely on its CSS classes `ionicon-fill-none` and `ionicon-stroke-width`, which the bundled

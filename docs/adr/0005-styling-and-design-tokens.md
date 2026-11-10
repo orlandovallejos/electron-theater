@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-09
+- **Amended:** 2026-11-10, components start from shadcn/ui and react-native-reusables, on Radix primitives (#144).
 
 ## Context
 
@@ -44,6 +45,15 @@ Facts about the options, checked on 2026-11-09:
   the planned screens need: heart, popcorn, clapperboard, film, ticket, tv, list, lock, users, bell.
 - **react-native-web 0.21** (MIT) runs React Native components in the browser. UI kits built on it,
   such as gluestack-ui 5 and react-native-reusables, are maintained and use NativeWind for styling.
+- **Ready-made components:**
+  - **shadcn/ui** (MIT, 128k GitHub stars, CLI at 17.8 million npm downloads a week, release on 2026-10-27) is
+    not a package you install. Its CLI copies each component's source into your repo, where you own it. The
+    components are written with Tailwind and Lucide, on top of a primitives library for behavior; Radix, Base
+    UI and React Aria are all supported, with about 66 components each.
+  - **react-native-reusables** (MIT, 8.7k stars, 17 open issues) is shadcn/ui for React Native: the same
+    copy-in model, the same component names and props, styled with Uniwind or NativeWind, on `@rn-primitives`
+    (a React Native port of Radix's API). It has about 30 components; Sheet, Toast, Sidebar and Empty aren't
+    among them. It is quieter than shadcn (3 commits since August 2026).
 - [ADR 4](0004-monorepo-layout.md) plans a DOM-only `packages/ui` shared by desktop and web, with mobile writing
   its own UI on the same tokens, and puts the tokens in `core`.
 - The roadmap's first principle: only free, maintained tools.
@@ -64,28 +74,46 @@ Components use token classes only (`bg-surface`, `text-muted`, `p-4`). Arbitrary
 tints from `node-vibrant`) are passed as CSS variables in a `style` attribute, with a comment, and the
 classes read them (`bg-(--poster-tint)`).
 
-Conditional classes use `clsx`. A component with variants (Button: primary, secondary, outlined) maps each
-variant to its classes in a plain object. We add `tailwind-merge` or `class-variance-authority` only if that
-gets hard to read.
+Conditional classes use shadcn's `cn()` helper (`clsx` plus `tailwind-merge`, so a class passed by the caller
+wins over the component's own). Components with variants (Button: primary, secondary, ghost) define them
+with `class-variance-authority`, as the shadcn components we copy already do.
 
 ### 2. What happens to each current library
 
-| Library                                                                | Decision               | Why                                                                                                                                                                                                                                                                                                                        |
-| ---------------------------------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| styled-components                                                      | **Removed**            | In maintenance mode, v5 is unmaintained, and it injects styles at runtime. Tailwind replaces all of it.                                                                                                                                                                                                                    |
-| `@mui/joy`, `@emotion/react`, `@emotion/styled`                        | **Removed**            | Joy is an on-hold beta used for two components, and it brings a second CSS-in-JS runtime with its own theme. The rating circle becomes a small SVG component; the modal becomes a native `<dialog>` opened with `showModal()` (the rest of the page becomes inert, Escape closes it, and `::backdrop` styles the overlay). |
-| `sass`, `sass-loader`, `@teamsupercell/typings-for-css-modules-loader` | **Removed**            | Nothing uses them. The webpack rules go too.                                                                                                                                                                                                                                                                               |
-| `polished`                                                             | **Removed**            | CSS does the same now: `color-mix(in srgb, var(--poster-tint) 50%, transparent)` replaces `transparentize`, and Tailwind's opacity modifiers (`bg-surface/80`) cover the static cases.                                                                                                                                     |
-| `themes/default.ts`, `types/styled.d.ts`, `App.global.css`             | **Removed**            | Replaced by the tokens and Tailwind's base layer.                                                                                                                                                                                                                                                                          |
-| `ionicons`                                                             | **Replaced by Lucide** | See [Icons](#icons-lucide). Fixes #140 along the way.                                                                                                                                                                                                                                                                      |
-| `node-vibrant`                                                         | Kept                   | Not a styling library: it reads the colors from posters.                                                                                                                                                                                                                                                                   |
+| Library                                                                | Decision               | Why                                                                                                                                                                                                                                                                             |
+| ---------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| styled-components                                                      | **Removed**            | In maintenance mode, v5 is unmaintained, and it injects styles at runtime. Tailwind replaces all of it.                                                                                                                                                                         |
+| `@mui/joy`, `@emotion/react`, `@emotion/styled`                        | **Removed**            | Joy is an on-hold beta used for two components, and it brings a second CSS-in-JS runtime with its own theme. The rating circle becomes a small SVG component; the modal becomes shadcn's Dialog (see [Components](#components-start-from-shadcnui-and-react-native-reusables)). |
+| `sass`, `sass-loader`, `@teamsupercell/typings-for-css-modules-loader` | **Removed**            | Nothing uses them. The webpack rules go too.                                                                                                                                                                                                                                    |
+| `polished`                                                             | **Removed**            | CSS does the same now: `color-mix(in srgb, var(--poster-tint) 50%, transparent)` replaces `transparentize`, and Tailwind's opacity modifiers (`bg-surface/80`) cover the static cases.                                                                                          |
+| `themes/default.ts`, `types/styled.d.ts`, `App.global.css`             | **Removed**            | Replaced by the tokens and Tailwind's base layer.                                                                                                                                                                                                                               |
+| `ionicons`                                                             | **Replaced by Lucide** | See [Icons](#icons-lucide). Fixes #140 along the way.                                                                                                                                                                                                                           |
+| `node-vibrant`                                                         | Kept                   | Not a styling library: it reads the colors from posters.                                                                                                                                                                                                                        |
 
 The removal itself is #129, after the screens are migrated.
 
-When a component needs behavior that's hard to get right (a menu, a combobox, a toast that screen readers
-announce), we use a **headless** library that brings behavior and accessibility but no styles, so Tailwind
-stays the only way to style. The default choice is React Aria Components (Apache 2.0, Adobe, active); the
-choice is made in the issue that first needs it, not up front.
+### Components: start from shadcn/ui and react-native-reusables
+
+We won't write common components from scratch. Dialogs, sheets, menus, toasts and text fields are hard to get
+right (focus, keyboard, screen readers), and these have been built, tested and used by many teams.
+
+- **Desktop and web:** a component starts from **shadcn/ui**. Its CLI copies the source into our repo (the
+  desktop app's `common/` until M5, then `packages/ui`), and we restyle it with our token classes. Copied code
+  is ours: we can change it, and an upstream project slowing down can't break us.
+- **Mobile:** its twin starts from **react-native-reusables**, with the same name and props, so a screen reads
+  the same on both. Where reusables has no component (Sheet, Toast), we build the mobile one ourselves or pick
+  a library in M9.
+- **Behavior primitives: Radix** (`radix-ui`, MIT, 26.9 million downloads a week, release on 2026-10-12).
+  Primitives are headless: they bring behavior and accessibility but no styles, so Tailwind stays the only way
+  to style. We pick Radix because `@rn-primitives` copies its API, so the web and mobile versions of a
+  component have the same structure (`Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`). If Radix stalls,
+  shadcn offers the same components on Base UI (by Radix's original authors) and React Aria.
+- **Ours from the start:** the components specific to Movie Mates (PosterItem, Hero, DetailHeader,
+  RatingRing, HeartToggle, MatchBadge…), built from tokens and, where it helps, on top of a copied one (a
+  HeartToggle on shadcn's Toggle).
+
+The [component inventory](../design/components.md) says where each component starts from. Components are
+copied when an issue first needs them, not all up front.
 
 ### Icons: Lucide
 
@@ -173,6 +201,11 @@ same TypeScript tokens on mobile. Only the component styles would change, not th
   would mean duplicate copies and type conflicts. The desktop upgrade (#99) is in M5.
 - ADR 4 is amended: tokens live in `packages/tokens`, not in `core`. The roadmap's package list is updated to
   match.
+- Copied components are ours to maintain: upstream fixes don't arrive on their own. Note the shadcn or
+  reusables version in a comment at the top of each copied file, so it's clear what to compare against.
+- shadcn's components use its own role names (`bg-background`, `text-muted-foreground`, `bg-primary`). The
+  tokens in #124 either use the same role names or the copied components are renamed once when they're copied;
+  #124 decides, and the lint rule (#130) catches leftovers.
 - Follow-ups: the font is loaded from Google Fonts at startup; self-hosting it (for example with Fontsource)
   would remove a network call and two CSP entries. Decide it with the type tokens in #124.
 
@@ -199,6 +232,15 @@ same TypeScript tokens on mobile. Only the component styles would change, not th
   more technical style. Phosphor (MIT, 1,500 icons in 6 weights, including true filled versions) has the best
   liked/unliked pairs, but its React package hasn't had a release since May 2025. Keeping ionicons means
   keeping web-only SVG strings and adding its CSS by hand.
+- **Ant Design:** a mature, well-maintained library for the web (100k stars), with **Ant Design Mobile**
+  (for phone browsers, not React Native) and a separate **Ant Design React Native** (3.3k stars, last release
+  August 2025). It brings its own CSS-in-JS runtime and theme format, which is what this ADR removes, an
+  enterprise look that would compete with the posters, and a React Native version that is much smaller and
+  looks different from the web one.
+- **Writing every component ourselves:** full control and nothing to keep in sync, but slower, and focus
+  handling, keyboard support and screen-reader behavior are easy to get wrong.
+- **React Aria as the primitives** (this ADR's first draft): the strongest accessibility work, and shadcn
+  supports it, but React Native has no matching port, so web and mobile components would be built differently.
 - **Tokens in `core`** (ADR 4's plan): one package fewer. But it mixes generated CSS and a generator into the
   package that the backend and the agent use for types and logic.
 - **Tokens as JSON with Style Dictionary:** the standard format, readable by design tools. It adds a

@@ -214,7 +214,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.6",
     "regenerator-runtime": "^0.14.1",
-    "styled-components": "^5.3.3"
+    "styled-components": "^6.6.0"
   },
   "author": {
     "name": "Orlando Vallejos",

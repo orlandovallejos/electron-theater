@@ -9,7 +9,7 @@ import {
   MovieItem,
   MovieViewItem,
   tmdbTransforms,
-} from '@electron-theater/core';
+} from '@movie-mates/core';
 
 type TmdbOptions = {
   apiUrl: string;

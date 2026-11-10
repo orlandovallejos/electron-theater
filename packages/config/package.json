@@ -1,8 +1,8 @@
 {
-  "name": "@electron-theater/config",
+  "name": "@movie-mates/config",
   "version": "0.0.0",
   "private": true,
-  "description": "Shared Prettier, TypeScript and ESLint settings for the Electron Theater workspaces.",
+  "description": "Shared Prettier, TypeScript and ESLint settings for the Movie Mates workspaces.",
   "exports": {
     "./eslint/base": "./eslint/base.mjs",
     "./eslint/react": "./eslint/react.mjs",

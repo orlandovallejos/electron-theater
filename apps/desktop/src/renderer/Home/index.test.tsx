@@ -3,7 +3,7 @@
 /*------------------------------------------------*/
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { mathHelper } from '@electron-theater/core';
+import { mathHelper } from '@movie-mates/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

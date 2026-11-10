@@ -1,13 +1,13 @@
-# Electron Theater
+# Movie Mates
 
-[![CI](https://github.com/orlandovallejos/electron-theater/actions/workflows/ci.yml/badge.svg)](https://github.com/orlandovallejos/electron-theater/actions/workflows/ci.yml)
+[![CI](https://github.com/orlandovallejos/movie-mates/actions/workflows/ci.yml/badge.svg)](https://github.com/orlandovallejos/movie-mates/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 > How many times have you sat on the couch with no idea what to watch, scrolling endlessly?
-> **Electron Theater** lets two people swipe through movies and shows. When both like the same title,
+> **Movie Mates** lets two people swipe through movies and shows. When both like the same title,
 > it's a **match**, and it goes onto a shared list. Tinder, but for movies.
 
-![Electron Theater home screen](https://i.imgur.com/mrQ0Rd0.jpg)
+![Movie Mates home screen](https://i.imgur.com/mrQ0Rd0.jpg)
 
 > **Status:** the project is being revived. Browsing and details work today; swiping, matching and the
 > shared list are not built yet. See the [roadmap](docs/ROADMAP.md).
@@ -105,8 +105,8 @@ The TMDB token only exists in the main process; the renderer never sees it
 1. Clone the repository and go into it:
 
    ```bash
-   git clone https://github.com/orlandovallejos/electron-theater.git
-   cd electron-theater
+   git clone https://github.com/orlandovallejos/movie-mates.git
+   cd movie-mates
    ```
 
 2. Install the dependencies (this also sets up the Git hooks):
@@ -136,7 +136,7 @@ The TMDB token only exists in the main process; the renderer never sees it
 
    Restart it after changing `.env`. In development you will see a harmless
    `Invalid header: Does not start with Cr24` error from the devtools extension install
-   ([#28](https://github.com/orlandovallejos/electron-theater/issues/28)).
+   ([#28](https://github.com/orlandovallejos/movie-mates/issues/28)).
 
 ## Scripts
 
@@ -150,14 +150,14 @@ The TMDB token only exists in the main process; the renderer never sees it
 | `npm run package`   | Build and package an installer into `apps/desktop/release/build`       |
 
 Run from the repo root. `lint`, `typecheck` and `test` run in every workspace; to run one workspace only, add
-`-w` and its name, for example `npm test -w @electron-theater/core`.
+`-w` and its name, for example `npm test -w @movie-mates/core`.
 
 ## Contributing
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow, branch and commit
 conventions, and the review checklist. Planned work is tracked on the
 [roadmap board](https://github.com/users/orlandovallejos/projects/1), in
-[issues and milestones](https://github.com/orlandovallejos/electron-theater/milestones), and described in the
+[issues and milestones](https://github.com/orlandovallejos/movie-mates/milestones), and described in the
 [roadmap](docs/ROADMAP.md). Decisions with trade-offs are recorded in [docs/adr](docs/adr/README.md).
 
 ## License

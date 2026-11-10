@@ -1,4 +1,4 @@
-# Contributing to Electron Theater
+# Contributing to Movie Mates
 
 Thanks for helping out. This document explains how work flows through this repository, so changes are
 easy to follow and review. The plan and milestones are in [docs/ROADMAP.md](docs/ROADMAP.md).
@@ -19,7 +19,7 @@ npm run build
 ```
 
 To run a check in one workspace only, add `-w` and the workspace name, for example
-`npm test -w @electron-theater/core` or `npm run lint -w @electron-theater/desktop`.
+`npm test -w @movie-mates/core` or `npm run lint -w @movie-mates/desktop`.
 
 ### Where code goes
 

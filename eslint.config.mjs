@@ -1,8 +1,8 @@
 // ESLint flat config for the whole repo. The shared presets live in packages/config; this file only
 // says which presets apply to which files, and what is specific to this repo.
 import path from 'node:path';
-import { base, prettier, tests } from '@electron-theater/config/eslint/base';
-import reactConfig from '@electron-theater/config/eslint/react';
+import { base, prettier, tests } from '@movie-mates/config/eslint/base';
+import reactConfig from '@movie-mates/config/eslint/react';
 
 export default [
   {

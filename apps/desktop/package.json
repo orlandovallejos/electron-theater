@@ -1,6 +1,6 @@
 {
-  "name": "@electron-theater/desktop",
-  "productName": "Electron Theater",
+  "name": "@movie-mates/desktop",
+  "productName": "Movie Mates",
   "description": "Swipe through movies and shows with a partner. When you both like the same title, it's a match.",
   "private": true,
   "scripts": {
@@ -21,8 +21,8 @@
   },
   "browserslist": [],
   "build": {
-    "productName": "Electron Theater",
-    "appId": "com.orlandovallejos.electron-theater",
+    "productName": "Movie Mates",
+    "appId": "com.orlandovallejos.movie-mates",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -83,7 +83,7 @@
     "publish": {
       "provider": "github",
       "owner": "orlandovallejos",
-      "repo": "electron-theater"
+      "repo": "movie-mates"
     }
   },
   "jest": {
@@ -143,8 +143,8 @@
     ]
   },
   "devDependencies": {
-    "@electron-theater/config": "*",
-    "@electron-theater/core": "*",
+    "@movie-mates/config": "*",
+    "@movie-mates/core": "*",
     "@electron/notarize": "^3.1.2",
     "@electron/rebuild": "^4.2.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.3",
@@ -224,9 +224,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/orlandovallejos/electron-theater.git"
+    "url": "git+https://github.com/orlandovallejos/movie-mates.git"
   },
-  "homepage": "https://github.com/orlandovallejos/electron-theater#readme",
+  "homepage": "https://github.com/orlandovallejos/movie-mates#readme",
   "engines": {
     "node": ">=24"
   }

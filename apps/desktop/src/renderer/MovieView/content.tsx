@@ -7,7 +7,7 @@ import _get from 'lodash/get';
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/
 // Types
-import { MovieViewItem, dateHelper, mathHelper } from '@electron-theater/core';
+import { MovieViewItem, dateHelper, mathHelper } from '@movie-mates/core';
 // Style
 import ContentWrapper from './content.style';
 

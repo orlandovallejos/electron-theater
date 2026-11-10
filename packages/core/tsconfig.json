@@ -1,5 +1,5 @@
 {
-  "extends": "@electron-theater/config/tsconfig.base.json",
+  "extends": "@movie-mates/config/tsconfig.base.json",
   "compilerOptions": {
     // core runs in every client and in the backend, so it must not use browser or Node APIs: no "dom"
     // lib, and no automatic @types packages (some of the hoisted ones pull in the DOM types).

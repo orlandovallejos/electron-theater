@@ -1,6 +1,6 @@
 {
-  "name": "electron-theater",
-  "productName": "Electron Theater",
+  "name": "movie-mates",
+  "productName": "Movie Mates",
   "version": "0.1.0",
   "description": "Swipe through movies and shows with a partner. When you both like the same title, it's a match.",
   "main": "./dist/main/main.js",

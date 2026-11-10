@@ -10,7 +10,7 @@ import {
   dateHelper,
   imageHelper,
   mathHelper,
-} from '@electron-theater/core';
+} from '@movie-mates/core';
 /*------------------------------------------------*/
 /* INTERNAL DEPENDENCIES
 /*------------------------------------------------*/

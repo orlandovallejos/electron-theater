@@ -1,7 +1,7 @@
-# Electron Theater — Roadmap
+# Movie Mates — Roadmap
 
 > How many times have you sat on the couch with no idea what to watch, scrolling endlessly?
-> Electron Theater lets two people swipe through movies and shows. When both like the same
+> Movie Mates lets two people swipe through movies and shows. When both like the same
 > title, it's a **match**, and it goes onto a shared list. Tinder, but for movies.
 
 This document explains where the project is today, where it's going, and how the work is
@@ -155,19 +155,19 @@ Each one has a clear "done when", so it's obvious when it can close. M0–M3 are
 
 |     | Milestone                                                                                                 | Goal                                                          | Done when                                                                                      |
 | --- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| M0  | [Project Foundation](https://github.com/orlandovallejos/electron-theater/milestone/1)                     | Run the repo like a professional project                      | Every PR runs CI, and a new contributor can run the app from the README alone                  |
-| M1  | [Stack Modernization](https://github.com/orlandovallejos/electron-theater/milestone/2)                    | Pay down dependency debt, one upgrade per PR                  | Supported versions everywhere, no deprecated APIs, tests pass                                  |
-| M2  | [Security & Architecture](https://github.com/orlandovallejos/electron-theater/milestone/3)                | Follow Electron's security checklist                          | The API token never reaches the renderer; no Electron security warnings                        |
-| M3  | [Monorepo Foundation](https://github.com/orlandovallejos/electron-theater/milestone/9)                    | Make room for web and mobile without duplicating work         | CI green on the new layout, installer still builds, `core` holds the shared code               |
-| M4  | [Design System](https://github.com/orlandovallejos/electron-theater/milestone/10)                         | One look and feel across all clients, defined once            | Every color, space and font comes from tokens; guardrails run in CI                            |
-| M5  | [Bug Fixes & UX Polish](https://github.com/orlandovallejos/electron-theater/milestone/4)                  | Make existing features reliable; extract `ui` and `screens`   | No known bugs; every screen handles failure; coverage threshold met; desktop uses the packages |
-| M6  | [Watchlist & Persistence](https://github.com/orlandovallejos/electron-theater/milestone/5)                | Save what you want to watch                                   | The watchlist survives restarts and is tested                                                  |
-| M7  | [Match: Backend & Real-time Multiplayer](https://github.com/orlandovallejos/electron-theater/milestone/6) | Build the core idea on free infrastructure                    | Two users on different machines pair, swipe, and see a match appear live                       |
-| M8  | [Web Client](https://github.com/orlandovallejos/electron-theater/milestone/11)                            | Use it from a browser with nothing to install                 | Sign in, pair, swipe and see matches on the web, sharing components with desktop               |
-| M9  | [Mobile App](https://github.com/orlandovallejos/electron-theater/milestone/12)                            | The swipe experience on a phone                               | A phone user and a desktop or web user pair and see a match live                               |
-| M10 | [AI Movie Agent](https://github.com/orlandovallejos/electron-theater/milestone/7)                         | A "what should we watch tonight?" assistant we build and host | Grounded recommendations, every run traceable, the model swappable by configuration            |
-| M11 | [Release & Quality](https://github.com/orlandovallejos/electron-theater/milestone/8)                      | Ship it like a real product, for all three clients            | One tagged release builds desktop installers, deploys the web client and makes a mobile build  |
-| M12 | [Showcase](https://github.com/orlandovallejos/electron-theater/milestone/13)                              | Show the work, not just claim it                              | One tokens change updates all three clients; write-up and demo published                       |
+| M0  | [Project Foundation](https://github.com/orlandovallejos/movie-mates/milestone/1)                     | Run the repo like a professional project                      | Every PR runs CI, and a new contributor can run the app from the README alone                  |
+| M1  | [Stack Modernization](https://github.com/orlandovallejos/movie-mates/milestone/2)                    | Pay down dependency debt, one upgrade per PR                  | Supported versions everywhere, no deprecated APIs, tests pass                                  |
+| M2  | [Security & Architecture](https://github.com/orlandovallejos/movie-mates/milestone/3)                | Follow Electron's security checklist                          | The API token never reaches the renderer; no Electron security warnings                        |
+| M3  | [Monorepo Foundation](https://github.com/orlandovallejos/movie-mates/milestone/9)                    | Make room for web and mobile without duplicating work         | CI green on the new layout, installer still builds, `core` holds the shared code               |
+| M4  | [Design System](https://github.com/orlandovallejos/movie-mates/milestone/10)                         | One look and feel across all clients, defined once            | Every color, space and font comes from tokens; guardrails run in CI                            |
+| M5  | [Bug Fixes & UX Polish](https://github.com/orlandovallejos/movie-mates/milestone/4)                  | Make existing features reliable; extract `ui` and `screens`   | No known bugs; every screen handles failure; coverage threshold met; desktop uses the packages |
+| M6  | [Watchlist & Persistence](https://github.com/orlandovallejos/movie-mates/milestone/5)                | Save what you want to watch                                   | The watchlist survives restarts and is tested                                                  |
+| M7  | [Match: Backend & Real-time Multiplayer](https://github.com/orlandovallejos/movie-mates/milestone/6) | Build the core idea on free infrastructure                    | Two users on different machines pair, swipe, and see a match appear live                       |
+| M8  | [Web Client](https://github.com/orlandovallejos/movie-mates/milestone/11)                            | Use it from a browser with nothing to install                 | Sign in, pair, swipe and see matches on the web, sharing components with desktop               |
+| M9  | [Mobile App](https://github.com/orlandovallejos/movie-mates/milestone/12)                            | The swipe experience on a phone                               | A phone user and a desktop or web user pair and see a match live                               |
+| M10 | [AI Movie Agent](https://github.com/orlandovallejos/movie-mates/milestone/7)                         | A "what should we watch tonight?" assistant we build and host | Grounded recommendations, every run traceable, the model swappable by configuration            |
+| M11 | [Release & Quality](https://github.com/orlandovallejos/movie-mates/milestone/8)                      | Ship it like a real product, for all three clients            | One tagged release builds desktop installers, deploys the web client and makes a mobile build  |
+| M12 | [Showcase](https://github.com/orlandovallejos/movie-mates/milestone/13)                              | Show the work, not just claim it                              | One tokens change updates all three clients; write-up and demo published                       |
 
 The order can change where a dependency allows it. In particular, M10 (the AI agent) only needs the backend, so
 it could move before M8 and M9 if it becomes the priority.
@@ -260,7 +260,7 @@ Milestone ──▶ Issue ──▶ Branch ──▶ Commits ──▶ Pull requ
   `main` and offers **Update branch**.
 - **Decisions** with real trade-offs are recorded as ADRs in `docs/adr/` (see #20).
 
-Progress is tracked on the [Electron Theater Roadmap board](https://github.com/users/orlandovallejos/projects/1)
+Progress is tracked on the [Movie Mates Roadmap board](https://github.com/users/orlandovallejos/projects/1)
 (statuses: Backlog, Ready, In progress, In review, Done; fields: Milestone, Priority, Size).
 
 Full contribution guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md).

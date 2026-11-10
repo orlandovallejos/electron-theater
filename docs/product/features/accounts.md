@@ -249,7 +249,9 @@ As a new member, I want to know what tapping the heart does and who sees it, so 
 
 - [ ] One screen: "Like anything you'd want to watch. Nobody sees your Likes, not even the people you
       connect with. When you both like the same title, it's a match."
-- [ ] One button, **Get started**. No skip: it's one tap.
+- [ ] A name field under the text, "What should your connections call you?", filled in from Google or Apple
+      when they give one, and required for email sign-ups (PROFILE-2). Invites show this name.
+- [ ] One button, **Get started**, enabled once there's a name. No skip: it's one step.
 
 ### ONBOARD-2 · Pick the genres you like
 

@@ -136,7 +136,8 @@ Matching between two people:
 - **Streaming services mark, never hide.** Later, you can say which services you have, and titles on them
   get a tick (TMDB lists where each title is available). Nothing is hidden because it's on another service.
 - **No cap on Likes.** Nobody liking titles by hand gets near "everything", so there's no limit on how many
-  titles you can like. The backend still has ordinary API rate limits against scripts.
+  titles you can like. Instead, the backend answers one client at most 50 times a second, which slows down
+  scripts without anyone using the app noticing.
 
 Every feature, the clients that get it and the milestone that builds it, plus the product decisions and the
 ideas we decided not to build, are in the [product requirements](product/requirements.md).

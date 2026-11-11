@@ -34,7 +34,7 @@ it depends on.
 | **P3** | … tell an inviter that an invite was declined, or opened and not answered.                                                                          |
 | **P4** | … show a connection more than your name and photo, plus the matches you share.                                                                      |
 | **P5** | … announce that a connection ended, or why (ended, account deleted). It simply disappears.                                                          |
-| **P6** | … let anyone learn Likes by liking titles in bulk. The daily limit in LIKE-4 holds until the probing ADR decides.                                   |
+| **P6** | … answer a script faster than a person could use the app. There's no cap on Likes (decision 14); the M7 backend has ordinary API rate limits.       |
 
 What can't be hidden, and is accepted: when a match appears, you learn that the other person likes that
 title. When a match disappears and you didn't unlike it, you can tell they did. Both are the point of
@@ -190,9 +190,14 @@ like something.
 **Clients:** D W M · **Release:** first version · **Milestone:** M7 (D), M8 (W), M9 (M)
 
 - [ ] When you like a title your connection already likes, it goes onto your shared list at once
-- [ ] You see "It's a match with Sam" next to the heart, with **See your matches**; Sam gets a notification
-      (NOTIF-1)
-- [ ] A title can match with several connections at once; the message names them ("with Sam and Jo")
+- [ ] A short celebration appears over the screen, with an animation (a burst of hearts or stars around the
+      poster): "It's a match with Sam!" ([decision 13](../requirements.md#6-decisions))
+- [ ] A Like can match with several connections at once. The message lists every one of them, with their
+      photos: "It's a match with Sam, Jo and Alex!"
+- [ ] **See your matches** opens the shared list (with several people, the Matches screen), and **Keep
+      browsing** closes it. It also closes by itself after a few seconds, or with Esc.
+- [ ] With reduced motion on, the message appears without the animation
+- [ ] The other people get a notification (NOTIF-1)
 - [ ] The match is marked **New** on the list until each person has seen it
 - [ ] **Privacy:** P2. Nothing says how long ago Sam liked it.
 
@@ -393,12 +398,15 @@ As someone who doesn't open the app every day, I want an email about new matches
 
 - [ ] At most one email a day, listing new matches per connection; off by default, turned on in Settings
 
-### MATCH-9 · Filter by the streaming services you both have
+### MATCH-9 · Tick the matches on your streaming services
 
-As two people with different subscriptions, we want to see only matches we can both stream, so that we don't
-pick something we can't watch.
+As someone with two subscriptions, I want to see at a glance which matches I can stream tonight, without
+losing the others, so that we can still rent or subscribe for the right one.
 
 **Clients:** D W M · **Release:** later
 
-- [ ] Depends on the open question about streaming services ([requirements](../requirements.md#7-open-questions))
-      and the "Your streaming services" setting
+- [ ] Uses the services you set in SET-11; a match on one of them gets a tick and the service's logo
+- [ ] Nothing is hidden or filtered out because it's on another service
+      ([decision 15](../requirements.md#6-decisions))
+- [ ] The same tick appears on the title page's where to watch (TITLE-4) and in "pick one for us"
+- [ ] **Privacy:** the ticks are for your services only. Your connection never sees which services you have.

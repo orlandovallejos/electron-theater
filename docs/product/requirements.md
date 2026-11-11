@@ -275,9 +275,16 @@ and say why in the description.
     at once, and they're all named.
 14. **No limit on how many titles you can like.** _Why:_ thousands of movies and shows come out every year, so
     nobody liking titles by hand gets near "everything", and a cap would only get in the way of honest use.
-    Liking by script (an automated client calling the API) is a server question, not a product one: the M7
-    backend has ordinary API rate limits that no person reaches.
-15. **Streaming services mark titles; they never hide them.** Once you tell the app which services you have,
+    Liking by script (an automated client calling the API) is handled by decision 16 instead.
+15. **The server limits how fast one client can call it: at most 50 requests a second.** A client is one app
+    on one device, signed in or not. Requests over the limit get a "slow down" answer (HTTP 429) instead of
+    being served. The apps wait and retry by themselves, so a person using the app never notices; a script
+    liking titles in bulk is slowed to a crawl. Sign-in emails and codes have their own, stricter limits
+    (AUTH-3, AUTH-5). _Why:_ it protects Likes from being probed by scripts and protects the free-tier server
+    from overload, without the cap on honest use that decision 14 rules out. How it's counted (per account,
+    device or IP address) and stored is for the M7 backend ADR; the number goes in the
+    [non-functional requirements](non-functional.md) (#154).
+16. **Streaming services mark titles; they never hide them.** Once you tell the app which services you have,
     titles available on them get a tick. Titles on other services stay in every list and search. _Why:_ a match
     you can't stream tonight is still worth knowing: you might rent it, see it in a theater or subscribe.
 

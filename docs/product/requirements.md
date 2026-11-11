@@ -28,8 +28,8 @@ People who watch movies and shows with someone else and lose the evening choosin
 design choice:
 
 **Two people after dinner.** Sam and Alex live together. On Tuesday Sam sees a trailer on the bus and taps the
-heart. On Thursday Alex likes the same film while scrolling at lunch. Neither knows about the other's Likes.
-On Friday after dinner they open their shared list, see three titles they both want, and one of them taps
+heart. On Thursday Alex likes the same film while scrolling at lunch, and the app celebrates: "It's a match
+with Sam!" Until that moment neither knew about the other's Likes. On Friday after dinner they open their shared list, see three titles they both want, and one of them taps
 "pick one for us". They're watching in two minutes.
 
 **A sibling in another city.** Jo and their brother watch the same series on different continents and talk
@@ -173,7 +173,7 @@ never. **Milestone** is where the feature is first built.
 | `MATCH`  | Shared match list, newest first, with a Watched section                  | ✓     | ✓     | ✓     | first version | M7        |
 | `MATCH`  | Filters: movie or TV, genre, runtime                                     | ✓     | ✓     | ✓     | first version | M7        |
 | `MATCH`  | "Pick one for us"                                                        | ✓     | ✓     | ✓     | first version | M7        |
-| `MATCH`  | Filter by the streaming services both people have                        | later | later | later | later         | —         |
+| `MATCH`  | Mark titles that are on your streaming services (never hide the others)  | later | later | later | later         | —         |
 | `NOTIF`  | Notification for a new match or an accepted invite, grouped when several | ✓     | ✓     | ✓     | first version | M7        |
 | `NOTIF`  | Notification list in the app                                             | ✓     | ✓     | ✓     | first version | M7        |
 | `NOTIF`  | Email notifications                                                      | later | later | later | later         | —         |
@@ -269,18 +269,27 @@ and say why in the description.
     privacy policy and terms, muting a connection, a notification list, grouped notifications, "pick one for
     us", watched together and match-list filters. _Why:_ deletion and attribution are required by the app
     stores and TMDB, and the rest is what makes a match list useful on a Friday night.
+13. **A match is a moment.** When your Like makes a match, the app shows it right away with a short
+    animation: "It's a match with Sam and Jo!", listing every connection it matched with. _Why:_ the match is
+    the payoff for liking titles all week, so it should feel like one. A Like can match with several people
+    at once, and they're all named.
+14. **No limit on how many titles you can like.** _Why:_ thousands of movies and shows come out every year, so
+    nobody liking titles by hand gets near "everything", and a cap would only get in the way of honest use.
+    Liking by script (an automated client calling the API) is a server question, not a product one: the M7
+    backend has ordinary API rate limits that no person reaches.
+15. **Streaming services mark titles; they never hide them.** Once you tell the app which services you have,
+    titles available on them get a tick. Titles on other services stay in every list and search. _Why:_ a match
+    you can't stream tonight is still worth knowing: you might rent it, see it in a theater or subscribe.
 
 ## 7. Open questions
 
 Questions the stories depend on but can't answer yet. Each says where it gets answered and which stories wait
 for it.
 
-| Question                                                                         | Answered in                                                            | Affects                  |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------ |
-| How do we stop someone from finding another person's Likes by liking everything? | ADR before M7. Until then, stories assume a daily like limit.          | `LIKE`, `MATCH`, `NOTIF` |
-| Should matches be filtered to the streaming services both people have?           | Before the "later" streaming-services features                         | `MATCH`, `SET`           |
-| What is the desktop app for?                                                     | ADR after M8 and M9 (see the roadmap)                                  | Desktop-only stories     |
-| How long does a sign-in link live, and how long do you stay signed in?           | [Non-functional requirements](non-functional.md), then the M7 auth ADR | `AUTH`                   |
+| Question                                                                                                                          | Answered in                                                            | Affects              |
+| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------- |
+| What is the desktop app for? Leading idea: a player for your own video library, possibly with AI features for the videos you add. | ADR after M8 and M9 (see the roadmap)                                  | Desktop-only stories |
+| How long does a sign-in link live, and how long do you stay signed in?                                                            | [Non-functional requirements](non-functional.md), then the M7 auth ADR | `AUTH`               |
 
 ## Where the stories are
 

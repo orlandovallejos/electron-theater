@@ -133,10 +133,10 @@ Matching between two people:
   each person you're connected to. Only the titles you have in common show up on the list you share.
 - **No live session needed.** Each person likes titles whenever it suits them. A notification tells you
   when a new match appears.
-- **Open questions:**
-  - how to stop someone from discovering another person's Likes by liking everything (an ADR before M7)
-  - whether to filter matches to the streaming services both people have (TMDB lists where each title is
-    available). Planned for after the first version.
+- **Streaming services mark, never hide.** Later, you can say which services you have, and titles on them
+  get a tick (TMDB lists where each title is available). Nothing is hidden because it's on another service.
+- **No cap on Likes.** Nobody liking titles by hand gets near "everything", so there's no limit on how many
+  titles you can like. The backend still has ordinary API rate limits against scripts.
 
 Every feature, the clients that get it and the milestone that builds it, plus the product decisions and the
 ideas we decided not to build, are in the [product requirements](product/requirements.md).
@@ -186,7 +186,8 @@ The reasons, and the alternative of one React Native component set for every cli
 
 If the desktop app only wraps the web app, there is no reason for it to exist. Liking titles on the go fits a phone best,
 and the web client needs no install, so the desktop app must do something the others cannot. This is
-**undecided**. One candidate: playing video and keeping a library of local video files. Decide it after the
+**undecided**. The leading idea: a player and library for your own video files, possibly with AI features for
+the videos you add (still to be explored, including how hard that is). Decide it after the
 clients exist and it is clearer what is missing, and record it in an ADR.
 
 ## 5. Milestones

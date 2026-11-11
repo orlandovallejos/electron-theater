@@ -24,7 +24,7 @@
   and revenue
 - Frameless window with custom close, minimize and fullscreen controls
 
-**Planned** (see the [roadmap](docs/ROADMAP.md))
+**Planned** (see the [roadmap](docs/ROADMAP.md) and the [product requirements](docs/product/requirements.md))
 
 - A heart to like titles, and private lists of your own (for example "Action" or "Horror to watch alone")
 - Connections by invite, with a shared list of the titles you both like, and a notification for each new
@@ -60,7 +60,7 @@ apps/
 packages/
   core/           types and pure logic shared by every client: date, math and image helpers, TMDB transforms
   config/         shared Prettier, TypeScript and ESLint settings
-docs/             roadmap, ADRs, design principles and components (docs/design), security notes
+docs/             roadmap, product requirements (docs/product), ADRs, design (docs/design), security notes
 ```
 
 The web client, the mobile app and the backend will be added next to these (see the

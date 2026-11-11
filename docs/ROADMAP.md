@@ -110,7 +110,8 @@ agent. This section is the shared picture; the milestones below are the steps.
 3. **One source of truth for the look.** Colors, type, spacing and the rest are design tokens defined once.
    Changing a token (for example the primary color) updates every client. M12 proves it.
    The [design principles and the component inventory](design/README.md) say how the tokens are used.
-4. **Decisions are written down.** Trade-offs go in ADRs (`docs/adr/`), not only in pull requests.
+4. **Decisions are written down.** Trade-offs go in ADRs (`docs/adr/`), not only in pull requests. Product
+   decisions go in the [product requirements](product/requirements.md#6-decisions).
 5. **Small, reviewable changes.** See [How work is organized](#6-how-work-is-organized).
 
 ### How likes, lists and matches work
@@ -121,7 +122,8 @@ There are two kinds of lists, and every list belongs to one person:
   nobody can see them, including the people you're connected to. They are the only list the app uses to
   find matches.
 - **Your own lists.** Create as many as you want, for example "Action and war" or "Horror to watch alone",
-  and put any movie or show in them. They are always private and never used for matching.
+  and put any movie or show in them. They are always private and never used for matching. They're saved to
+  your account, so they're the same on every device.
 
 Matching between two people:
 
@@ -131,11 +133,14 @@ Matching between two people:
   each person you're connected to. Only the titles you have in common show up on the list you share.
 - **No live session needed.** Each person likes titles whenever it suits them. A notification tells you
   when a new match appears.
-- **Open questions**, answered in an ADR before M7:
-  - how to stop someone from discovering another person's Likes by liking everything
-  - whether to filter matches to the streaming services both people have (TMDB lists where each title is
-    available)
-  - whether your own lists sync between your devices (they are never shared with anyone either way)
+- **Streaming services mark, never hide.** Later, you can say which services you have, and titles on them
+  get a tick (TMDB lists where each title is available). Nothing is hidden because it's on another service.
+- **No cap on Likes.** Nobody liking titles by hand gets near "everything", so there's no limit on how many
+  titles you can like. Instead, the backend answers one client at most 50 times a second, which slows down
+  scripts without anyone using the app noticing.
+
+Every feature, the clients that get it and the milestone that builds it, plus the product decisions and the
+ideas we decided not to build, are in the [product requirements](product/requirements.md).
 
 ### Target architecture
 
@@ -182,7 +187,8 @@ The reasons, and the alternative of one React Native component set for every cli
 
 If the desktop app only wraps the web app, there is no reason for it to exist. Liking titles on the go fits a phone best,
 and the web client needs no install, so the desktop app must do something the others cannot. This is
-**undecided**. One candidate: playing video and keeping a library of local video files. Decide it after the
+**undecided**. The leading idea: a player and library for your own video files, possibly with AI features for
+the videos you add (still to be explored, including how hard that is). Decide it after the
 clients exist and it is clearer what is missing, and record it in an ADR.
 
 ## 5. Milestones

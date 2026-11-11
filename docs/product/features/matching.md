@@ -34,7 +34,7 @@ it depends on.
 | **P3** | … tell an inviter that an invite was declined, or opened and not answered.                                                                          |
 | **P4** | … show a connection more than your name and photo, plus the matches you share.                                                                      |
 | **P5** | … announce that a connection ended, or why (ended, account deleted). It simply disappears.                                                          |
-| **P6** | … answer a script faster than a person could use the app. There's no cap on Likes (decision 14); the M7 backend has ordinary API rate limits.       |
+| **P6** | … answer one client more than 50 times a second (decision 16), so a script can't probe Likes in bulk. There's no cap on Likes (decision 14).        |
 
 What can't be hidden, and is accepted: when a match appears, you learn that the other person likes that
 title. When a match disappears and you didn't unlike it, you can tell they did. Both are the point of

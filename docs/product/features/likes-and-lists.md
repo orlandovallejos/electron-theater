@@ -70,16 +70,9 @@ will never happen.
 
 ### LIKE-4 · A daily limit on Likes
 
-As the person whose Likes must stay private, I want a cap on how fast anyone can like titles, so that nobody
-can find my Likes by liking everything.
-
-**Clients:** D W M · **Release:** first version · **Milestone:** M7
-
-- [ ] A placeholder until the ADR on probing ([open questions](../requirements.md#7-open-questions)) decides
-      the real rule. The working assumption: at most 200 new Likes a day per account.
-- [ ] Reaching it says "You've liked a lot today. You can like more tomorrow." The heart stays usable for
-      unliking.
-- [ ] Onboarding and normal use stay far below the limit
+**Removed.** There's no limit on how many titles you can like
+([decision 14](../requirements.md#6-decisions)): nobody liking by hand gets near "everything". Scripts are
+handled by the M7 backend's ordinary API rate limits, which no person reaches and which need no screen.
 
 ## Likes screen
 
@@ -209,15 +202,15 @@ As someone who just made a list, I want to know how to fill it, so that I don't 
 
 ## Limits
 
-High enough that nobody reaches them by normal use, low enough to protect the server and the screens.
+Your own lists have limits high enough that nobody reaches them by normal use, low enough to protect the server
+and the screens. Likes have none.
 
-| What               | Limit         | At the limit                                                                                 |
-| ------------------ | ------------- | -------------------------------------------------------------------------------------------- |
-| Likes              | 5,000         | The heart says "You've reached 5,000 Likes. Remove some to like more." Unliking still works. |
-| New Likes per day  | 200           | LIKE-4 (a placeholder until the probing ADR)                                                 |
-| Your own lists     | 100           | **New list** is disabled with "You've reached 100 lists."                                    |
-| Titles in one list | 1,000         | That list is disabled in the picker with "This list is full (1,000 titles)."                 |
-| List name          | 50 characters | The field stops accepting characters and shows the count                                     |
+| What               | Limit         | At the limit                                                                 |
+| ------------------ | ------------- | ---------------------------------------------------------------------------- |
+| Likes              | None          | No limit ([decision 14](../requirements.md#6-decisions))                     |
+| Your own lists     | 100           | **New list** is disabled with "You've reached 100 lists."                    |
+| Titles in one list | 1,000         | That list is disabled in the picker with "This list is full (1,000 titles)." |
+| List name          | 50 characters | The field stops accepting characters and shows the count                     |
 
 Grids load in pages, so a list of 1,000 titles opens as fast as one of 20.
 

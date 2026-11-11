@@ -72,7 +72,9 @@ will never happen.
 
 **Removed.** There's no limit on how many titles you can like
 ([decision 14](../requirements.md#6-decisions)): nobody liking by hand gets near "everything". Scripts are
-handled by the M7 backend's ordinary API rate limits, which no person reaches and which need no screen.
+slowed by the server's limit of 50 requests a second per client
+([decision 16](../requirements.md#6-decisions)), which no person reaches. If a save is slowed, the heart
+behaves as in LIKE-3: it stays filled and the app retries by itself.
 
 ## Likes screen
 

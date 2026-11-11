@@ -175,6 +175,8 @@ each app.
 - [ ] Says which region it's for, with a link to change it: "Where to watch in Spain · Change"
 - [ ] No services in that region: "Not available to stream or buy in Spain right now"
 - [ ] Shows the JustWatch attribution that TMDB's terms require for this data
+- [ ] Later, once you've set your streaming services (SET-11), the ones you have get a tick. Services you
+      don't have are never hidden ([decision 15](../requirements.md#6-decisions)).
 
 ### TITLE-5 · Related titles
 

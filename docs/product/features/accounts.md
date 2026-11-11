@@ -36,9 +36,18 @@ me to sign in.
       Apple** on iOS, AUTH-9)
 - [ ] A line under the buttons: "New here? The same buttons create your account."
 - [ ] Links to the privacy policy and the terms, and the TMDB attribution
+- [ ] An illustration or short animation above the text that shows the idea: two people on a couch, or two
+      hearts meeting and turning into a match. It's part of the app, not loaded from the network.
+- [ ] The animation plays once (or loops gently), shows a still frame when the system asks for reduced motion,
+      and has a text alternative for screen readers
 - [ ] No posters from TMDB on this screen, so it works when TMDB is down
 - [ ] Opening any other screen or link while signed out shows this screen, then goes on to that screen after
       sign-in (AUTH-11)
+
+The same animation style can carry the match celebration (MATCH-1), so both moments feel like one app. Which
+library plays it is a technical choice for an ADR before M7. Two maintained candidates work on the web and in
+React Native: [Lottie](https://lottiefiles.com/) (with a large library of free animations) and
+[Rive](https://rive.app/) (interactive animations made in its own editor).
 
 ## Email sign-in
 

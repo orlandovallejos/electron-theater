@@ -261,7 +261,8 @@ can watch now.
 
 **Clients:** D W M · **Release:** later
 
-- [ ] Pick services from TMDB's list for your region; used by MATCH-9 once the open question is answered
+- [ ] Pick services from TMDB's list for your region; titles on them get a tick (MATCH-9, TITLE-4), and
+      nothing is hidden ([decision 15](../requirements.md#6-decisions))
 - [ ] **Privacy:** never shown to connections, even when used to filter a shared list
 
 ### SET-12 · Desktop app settings

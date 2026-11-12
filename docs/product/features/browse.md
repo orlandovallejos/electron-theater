@@ -11,6 +11,13 @@ Unless a story says otherwise, it ships in M5 on desktop, M8 on the web and M9 o
 the **language** and **region** settings (SET), and titles marked adult by TMDB are hidden while **Hide adult
 titles** is on (the default).
 
+Two rules apply to every screen here ([decisions 17 and 18](../requirements.md#6-decisions)):
+
+- **Nothing scrolls sideways.** Every screen scrolls from top to bottom. Groups of titles are grids that wrap,
+  never rows to swipe through.
+- **Grids grow with Show more, not infinite scroll.** A grid starts with 20 items and each **Show more** adds
+  30, so the end of the page is always reachable and you keep your place.
+
 **Contents:** [Home](#home) · [Search](#search) · [Title page](#title-page) · [Trailer](#trailer) ·
 [Person page](#person-page) · [What we don't show](#what-we-dont-show) · [States](#states) · [Later](#later)
 
@@ -28,35 +35,38 @@ As someone opening the app, I want one title shown large, so that there's someth
       TV show) and the first two lines of its description
 - [ ] The heart is the main button (LIKE). **Trailer** is secondary and only appears when there is one
       (TITLE-8). **More info** opens the title page.
-- [ ] Titles without a backdrop are never picked
-- [ ] On the phone it's a shorter card, so the first row shows without scrolling
+- [ ] Only titles that have a backdrop (TMDB's wide background image) can be picked, because the hero is
+      built on it. A title with only a poster would leave the hero empty.
+- [ ] On the phone it's a shorter card, so the first posters show without scrolling
 
-### HOME-2 · Rows of trending titles
+### HOME-2 · Browse what's trending
 
-As someone looking for ideas, I want rows of what's popular now, so that I can like things without searching.
+As someone looking for ideas, I want a grid of what's popular now, so that I can like things without
+searching.
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
 
-- [ ] Rows: **Trending movies**, **Trending TV shows**, **Popular in your region**
-- [ ] Each row scrolls sideways: with arrows on desktop and web, by swiping on the phone, and with the arrow
-      keys once focused
+- [ ] Under the hero, a line of chips picks what the grid shows: **Trending** (the default, movies and TV
+      mixed), **Movies**, **TV shows**. The chips wrap onto a second line when they don't fit.
+- [ ] One grid of posters below the chips, scrolling down with the page: 20 titles, then **Show more** adds 30
 - [ ] Each poster shows the title and year under it and opens the title page
 - [ ] Each poster has the heart (HOME-4)
+- [ ] The chip you picked is remembered on the device
 
-### HOME-3 · Rows from the genres you picked
+### HOME-3 · Your genres on Home
 
-As someone who picked genres in onboarding, I want rows for them, so that Home fits my taste.
+As someone who picked genres in onboarding, I want Home to offer them, so that it fits my taste.
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M7 (D), M8 (W), M9 (M)
 
-- [ ] One row per picked genre ("Comedy", "Sci-Fi and Fantasy"), movies and TV mixed, after the trending rows
-- [ ] At most five genre rows; with more picks, a different five each time Home opens
-- [ ] Changing the genres in Settings changes the rows the next time Home opens
-- [ ] Before M7 (no account yet) and for people who skipped the genre step, Home shows only HOME-1 and HOME-2
+- [ ] One chip per picked genre ("Comedy", "Sci-Fi and Fantasy") after the chips in HOME-2; picking one fills
+      the grid with popular titles from that genre, movies and TV mixed
+- [ ] Changing the genres in Settings changes the chips the next time Home opens
+- [ ] Before M7 (no account yet) and for people who skipped the genre step, only the HOME-2 chips show
 
 ### HOME-4 · The heart on every poster
 
-As someone browsing rows, I want to like a title from its poster, so that I don't have to open each one.
+As someone browsing a grid, I want to like a title from its poster, so that I don't have to open each one.
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M6 (D), M8 (W), M9 (M)
 
@@ -75,18 +85,21 @@ As a new member, I want Home to tell me the next step, so that I get to my first
   1. "Like your first titles" when the Likes have no movie or no TV show (ONBOARD-9)
   2. "Invite your person" when there are no connections and no pending invites (ONBOARD-5)
   3. "You have 3 new matches with Sam" when there are matches you haven't seen (MATCH)
-- [ ] Cards 1 and 2 can be dismissed for 7 days; card 3 goes away once the matches are seen
+- [ ] Cards 1 and 2 can be dismissed for good: someone who only wants a list of favorites doesn't need to be
+      asked again. Inviting stays one tap away on the Connections screen.
+- [ ] Card 3 goes away once the matches are seen
 - [ ] **Privacy:** card 3 counts only matches, never the other person's Likes
 
 ## Search
 
 ### SEARCH-1 · Open search from anywhere
 
-As someone who knows what they want, I want search one step away, so that I don't scroll rows looking for it.
+As someone who knows what they want, I want search one step away, so that I don't scroll looking for it.
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
 
-- [ ] In the navigation on every client (where exactly is in [navigation](../navigation.md))
+- [ ] Reachable from the navigation on every client. Where it sits on each one (for example, a tab of its own
+      on the phone) is decided in [navigation](../navigation.md) (#153).
 - [ ] On desktop and web, ⌘K / Ctrl+K and `/` focus the search field from any screen
 - [ ] Opening search focuses the field and shows the keyboard on the phone
 
@@ -97,11 +110,13 @@ As someone searching, I want results while I type, so that I can stop as soon as
 **Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
 
 - [ ] Starts after 2 characters, and waits until typing pauses (about 300 ms) before asking TMDB
-- [ ] Searches movies, TV shows and people together, with tabs or chips to narrow it: **All**, **Movies**,
-      **TV shows**, **People**
+- [ ] Searches movies, TV shows and people together, with chips to narrow it: **All**, **Movies**, **TV
+      shows**, **People**. "People" means actors, directors and the rest of the cast and crew, as TMDB lists
+      them. Other Movie Mates users are never searchable ([decision 4](../requirements.md#6-decisions)).
+- [ ] Also finds titles by studio, franchise or universe (SEARCH-5), so "Marvel" finds Wolverine
 - [ ] A title result shows its poster, title, year and type, and the heart. A person result shows the photo,
       name and what they're known for ("Acting · Dune, Lady Bird").
-- [ ] Results are in TMDB's order (most relevant first); more load when you scroll to the end
+- [ ] Results are in TMDB's order (most relevant first): 20, then **Show more** adds 30
 - [ ] Choosing a result opens the title page or the person page. Back returns to the same results.
 - [ ] Keyboard on desktop and web: ↓ and ↑ move through results, Enter opens, Esc clears the field
 - [ ] Only the latest search's results are shown, even if an earlier request answers last
@@ -115,11 +130,34 @@ app is broken.
 
 - [ ] "No results for "dnue"." with a hint: check the spelling, or try the original title
 - [ ] When a filter is on, it offers to search **All** instead
+- [ ] TMDB's search forgives some mistakes, but not every typo. A "Did you mean Dune?" suggestion is SEARCH-6
+      (later); how to build it is an [open question](../requirements.md#7-open-questions).
+
+### SEARCH-5 · Find titles by studio, franchise or universe
+
+As a fan who types "Marvel" or "DC", I want the films and shows from that universe, so that I find Wolverine
+or Superman even though the word isn't in their titles.
+
+**Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
+
+- [ ] Besides titles and people, search also asks TMDB for matching **collections** ("X-Men Collection"),
+      **companies** ("Marvel Studios", "DC Studios") and **keywords** ("marvel cinematic universe", "dc
+      extended universe")
+- [ ] The best match appears as a group at the top of the results, such as "From Marvel Studios", with its
+      titles in a grid (20, then **Show more**); **All**, **Movies** and **TV shows** still apply
+- [ ] Only shown when the match is close (the name starts with what you typed), so "dune" doesn't turn up a
+      company called "Dune Entertainment" above the film
+- [ ] TMDB supports this with its collection, company and keyword search, and its discover endpoint to list
+      the titles for each; a short spike in M5 checks how good the results are
 
 ## Title page
 
 One page for movies and TV shows, with small differences listed in each story. Everything on it comes from
 TMDB, in one request where possible, and the page is usable before every section has loaded.
+
+The sections, top to bottom: the header (TITLE-1), your match (TITLE-7), where to watch (TITLE-4), the
+description and details (TITLE-2), seasons for a TV show (TITLE-6), the cast (TITLE-3), and related titles
+(TITLE-5) at the bottom.
 
 ### TITLE-1 · The header: what it is and the main action
 
@@ -156,7 +194,8 @@ As someone who picks by actor, I want to see who's in it, so that I can find mor
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
 
-- [ ] A sideways row of the first 15 cast members: photo, name and character
+- [ ] A grid of the first 12 cast members: photo, name and character. **Show more** adds the next ones, up to
+      the first 30 in TMDB's order.
 - [ ] Each opens the person page (PERSON-1)
 - [ ] People without a photo show their initials
 - [ ] No cast from TMDB: the section is hidden
@@ -168,24 +207,31 @@ each app.
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
 
-- [ ] Services for the region in Settings, from TMDB's watch providers, grouped as **Stream**, **Rent** and
-      **Buy**, each with its logo and name
+- [ ] Services for your region, from TMDB's watch providers, grouped as **Stream**, **Rent** and **Buy**,
+      each with its logo and name. The region is **United States** for everyone at first, and you can change
+      it ([decision 19](../requirements.md#6-decisions)).
+- [ ] The region never hides anything: search, Home and the title page show every title TMDB has, and you
+      can like any of them. The region only changes what this section says.
 - [ ] Tapping a service opens TMDB's watch page for that title in the browser, where the links to each service
       are (TMDB doesn't give the links themselves)
-- [ ] Says which region it's for, with a link to change it: "Where to watch in Spain · Change"
-- [ ] No services in that region: "Not available to stream or buy in Spain right now"
+- [ ] Says which region it's for, with a link to change it: "Where to watch in the United States · Change"
+- [ ] No services in that region: "Not available to stream or buy in the United States right now", shown
+      clearly, near the top of the section, so you know before you like it for tonight
 - [ ] Shows the JustWatch attribution that TMDB's terms require for this data
-- [ ] Later, once you've set your streaming services (SET-11), the ones you have get a tick. Services you
-      don't have are never hidden ([decision 15](../requirements.md#6-decisions)).
+- [ ] Later, once you've set your streaming services (SET-11), the ones you have get a tick, and a title on
+      none of them says "Not on your services". Services you don't have are never hidden
+      ([decision 15](../requirements.md#6-decisions)).
 
 ### TITLE-5 · Related titles
 
 As someone who liked this title, I want similar ones, so that I can like several in a row.
 
+It's the last section of the title page, under the cast.
+
 **Clients:** D W M · **Release:** first version · **Milestone:** M5 (D), M8 (W), M9 (M)
 
-- [ ] A row of up to 20 posters from TMDB's recommendations, or its similar titles when there are no
-      recommendations
+- [ ] A grid of up to 20 posters from TMDB's recommendations, or its similar titles when there are no
+      recommendations. It shows 10, and **Show more** shows the rest.
 - [ ] Each poster has the heart and opens its own title page
 - [ ] Nothing related: the section is hidden
 
@@ -241,17 +287,18 @@ As someone who liked a performance, I want to see the person's other work, so th
 - [ ] The biography, cut to about 5 lines with **More**. TMDB has no biography in your language: show the
       English one, or nothing.
 - [ ] **Known for:** a grid of their titles, most popular first, each with the heart, filterable by
-      **Movies** and **TV shows**
+      **Movies** and **TV shows**: 20, then **Show more** adds 30
 - [ ] Crew work (directing, writing) appears in the same grid with the job under the title
 
 ## What we don't show
 
 TMDB returns more than these screens use. Left out on purpose, so a screen has one job:
 
-- **Keywords**, **production companies** and **TMDB popularity scores**: useful for search and
-  recommendations, not for a person deciding.
+- **Keywords**, **production companies** and **TMDB popularity scores** as text on the title page: useful
+  for search (SEARCH-5) and recommendations, not for a person deciding.
 - **Reviews**: ratings already summarize them, and reviews mean spoilers.
-- **Full cast and crew**, **episodes of a season** and **image galleries**: later, if people ask for them.
+- **The whole cast and crew** (beyond the first 30), **episodes of a season** and **image galleries**:
+  later, if people ask for them.
 
 The app still fetches what the [M10 agent](../requirements.md#4-feature-map) may need, such as keywords; it
 just doesn't display it.
@@ -260,7 +307,7 @@ just doesn't display it.
 
 | Situation                        | What the person sees                                                                                                   |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Loading                          | The layout appears at once, with skeletons where posters, text and rows will be. No spinner over a blank page.         |
+| Loading                          | The layout appears at once, with skeletons where posters, text and grids will be. No spinner over a blank page.        |
 | One section fails                | That section says "Couldn't load the cast" with **Try again**; the rest of the page works.                             |
 | TMDB down or the request fails   | The screen says "We can't reach the movie database right now" with **Try again**. Your Likes and lists still open.     |
 | Offline                          | A notice at the top. Screens already loaded stay; new ones say "You're offline" with **Try again**.                    |
@@ -292,3 +339,12 @@ As someone who found something good, I want to send its page to a friend, so tha
 
 - [ ] **Share** gives a web link to the title page; the person opening it signs in first (decision 2)
 - [ ] **Privacy:** the link says nothing about your Likes or matches
+
+### SEARCH-6 · "Did you mean …?"
+
+As someone who typed "dnue", I want the app to suggest "Dune", so that a typo doesn't end the search.
+
+**Clients:** D W M · **Release:** later
+
+- [ ] When a search finds nothing or very little, a suggestion above the results: "Did you mean **Dune**?"
+- [ ] Depends on the [open question](../requirements.md#7-open-questions) about typos

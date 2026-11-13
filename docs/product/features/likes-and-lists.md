@@ -85,7 +85,8 @@ that I can browse them.
 
 **Clients:** D W M · **Release:** first version · **Milestone:** M6 (D), M8 (W), M9 (M)
 
-- [ ] A grid of posters with title and year, and the number of Likes in the header ("48 Likes")
+- [ ] A grid of posters with title and year, and the number of Likes in the header ("48 Likes"). It scrolls
+      down: 20 titles, then **Show more** adds 30 ([decisions 17 and 18](../requirements.md#6-decisions)).
 - [ ] A lock and "Only you can see your Likes" in the header, the same cue as on your own lists
       ([principle 2](../../design/principles.md#2-private-looks-private-shared-looks-shared))
 - [ ] Each poster opens the title page and has the filled heart (tap to unlike, LIKE-2)
@@ -160,7 +161,8 @@ As someone picking from one of my lists, I want to see its titles, so that I can
 **Clients:** D W M · **Release:** first version · **Milestone:** M6 (D), M8 (W), M9 (M)
 
 - [ ] The list's name, its number of titles and the privacy cue at the top
-- [ ] A grid like Likes, with the same sort and filter (LIKE-6). The default sort is **Date added**.
+- [ ] A grid like Likes, with the same sort, filter and **Show more** (LIKE-5, LIKE-6). The default sort is
+      **Date added**.
 - [ ] Each poster opens the title page and shows the heart (its own Like state, not the list)
 
 ### LIST-5 · Remove a title from a list
@@ -214,7 +216,8 @@ and the screens. Likes have none.
 | Titles in one list | 1,000         | That list is disabled in the picker with "This list is full (1,000 titles)." |
 | List name          | 50 characters | The field stops accepting characters and shows the count                     |
 
-Grids load in pages, so a list of 1,000 titles opens as fast as one of 20.
+Grids show 20 titles and add 30 with each **Show more** (decision 18), so a list of 1,000 titles opens as fast
+as one of 20.
 
 ## Syncing
 
@@ -260,7 +263,7 @@ As someone who keeps seeing a title I'll never watch, I want to hide it, so that
 
 **Clients:** D W M · **Release:** later
 
-- [ ] From a poster's menu; hides the title from Home rows, onboarding picks, the swipe deck and "pick one for
+- [ ] From a poster's menu; hides the title from Home, onboarding picks, the swipe deck and "pick one for
       us"
 - [ ] A list of hidden titles in Settings to undo it
 - [ ] **Privacy:** private, like Likes, and never used for matching

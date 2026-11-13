@@ -222,7 +222,9 @@ things we already want.
 
 - [ ] The header shows both photos, "You and Sam" and the number of matches, so it never looks like a private
       list ([principle 2](../../design/principles.md#2-private-looks-private-shared-looks-shared))
-- [ ] A grid of posters, newest match first, with title, year, type and runtime (or seasons)
+- [ ] A grid of posters, newest match first, with title, year, type and runtime (or seasons). It scrolls
+      down: 20 titles, then **Show more** adds 30 ([decisions 17 and 18](../requirements.md#6-decisions)).
+      Filters (MATCH-4) apply to every title, not only the ones shown.
 - [ ] Each poster opens the title page, which shows "Match with Sam" (TITLE-7)
 - [ ] **Pick one for us** (MATCH-5) is the main action; filters (MATCH-4) are above the grid
 - [ ] The **Watched** section is at the bottom (MATCH-7)

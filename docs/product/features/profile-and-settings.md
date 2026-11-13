@@ -35,6 +35,7 @@ name or photo.
 **Clients:** D W M · **Release:** first version · **Milestone:** M7 (D), M8 (W), M9 (M)
 
 - [ ] Photo, name and email address at the top, with **Edit profile**
+- [ ] **Country**, United States by default, with **Change** (the same setting as Region in SET-4)
 - [ ] Counts that open their screens: Likes, your lists, connections, matches (all shared lists together)
 - [ ] A lock and "Only you see this page" under the header
 - [ ] A link to Settings
@@ -136,8 +137,11 @@ language and country, so that the information fits me.
 
 - [ ] **Language for titles and descriptions:** the languages TMDB supports. Default: the system language if
       TMDB has it, otherwise English.
-- [ ] **Region:** a country list. Default: the system region, otherwise United States. Used for where to watch
-      (TITLE-4), release dates, age ratings and "Popular in your region".
+- [ ] **Region:** a country list, also shown as **Country** on your profile (PROFILE-1). Default: **United
+      States** for everyone in the first version ([decision 19](../requirements.md#6-decisions)). Used for
+      where to watch (TITLE-4), release dates and age ratings.
+- [ ] The region never hides titles: search, Home and the title page show everything TMDB has, and the title
+      page says when a title isn't available in your region
 - [ ] A line under both: "The app itself is in English for now." (decision 10)
 - [ ] Changing either reloads what's on screen in the new language or region
 - [ ] Stored on the account (on the device before M7)
@@ -230,21 +234,21 @@ provider data has its own rule in the
 
 ## All settings at a glance
 
-| Setting                              | Group         | Default                                | Clients | Stored                     | Milestone |
-| ------------------------------------ | ------------- | -------------------------------------- | ------- | -------------------------- | --------- |
-| Name, photo                          | Profile       | From Google or Apple, or typed         | D W M   | Account                    | M7        |
-| New matches, accepted invites        | Notifications | On, on                                 | D W M   | Account                    | M7        |
-| Desktop notifications                | Notifications | On                                     | D       | Device                     | M7        |
-| Push notifications                   | Notifications | On once permission is given            | M       | Device                     | M9        |
-| In-app messages                      | Notifications | On                                     | W       | Device                     | M8        |
-| Muted connections                    | Notifications | None                                   | D W M   | Account                    | M7        |
-| Language for titles and descriptions | Content       | System language, otherwise English     | D W M   | Account (device before M7) | M5        |
-| Region                               | Content       | System region, otherwise United States | D W M   | Account (device before M7) | M5        |
-| Hide adult titles                    | Content       | On                                     | D W M   | Account (device before M7) | M5        |
-| Genres you like                      | Content       | From onboarding                        | D W M   | Account                    | M7        |
-| Theme                                | Appearance    | Dark                                   | D W M   | Device                     | M5        |
-| Sort and filters on Likes and lists  | (on screen)   | Date liked or added, All               | D W M   | Device                     | M6        |
-| Filters on a shared list             | (on screen)   | None                                   | D W M   | Device                     | M7        |
+| Setting                              | Group         | Default                            | Clients | Stored                     | Milestone |
+| ------------------------------------ | ------------- | ---------------------------------- | ------- | -------------------------- | --------- |
+| Name, photo                          | Profile       | From Google or Apple, or typed     | D W M   | Account                    | M7        |
+| New matches, accepted invites        | Notifications | On, on                             | D W M   | Account                    | M7        |
+| Desktop notifications                | Notifications | On                                 | D       | Device                     | M7        |
+| Push notifications                   | Notifications | On once permission is given        | M       | Device                     | M9        |
+| In-app messages                      | Notifications | On                                 | W       | Device                     | M8        |
+| Muted connections                    | Notifications | None                               | D W M   | Account                    | M7        |
+| Language for titles and descriptions | Content       | System language, otherwise English | D W M   | Account (device before M7) | M5        |
+| Region (Country on your profile)     | Content       | United States                      | D W M   | Account (device before M7) | M5        |
+| Hide adult titles                    | Content       | On                                 | D W M   | Account (device before M7) | M5        |
+| Genres you like                      | Content       | From onboarding                    | D W M   | Account                    | M7        |
+| Theme                                | Appearance    | Dark                               | D W M   | Device                     | M5        |
+| Sort and filters on Likes and lists  | (on screen)   | Date liked or added, All           | D W M   | Device                     | M6        |
+| Filters on a shared list             | (on screen)   | None                               | D W M   | Device                     | M7        |
 
 - [ ] Signing out removes the account's data from the device (AUTH-13) but keeps the device settings, such as
       the theme

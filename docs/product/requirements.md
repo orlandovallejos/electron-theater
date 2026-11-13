@@ -137,16 +137,19 @@ never. **Milestone** is where the feature is first built.
 
 ### Browsing
 
-| ID       | Feature                                                      | D     | W     | M     | Release       | Milestone |
-| -------- | ------------------------------------------------------------ | ----- | ----- | ----- | ------------- | --------- |
-| `HOME`   | Home: hero and trending rows (exists today, fixed in M5)     | ✓     | ✓     | ✓     | first version | M5        |
-| `HOME`   | Home rows from the genres picked in onboarding               | ✓     | ✓     | ✓     | first version | M7        |
-| `SEARCH` | Search movies, TV shows and people, with results as you type | ✓     | ✓     | ✓     | first version | M5        |
-| `SEARCH` | Recent searches                                              | later | later | later | later         | —         |
-| `TITLE`  | Title page: details, cast, related titles, TV seasons        | ✓     | ✓     | ✓     | first version | M5        |
-| `TITLE`  | Where to watch in your region (TMDB watch providers)         | ✓     | ✓     | ✓     | first version | M5        |
-| `TITLE`  | Trailer                                                      | ✓     | ✓     | ✓     | first version | M5        |
-| `PERSON` | Person page: photo, bio, known for                           | ✓     | ✓     | ✓     | first version | M5        |
+| ID       | Feature                                                              | D     | W     | M     | Release       | Milestone |
+| -------- | -------------------------------------------------------------------- | ----- | ----- | ----- | ------------- | --------- |
+| `HOME`   | Home: hero and a grid of trending titles (exists today, fixed in M5) | ✓     | ✓     | ✓     | first version | M5        |
+| `HOME`   | Home chips for the genres picked in onboarding                       | ✓     | ✓     | ✓     | first version | M7        |
+| `SEARCH` | Search movies, TV shows and people, with results as you type         | ✓     | ✓     | ✓     | first version | M5        |
+| `SEARCH` | Find titles by studio, franchise or universe ("Marvel", "DC")        | ✓     | ✓     | ✓     | first version | M5        |
+| `SEARCH` | Recent searches                                                      | later | later | later | later         | —         |
+| `SEARCH` | "Did you mean …?" for typos                                          | later | later | later | later         | —         |
+| `TITLE`  | Title page: details, cast, related titles, TV seasons                | ✓     | ✓     | ✓     | first version | M5        |
+| `TITLE`  | Where to watch in your region (TMDB watch providers)                 | ✓     | ✓     | ✓     | first version | M5        |
+| `TITLE`  | Trailer                                                              | ✓     | ✓     | ✓     | first version | M5        |
+| `PERSON` | Person page: photo, bio, known for                                   | ✓     | ✓     | ✓     | first version | M5        |
+| `TITLE`  | Share a link to a title                                              | later | later | later | later         | —         |
 
 ### Likes and your own lists
 
@@ -156,7 +159,7 @@ never. **Milestone** is where the feature is first built.
 | `LIKE` | Likes screen: sort, filter by movie or TV, remove             | ✓     | ✓     | ✓     | first version | M6        |
 | `LIKE` | Likes saved to your account instead of the device             | ✓     | ✓     | ✓     | first version | M7        |
 | `LIKE` | Swipe deck: like or skip titles one card at a time            |       |       | later | later         | —         |
-| `LIKE` | "Not interested": hide a title from picks and rows            | later | later | later | later         | —         |
+| `LIKE` | "Not interested": hide a title from picks and Home            | later | later | later | later         | —         |
 | `LIST` | Your own lists: create, rename, delete, add and remove titles | ✓     | ✓     | ✓     | first version | M6        |
 | `LIST` | Your own lists saved to your account (same on every device)   | ✓     | ✓     | ✓     | first version | M7        |
 | `LIST` | Reorder titles in a list                                      | later | later | later | later         | —         |
@@ -276,7 +279,10 @@ and say why in the description.
 14. **No limit on how many titles you can like.** _Why:_ thousands of movies and shows come out every year, so
     nobody liking titles by hand gets near "everything", and a cap would only get in the way of honest use.
     Liking by script (an automated client calling the API) is handled by decision 16 instead.
-15. **The server limits how fast one client can call it: at most 50 requests a second.** A client is one app
+15. **Streaming services mark titles; they never hide them.** Once you tell the app which services you have,
+    titles available on them get a tick. Titles on other services stay in every list and search. _Why:_ a match
+    you can't stream tonight is still worth knowing: you might rent it, see it in a theater or subscribe.
+16. **The server limits how fast one client can call it: at most 50 requests a second.** A client is one app
     on one device, signed in or not. Requests over the limit get a "slow down" answer (HTTP 429) instead of
     being served. The apps wait and retry by themselves, so a person using the app never notices; a script
     liking titles in bulk is slowed to a crawl. Sign-in emails and codes have their own, stricter limits
@@ -284,19 +290,29 @@ and say why in the description.
     from overload, without the cap on honest use that decision 14 rules out. How it's counted (per account,
     device or IP address) and stored is for the M7 backend ADR; the number goes in the
     [non-functional requirements](non-functional.md) (#154).
-16. **Streaming services mark titles; they never hide them.** Once you tell the app which services you have,
-    titles available on them get a tick. Titles on other services stay in every list and search. _Why:_ a match
-    you can't stream tonight is still worth knowing: you might rent it, see it in a theater or subscribe.
+17. **Nothing scrolls sideways.** Every screen scrolls from top to bottom. Groups of titles are grids that
+    wrap, and Home picks what its grid shows with chips instead of stacking rows. _Why:_ people scroll down,
+    not across, even on the phone. A sideways row hides most of its titles, and it's slow with a mouse, a
+    keyboard or a screen reader.
+18. **Grids grow with a Show more button, not infinite scroll.** A grid starts with 20 items, and each **Show
+    more** adds 30. _Why:_ the end of the page stays reachable (where the attribution and links are), you keep
+    your place when you come back, and the app only loads what you asked for.
+19. **The region is the United States for everyone at first.** You can change it, but it never hides
+    anything: search, Home and the title page show every title TMDB has, and you can like any of them. The
+    title page says when a title isn't available in your region (and, later, when it's not on your
+    services). _Why:_ one region keeps the first version simple to build and test, and hiding titles by
+    region would stop you from liking something you could still rent, see in a theater or watch later.
 
 ## 7. Open questions
 
 Questions the stories depend on but can't answer yet. Each says where it gets answered and which stories wait
 for it.
 
-| Question                                                                                                                          | Answered in                                                            | Affects              |
-| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------- |
-| What is the desktop app for? Leading idea: a player for your own video library, possibly with AI features for the videos you add. | ADR after M8 and M9 (see the roadmap)                                  | Desktop-only stories |
-| How long does a sign-in link live, and how long do you stay signed in?                                                            | [Non-functional requirements](non-functional.md), then the M7 auth ADR | `AUTH`               |
+| Question                                                                                                                                                                                                                                                                | Answered in                                                            | Affects              |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------- |
+| What is the desktop app for? Leading idea: a player for your own video library, possibly with AI features for the videos you add.                                                                                                                                       | ADR after M8 and M9 (see the roadmap)                                  | Desktop-only stories |
+| How do we suggest the right title when a search has a typo ("dnue" for Dune)? TMDB forgives some mistakes but has no "did you mean". Options: retry with spelling variants, our own search index with typo tolerance built from TMDB's daily exports, or the M10 agent. | A spike before SEARCH-6 (later)                                        | `SEARCH`             |
+| How long does a sign-in link live, and how long do you stay signed in?                                                                                                                                                                                                  | [Non-functional requirements](non-functional.md), then the M7 auth ADR | `AUTH`               |
 
 ## Where the stories are
 
